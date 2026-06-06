@@ -42,8 +42,8 @@ rotate_one() {
   chmod +x "$export_sh"
   EDITOR="$export_sh" bin/rails credentials:edit "${env_args[@]}"
 
-  # Ensure .gitignore has an entry for this key file
-  if ! grep -qxF "$key_file" .gitignore 2>/dev/null; then
+  # Ensure .gitignore covers this key file (check after export, while file still exists)
+  if ! git check-ignore -q "$key_file" 2>/dev/null; then
     echo "$key_file" >> .gitignore
     echo "  Added $key_file to .gitignore"
   fi
