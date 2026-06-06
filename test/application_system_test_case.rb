@@ -1,12 +1,22 @@
 require "test_helper"
+require "falcon/rackup/handler"
+
+# Use Falcon as the Capybara server so system tests run on the same async
+# event loop as the app — WebSockets, Action Cable, and async jobs all work
+# naturally together without threading hacks.
+Capybara.register_server(:falcon) do |app, port, host|
+  Falcon::Rackup::Handler.run(app, Host: host, Port: port)
+end
+
+Capybara.server = :falcon
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
 
   setup do
-    # System tests need jobs to actually execute and broadcast via Turbo Streams.
-    # The global :test adapter (set in test_helper.rb) queues but never runs jobs.
-    ActiveJob::Base.queue_adapter = :async
+    # Use async_job (backed by Falcon's event loop) instead of the global :test
+    # adapter so jobs actually execute and broadcast via Turbo Streams.
+    ActiveJob::Base.queue_adapter = :async_job
   end
 
   teardown do
