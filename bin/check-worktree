@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Enforces worktree-first development: blocks all Claude Code tool use when
-# running on the main branch. Called by .claude/settings.json PreToolUse hook.
+# Enforces worktree-first development: blocks code-editing tools when running
+# on the main branch. Orchestration tools (Bash, Read) are allowed so that
+# /continue-pr and /finish-pr can be used from main.
+# Called by .claude/settings.json PreToolUse hook.
 
 branch=$(git branch --show-current 2>/dev/null)
 
@@ -10,18 +12,28 @@ if [ -z "$branch" ]; then
   exit 1
 fi
 
-if [ "$branch" = "main" ]; then
-  echo "BLOCKED: Claude Code cannot use tools on the 'main' branch."
-  echo ""
-  echo "Each feature or fix requires its own worktree. Create one:"
-  echo ""
-  echo "  bin/worktree add <branch-name>"
-  echo "  eval \"\$(bin/worktree cd <branch-name>)\""
-  echo "  claude"
-  echo ""
-  echo "To see existing worktrees:"
-  echo "  bin/worktree list"
-  exit 1
-fi
+# Not on main — allow everything
+[ "$branch" != "main" ] && exit 0
 
-exit 0
+# On main — inspect the tool being called
+tool_name=$(jq -r '.tool_name // ""')
+
+case "$tool_name" in
+  Edit|Write|NotebookEdit)
+    echo "BLOCKED: Claude Code cannot edit files on the 'main' branch."
+    echo ""
+    echo "Each feature or fix requires its own worktree. Create one:"
+    echo ""
+    echo "  bin/worktree add <branch-name>"
+    echo "  eval \"\$(bin/worktree cd <branch-name>)\""
+    echo "  claude"
+    echo ""
+    echo "To see existing worktrees:"
+    echo "  bin/worktree list"
+    exit 1
+    ;;
+  *)
+    # Bash, Read, Agent, and MCP tools are allowed for orchestration
+    exit 0
+    ;;
+esac

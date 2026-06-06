@@ -3,8 +3,10 @@
 ## Worktree-first development
 
 Every feature, fix, or investigation lives in its own git worktree. The `main`
-worktree is treated as read-only — Claude Code is blocked from using any tools
-there (enforced by `.claude/settings.json`).
+worktree is treated as read-only — Claude Code cannot edit files there
+(enforced by `bin/check-worktree` via `.claude/settings.json`). Bash and Read
+are allowed on `main` so that the orchestration slash commands below work
+without switching branches.
 
 ### Starting a new session
 
@@ -23,8 +25,9 @@ claude
 
 At the start of every session, run `git branch --show-current`.
 
-- **If the result is `main`**: you are blocked by the settings hook. Tell the
-  user they need to create a worktree before you can do anything:
+- **If the result is `main`**: you cannot edit files. You may still run the
+  orchestration slash commands (`/start-pr`, `/continue-pr`, `/finish-pr`).
+  If the user asks you to make code changes, tell them to create a worktree:
   ```
   bin/worktree add <branch-name>
   eval "$(bin/worktree cd <branch-name>)"
@@ -107,6 +110,49 @@ results when they complete.
 | Single large task with parallelizable subtasks | B — orchestrator |
 | Feature + tests + docs in one go | B — orchestrator |
 | Pair programming / review | A — separate terminals |
+
+---
+
+## Slash commands (skills)
+
+These commands work from any worktree, including `main`. Run them inside a
+tmux session — each one creates its own tmux window.
+
+### `/start-pr <issue-number>`
+
+Start work on a GitHub issue. Creates a branch and worktree named after the
+issue (`issue-<n>/<slug>`), writes the issue description to `pr_context.md`,
+and opens a new tmux window with Claude started in **plan mode** so it
+proposes a plan before touching any files.
+
+```sh
+/start-pr 12
+```
+
+### `/continue-pr <pr-number>`
+
+Pick up an existing pull request. Checks out the PR branch into a new
+worktree (or reuses one if it already exists), writes the PR description to
+`pr_context.md`, and opens a tmux window with Claude primed with the full PR
+body as its opening message.
+
+```sh
+/continue-pr 3
+```
+
+### `/finish-pr [pr-number]`
+
+Merge a PR and clean up. Without an argument, detects the PR from the current
+branch. Blocks until all CI checks pass (streams `gh pr checks --watch`), then
+squash-merges, removes the remote branch, tears down the worktree, and closes
+the tmux window that was running the PR session.
+
+```sh
+/finish-pr        # from within the PR worktree
+/finish-pr 3      # from any worktree
+```
+
+If CI fails the command stops — it will not merge or clean up.
 
 ---
 
