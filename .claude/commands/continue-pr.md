@@ -25,7 +25,12 @@ if [ -z "$ARGUMENTS" ]; then echo "Usage: /continue-pr <pr-number>"; exit 1; fi
 gh pr view $ARGUMENTS --json number,title,headRefName,url,body,state
 ```
 
-If the PR is not found or closed, abort with a clear error.
+Check `state` and abort immediately if the PR is not open:
+
+- `MERGED` → `"PR #<number> is already merged. Use /finish-pr to clean up any leftover worktree, or nothing if it's already gone."`
+- `CLOSED` → `"PR #<number> is closed. Nothing to continue."`
+
+Only proceed if `state` is `OPEN`.
 
 **3. Check for an existing worktree**
 
