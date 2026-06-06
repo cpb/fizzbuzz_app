@@ -4,7 +4,7 @@ class FizzBuzzJobTest < ActiveJob::TestCase
   include ActionCable::TestHelper
 
   test "performs the job and enqueues the next one" do
-    assert_enqueued_with(job: FizzBuzzJob, args: [2]) do
+    assert_enqueued_with(job: FizzBuzzJob, args: [ 2 ]) do
       FizzBuzzJob.perform_now(1)
     end
   end
