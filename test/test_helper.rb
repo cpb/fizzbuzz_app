@@ -12,6 +12,5 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
     ActiveJob::Base.queue_adapter = :test
-    end
-
+  end
 end

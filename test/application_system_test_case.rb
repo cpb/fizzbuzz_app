@@ -11,7 +11,7 @@ end
 Capybara.server = :falcon
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
+  driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]
 
   setup do
     # Use async_job (backed by Falcon's event loop) instead of the global :test
