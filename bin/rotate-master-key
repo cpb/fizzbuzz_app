@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WORK_DIR=$(mktemp -d)
+trap 'rm -rf "$WORK_DIR"' EXIT
+
+# Collect all tracked key files (default + environment-specific)
+KEY_FILES=()
+while IFS= read -r f; do
+  [[ -n "$f" ]] && KEY_FILES+=("$f")
+done < <(git ls-files 'config/master.key' 'config/credentials/*.key' 2>/dev/null || true)
+
+if [[ ${#KEY_FILES[@]} -eq 0 ]]; then
+  echo "No tracked key files found. Nothing to do."
+  exit 0
+fi
+
+echo "Found ${#KEY_FILES[@]} tracked key file(s):"
+for f in "${KEY_FILES[@]}"; do echo "  $f"; done
+echo ""
+
+rotate_one() {
+  local key_file="$1"
+  local env_args=()
+  if [[ "$key_file" == config/credentials/*.key ]]; then
+    env_args=(--environment "$(basename "$key_file" .key)")
+  fi
+  local enc_file
+  if [[ "$key_file" == "config/master.key" ]]; then
+    enc_file="config/credentials.yml.enc"
+  else
+    enc_file="${key_file%.key}.yml.enc"
+  fi
+  local dump="$WORK_DIR/$(basename "$key_file" .key).yml"
+
+  echo "Rotating $key_file..."
+
+  # Export current decrypted credentials to a temp file by using a tiny
+  # one-shot script as $EDITOR (Rails calls $EDITOR <tempfile>)
+  local export_sh="$WORK_DIR/export_$(basename "$key_file").sh"
+  printf '#!/bin/sh\ncp "$1" "%s"\n' "$dump" > "$export_sh"
+  chmod +x "$export_sh"
+  EDITOR="$export_sh" bin/rails credentials:edit "${env_args[@]}"
+
+  # Ensure .gitignore covers this key file (check after export, while file still exists)
+  if ! git check-ignore -q "$key_file" 2>/dev/null; then
+    echo "$key_file" >> .gitignore
+    echo "  Added $key_file to .gitignore"
+  fi
+
+  # Remove from git index without deleting the local file
+  git rm --cached "$key_file"
+  echo "  Removed $key_file from git index"
+
+  # Delete old key and its paired encrypted credentials
+  rm -f "$key_file" "$enc_file"
+  echo "  Deleted $key_file and $enc_file"
+
+  # Restore saved content into freshly generated credentials (new key, same secrets)
+  local restore_sh="$WORK_DIR/restore_$(basename "$key_file").sh"
+  printf '#!/bin/sh\ncp "%s" "$1"\n' "$dump" > "$restore_sh"
+  chmod +x "$restore_sh"
+  EDITOR="$restore_sh" bin/rails credentials:edit "${env_args[@]}"
+  echo "  Generated new $key_file and $enc_file"
+}
+
+for key_file in "${KEY_FILES[@]}"; do
+  rotate_one "$key_file"
+done
+
+# Stage .gitignore and all regenerated encrypted credential files
+git add .gitignore
+for key_file in "${KEY_FILES[@]}"; do
+  git add "${key_file%.key}.yml.enc" 2>/dev/null || true
+done
+
+ROTATED_LIST=""
+for f in "${KEY_FILES[@]}"; do
+  ROTATED_LIST="${ROTATED_LIST}  - ${f}"$'\n'
+done
+
+git commit -m "$(printf \
+  'Rotate master key(s) and stop tracking key files\n\nThe following key files were exposed in git history and have been rotated:\n%s\nAdds them to .gitignore, removes from git tracking, and re-encrypts\ncredentials with new keys (secrets are preserved).\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>' \
+  "$ROTATED_LIST")"
+
+echo ""
+echo "Committed. Key files remain on disk (untracked)."
+echo ""
+
+# Emit the filter-repo command for the caller to run manually
+FILTER_PATHS=""
+for f in "${KEY_FILES[@]}"; do
+  FILTER_PATHS="$FILTER_PATHS --path $f"
+done
+
+cat <<EOF
+==========================================================
+IMPORTANT: The exposed key(s) are still visible in git history.
+Run this command to purge them, then force-push:
+
+  git filter-repo --invert-paths$FILTER_PATHS
+
+Then force-push all affected branches:
+  git push origin --force-with-lease <branch>
+
+Notify anyone who cloned the repo to re-clone after the rewrite.
+==========================================================
+EOF
