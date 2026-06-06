@@ -10,8 +10,9 @@ class FizzBuzzJobTest < ActiveJob::TestCase
   end
 
   test "broadcasts the correct result" do
-    assert_broadcast_on("fizz_buzz_channel", { result: "Fizz" }) do
+    assert_broadcasts("fizz_buzz_channel", 1) do
       FizzBuzzJob.perform_now(3)
     end
+    assert_match "Fizz", broadcasts("fizz_buzz_channel").last
   end
 end
