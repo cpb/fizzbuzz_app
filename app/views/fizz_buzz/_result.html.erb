@@ -1,0 +1,3 @@
+<%= turbo_stream.append "results", tag("p", id: "result_#{Time.now.to_i}") do %>
+  <%= result %>
+<% end %>
