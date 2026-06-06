@@ -72,15 +72,25 @@ git push origin --delete <headRefName>
 ```
 (Skip the push if the remote branch is already gone — `git ls-remote --exit-code origin <headRefName>` exits non-zero if it doesn't exist.)
 
-**7. Remove the worktree**
+**7. Update main in the main worktree**
 
-`git worktree remove` fails if the shell is currently inside the directory being removed. Always cd to the main worktree first:
+Fast-forward the local `main` branch to match the remote after the squash merge:
 ```bash
 main_worktree=$(dirname "$(git rev-parse --git-common-dir)")
+git -C "$main_worktree" fetch origin main
+git -C "$main_worktree" merge --ff-only origin/main
+```
+
+If `merge --ff-only` fails (unexpected divergence), print a warning but continue — do not abort the cleanup.
+
+**8. Remove the worktree**
+
+`git worktree remove` fails if the shell is currently inside the directory being removed. Always cd to the main worktree first (reuse `$main_worktree` from step 7):
+```bash
 cd "$main_worktree" && bin/worktree down <headRefName>
 ```
 
-**8. Close the tmux window**
+**9. Close the tmux window**
 
 Skip this step if `pr_target` is empty (no window was open for this worktree).
 
