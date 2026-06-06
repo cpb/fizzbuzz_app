@@ -136,8 +136,9 @@ def cmd_server(args)
   pid_file = File.join(wt_path, SERVER_PID)
   port = env_local_port(wt_path) || 3000
 
-  # Spawn detached child
+  # Spawn detached child — pass PORT explicitly so bin/dev doesn't fall back to 3000
   pid = spawn(
+    {"PORT" => port.to_s},
     "bin/dev",
     chdir: wt_path,
     out: [log_path, "a"],
@@ -162,6 +163,26 @@ def cmd_logs(args)
   exec "tail", "-f", log_path
 end
 
+def cmd_stop(args)
+  name = args.shift
+  abort "Usage: bin/worktree stop <name>" unless name
+  wt = find_worktree(name) || abort("No worktree found for '#{name}'")
+  wt_path = wt[:path]
+
+  pid = server_pid(wt_path)
+  if pid && server_running?(wt_path)
+    puts "→ Stopping server (PID #{pid})"
+    Process.kill("TERM", -Process.getpgid(pid))
+    sleep 1
+  else
+    puts "No running server found for '#{name}'"
+  end
+
+  pid_file = File.join(wt_path, SERVER_PID)
+  File.delete(pid_file) if File.exist?(pid_file)
+  puts "Done."
+end
+
 def cmd_down(args)
   name = args.shift
   abort "Usage: bin/worktree down <name>" unless name
@@ -170,7 +191,7 @@ def cmd_down(args)
 
   if (pid = server_pid(wt_path)) && server_running?(wt_path)
     puts "→ Stopping server (PID #{pid})"
-    Process.kill("TERM", pid)
+    Process.kill("TERM", -Process.getpgid(pid))
     sleep 1
   end
   pid_file = File.join(wt_path, SERVER_PID)
@@ -210,6 +231,7 @@ USAGE = <<~USAGE
     cd <name>             Print cd command (eval "$(bin/worktree cd <name>)")
     server <name>         Start dev server in background
     logs <name>           Tail dev server log
+    stop <name>           Stop dev server (keeps worktree intact)
     down <name>           Stop server and remove worktree
     list                  Show all worktrees with port and server status
 USAGE
@@ -220,6 +242,7 @@ when "add"    then cmd_add(ARGV)
 when "cd"     then cmd_cd(ARGV)
 when "server" then cmd_server(ARGV)
 when "logs"   then cmd_logs(ARGV)
+when "stop"   then cmd_stop(ARGV)
 when "down"   then cmd_down(ARGV)
 when "list"   then cmd_list(ARGV)
 else
