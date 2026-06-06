@@ -1,2 +1,7 @@
 #!/usr/bin/env ruby
-exec "./bin/rails", "server", *ARGV
+# OBJC_DISABLE_INITIALIZE_FORK_SAFETY: required on macOS for Falcon's forked
+# container model (fork-after-thread is unsafe otherwise per Objective-C runtime).
+ENV["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
+
+port = ENV.fetch("PORT", 3000)
+exec "bundle", "exec", "falcon", "serve", "--bind", "http://0.0.0.0:#{port}"

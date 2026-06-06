@@ -1,0 +1,251 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "open3"
+require "fileutils"
+require "shellwords"
+
+BASE_PORT = 3001
+SERVER_LOG = "log/dev_server.log"
+SERVER_PID = "tmp/pids/dev_server.pid"
+
+def git_root
+  @git_root ||= `git rev-parse --show-toplevel`.strip
+end
+
+# Returns [{path:, branch:}, ...] for all worktrees
+def worktrees
+  out, = Open3.capture2("git worktree list --porcelain")
+  entries = []
+  current = {}
+  out.each_line do |line|
+    line.chomp!
+    if line.start_with?("worktree ")
+      current = { path: line.sub("worktree ", "") }
+    elsif line.start_with?("branch ")
+      current[:branch] = line.sub("branch refs/heads/", "")
+    elsif line.empty? && current[:path]
+      entries << current
+      current = {}
+    end
+  end
+  entries << current if current[:path]
+  entries
+end
+
+def find_worktree(name)
+  worktrees.find do |wt|
+    File.basename(wt[:path]) == name || wt[:branch] == name
+  end
+end
+
+def env_local_port(path)
+  env_file = File.join(path, ".env.local")
+  return nil unless File.exist?(env_file)
+  File.read(env_file).match(/^PORT=(\d+)/)&.captures&.first&.to_i
+end
+
+def next_free_port
+  used = worktrees.filter_map { |wt| env_local_port(wt[:path]) }.to_set
+  port = BASE_PORT
+  port += 1 while used.include?(port)
+  port
+end
+
+def server_pid(wt_path)
+  pid_file = File.join(wt_path, SERVER_PID)
+  return nil unless File.exist?(pid_file)
+  pid_file_content = File.read(pid_file).strip
+  return nil if pid_file_content.empty?
+  pid_file_content.to_i
+end
+
+def server_running?(wt_path)
+  pid = server_pid(wt_path)
+  return false unless pid
+  Process.kill(0, pid)
+  true
+rescue Errno::ESRCH, Errno::EPERM
+  false
+end
+
+# ── subcommands ────────────────────────────────────────────────────────────────
+
+def cmd_add(args)
+  branch = args.shift
+  abort "Usage: bin/worktree add <branch> [path]" unless branch
+
+  wt_path = args.shift || File.expand_path("../../fizzbuzz_#{branch}", git_root)
+  wt_path = File.expand_path(wt_path)
+
+  port = next_free_port
+
+  existing_branches, = Open3.capture2("git branch --list #{branch}")
+  remote_branches, = Open3.capture2("git branch -r --list origin/#{branch}")
+
+  git_cmd = if existing_branches.strip.empty? && remote_branches.strip.empty?
+    ["git", "worktree", "add", wt_path, "-b", branch]
+  elsif !existing_branches.strip.empty?
+    ["git", "worktree", "add", wt_path, branch]
+  else
+    ["git", "worktree", "add", "--track", "-b", branch, wt_path, "origin/#{branch}"]
+  end
+
+  puts "→ #{git_cmd.join(" ")}"
+  system(*git_cmd) || abort("git worktree add failed")
+
+  env_local = File.join(wt_path, ".env.local")
+  File.write(env_local, "PORT=#{port}\n")
+  puts "→ Wrote #{env_local} (PORT=#{port})"
+
+  puts "→ Running bin/setup --skip-server in #{wt_path}"
+  system("cd #{wt_path.shellescape} && bin/setup --skip-server") ||
+    warn("  Warning: bin/setup exited non-zero")
+
+  puts
+  puts "Worktree ready:"
+  puts "  Path:   #{wt_path}"
+  puts "  Port:   #{port}"
+  puts "  Server: bin/worktree server #{branch}"
+  puts "  Shell:  eval \"$(bin/worktree cd #{branch})\""
+end
+
+def cmd_cd(args)
+  name = args.shift
+  abort "Usage: bin/worktree cd <name>" unless name
+  wt = find_worktree(name) || abort("No worktree found for '#{name}'")
+  # Print a cd command for eval — cannot change parent shell directory directly.
+  puts "cd #{wt[:path]}"
+end
+
+def cmd_server(args)
+  name = args.shift
+  abort "Usage: bin/worktree server <name>" unless name
+  wt = find_worktree(name) || abort("No worktree found for '#{name}'")
+  wt_path = wt[:path]
+
+  if server_running?(wt_path)
+    port = env_local_port(wt_path) || "unknown"
+    abort "Server already running for '#{name}' on port #{port} (PID #{server_pid(wt_path)})"
+  end
+
+  FileUtils.mkdir_p(File.join(wt_path, "log"))
+  FileUtils.mkdir_p(File.join(wt_path, "tmp/pids"))
+
+  log_path = File.join(wt_path, SERVER_LOG)
+  pid_file = File.join(wt_path, SERVER_PID)
+  port = env_local_port(wt_path) || 3000
+
+  # Spawn detached child — pass PORT explicitly so bin/dev doesn't fall back to 3000
+  pid = spawn(
+    {"PORT" => port.to_s},
+    "bin/dev",
+    chdir: wt_path,
+    out: [log_path, "a"],
+    err: [log_path, "a"],
+    pgroup: true
+  )
+  Process.detach(pid)
+  File.write(pid_file, pid.to_s)
+
+  puts "Started server for '#{name}' (PID #{pid})"
+  puts "  Port: #{port}"
+  puts "  Log:  #{log_path}"
+  puts "  Logs: bin/worktree logs #{name}"
+end
+
+def cmd_logs(args)
+  name = args.shift
+  abort "Usage: bin/worktree logs <name>" unless name
+  wt = find_worktree(name) || abort("No worktree found for '#{name}'")
+  log_path = File.join(wt[:path], SERVER_LOG)
+  abort "No log file at #{log_path}" unless File.exist?(log_path)
+  exec "tail", "-f", log_path
+end
+
+def cmd_stop(args)
+  name = args.shift
+  abort "Usage: bin/worktree stop <name>" unless name
+  wt = find_worktree(name) || abort("No worktree found for '#{name}'")
+  wt_path = wt[:path]
+
+  pid = server_pid(wt_path)
+  if pid && server_running?(wt_path)
+    puts "→ Stopping server (PID #{pid})"
+    Process.kill("TERM", -Process.getpgid(pid))
+    sleep 1
+  else
+    puts "No running server found for '#{name}'"
+  end
+
+  pid_file = File.join(wt_path, SERVER_PID)
+  File.delete(pid_file) if File.exist?(pid_file)
+  puts "Done."
+end
+
+def cmd_down(args)
+  name = args.shift
+  abort "Usage: bin/worktree down <name>" unless name
+  wt = find_worktree(name) || abort("No worktree found for '#{name}'")
+  wt_path = wt[:path]
+
+  if (pid = server_pid(wt_path)) && server_running?(wt_path)
+    puts "→ Stopping server (PID #{pid})"
+    Process.kill("TERM", -Process.getpgid(pid))
+    sleep 1
+  end
+  pid_file = File.join(wt_path, SERVER_PID)
+  File.delete(pid_file) if File.exist?(pid_file)
+
+  puts "→ git worktree remove #{wt_path}"
+  out, err, status = Open3.capture3("git worktree remove --force #{wt_path.shellescape}")
+  unless status.success?
+    warn out
+    warn err
+    abort "git worktree remove failed"
+  end
+
+  system("git worktree prune")
+  puts "Worktree '#{name}' removed."
+end
+
+def cmd_list(_args)
+  wts = worktrees
+  puts "%-30s %-20s %-6s %s" % ["BRANCH", "PATH", "PORT", "SERVER"]
+  wts.each do |wt|
+    branch = wt[:branch] || "(detached)"
+    path = wt[:path]
+    port = env_local_port(path)&.to_s || "-"
+    status = server_running?(path) ? "running (PID #{server_pid(path)})" : "-"
+    puts "%-30s %-20s %-6s %s" % [branch, File.basename(path), port, status]
+  end
+end
+
+# ── dispatch ───────────────────────────────────────────────────────────────────
+
+USAGE = <<~USAGE
+  Usage: bin/worktree <subcommand> [args]
+
+  Subcommands:
+    add <branch> [path]   Create isolated worktree with .env.local + setup
+    cd <name>             Print cd command (eval "$(bin/worktree cd <name>)")
+    server <name>         Start dev server in background
+    logs <name>           Tail dev server log
+    stop <name>           Stop dev server (keeps worktree intact)
+    down <name>           Stop server and remove worktree
+    list                  Show all worktrees with port and server status
+USAGE
+
+subcommand = ARGV.shift
+case subcommand
+when "add"    then cmd_add(ARGV)
+when "cd"     then cmd_cd(ARGV)
+when "server" then cmd_server(ARGV)
+when "logs"   then cmd_logs(ARGV)
+when "stop"   then cmd_stop(ARGV)
+when "down"   then cmd_down(ARGV)
+when "list"   then cmd_list(ARGV)
+else
+  puts USAGE
+  exit subcommand.nil? ? 0 : 1
+end
