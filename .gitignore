@@ -35,3 +35,6 @@
 /config/*.key
 /config/credentials/*.key
 
+# Claude Code issue/PR context written by slash commands
+/pr_context.md
+
