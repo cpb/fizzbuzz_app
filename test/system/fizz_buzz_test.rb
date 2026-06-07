@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class FizzBuzzTest < ApplicationSystemTestCase
   test "counts down to 1 and stops" do
-    visit start_fizz_buzz_path
+    visit root_path
     fill_in "Starting integer", with: 3
     click_on "Start"
 
@@ -14,7 +14,7 @@ class FizzBuzzTest < ApplicationSystemTestCase
   end
 
   test "default starting number is 10" do
-    visit start_fizz_buzz_path
+    visit root_path
     assert_field "Starting integer", with: "10"
   end
 end
