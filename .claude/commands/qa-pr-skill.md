@@ -69,24 +69,32 @@ PR #<number>: <title>
 ## Instructions
 
 For each item above, in order:
-1. **Ensure a clean slate first.** If the item exercises a skill that creates a
-   worktree or tmux session (e.g. `/start-pr`, `/continue-pr`), check whether a
-   worktree already exists for the target branch and tear it down before running:
-   ```bash
-   git worktree list --porcelain | grep "branch refs/heads/<branch>"
-   bin/worktree down <branch>   # if it exists
-   ```
-   Also kill any tmux window whose name matches the expected window name
-   (`issue-<n>` or `pr-<n>`) before proceeding. This ensures you exercise the
-   full creation path, not the reuse-existing branch.
+1. **Ensure a clean slate before the item.** If the item exercises a skill that
+   creates a worktree or tmux session (e.g. `/start-pr`, `/continue-pr`):
+   - Kill any tmux window whose name matches the expected output window
+     (`issue-<n>` or `pr-<n>`) before running the skill:
+     ```bash
+     tmux kill-window -t "<window-name>" 2>/dev/null || true
+     ```
+   - Check whether a worktree already exists for the target branch and tear
+     it down:
+     ```bash
+     git worktree list --porcelain | grep "branch refs/heads/<branch>"
+     bin/worktree down <branch>   # if it exists
+     ```
+   This ensures you exercise the full creation path, not the reuse-existing branch.
 2. Exercise the skill described using the concrete values provided — invoke it
    with the supplied arguments, observe what happens, and capture the outcome.
 3. Check any side effects mentioned (files written, tmux windows opened,
    commands run, JSON fields present) with brief bash checks.
-4. For items marked "(inspect only)" or where live invocation would have
+4. **Clean up after the item** before proceeding to the next one. Kill any tmux
+   window and tear down any worktree the item created (unless a later item
+   explicitly depends on it). This prevents state from one item leaking into the
+   next and causing misdirected `tmux send-keys` calls.
+5. For items marked "(inspect only)" or where live invocation would have
    irreversible side effects (e.g. merging a PR), verify by reading the skill
    file and running any safe supporting bash checks instead.
-5. Do not ask for operator input — run everything automatically and report.
+6. Do not ask for operator input — run everything automatically and report.
 
 Produce a numbered verification report at the end:
 
