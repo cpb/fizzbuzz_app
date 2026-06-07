@@ -15,6 +15,10 @@ def git_root
   @git_root ||= `git rev-parse --show-toplevel`.strip
 end
 
+def main_worktree_path
+  @main_worktree_path ||= File.expand_path("..", `git rev-parse --git-common-dir`.strip)
+end
+
 def slugify(text)
   text.downcase.strip.gsub(/[^a-z0-9]+/, "-").gsub(/^-+|-+$/, "")
 end
@@ -169,7 +173,7 @@ def cmd_prepare(args)
   else
     # Replace slashes in branch name for the directory name to keep it flat
     safe_branch = branch.gsub("/", "_")
-    wt_path = File.expand_path("../../fizzbuzz_#{safe_branch}", git_root)
+    wt_path = File.expand_path("../../fizzbuzz_#{safe_branch}", main_worktree_path)
     cmd_add([branch, wt_path])
   end
 
@@ -204,16 +208,12 @@ def cmd_harness(args)
   id = args.shift
   abort "Usage: bin/worktree harness <id>" unless id
 
-  # Try to find session file in current dir or by id
-  session_file = ".worktree-session.json"
-  unless File.exist?(session_file)
-    wts = worktrees
-    # Match by number or branch name
-    wt = wts.find { |w| w[:branch] && (w[:branch].split("/").last.include?("-#{id}") || w[:branch] == id || w[:branch].include?("#{id}")) }
-    session_file = File.join(wt[:path], ".worktree-session.json") if wt
-  end
-  
-  abort "Could not find .worktree-session.json" unless File.exist?(session_file)
+  # Always look up session file by ID — never fall through to current dir
+  wts = worktrees
+  wt = wts.find { |w| w[:branch] && (w[:branch].split("/").last.include?("-#{id}") || w[:branch] == id || w[:branch].include?("#{id}")) }
+  session_file = wt ? File.join(wt[:path], ".worktree-session.json") : ".worktree-session.json"
+
+  abort "Could not find .worktree-session.json for '#{id}'" unless File.exist?(session_file)
   session = JSON.parse(File.read(session_file))
   
   wt_path = session["worktree_path"]
@@ -324,7 +324,7 @@ def cmd_add(args)
   branch = args.shift
   abort "Usage: bin/worktree add <branch> [path]" unless branch
 
-  wt_path = args.shift || File.expand_path("../../fizzbuzz_#{branch}", git_root)
+  wt_path = args.shift || File.expand_path("../../fizzbuzz_#{branch}", main_worktree_path)
   wt_path = File.expand_path(wt_path)
 
   port = next_free_port
