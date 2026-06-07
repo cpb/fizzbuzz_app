@@ -15,7 +15,7 @@ FileUtils.chdir APP_ROOT do
   if RbConfig::CONFIG["host_os"].include?("darwin")
     puts "== Checking Homebrew dependencies =="
     if system("command -v brew >/dev/null 2>&1")
-      system!("brew bundle --no-lock")
+      system!("brew bundle")
     else
       puts "Warning: Homebrew not found — skipping brew bundle. Install from https://brew.sh"
     end
