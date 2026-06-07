@@ -156,6 +156,20 @@ If CI fails the command stops — it will not merge or clean up.
 
 ---
 
+## Codebase orientation
+
+Subdirectory CLAUDE.md files carry specialized context. Read them progressively
+rather than re-discovering the project on each invocation:
+
+| File | Contents |
+|---|---|
+| `bin/CLAUDE.md` | `bin/worktree` commands, port lookup, dev server |
+| `app/CLAUDE.md` | Routes, controllers, UI surface |
+| `test/CLAUDE.md` | Test coverage and what needs manual confirmation |
+| `.claude/commands/CLAUDE.md` | Skill format and skill-contribution PR convention |
+
+---
+
 ## Development workflow
 
 ```sh
