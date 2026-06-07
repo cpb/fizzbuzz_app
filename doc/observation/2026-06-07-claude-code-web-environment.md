@@ -6,12 +6,94 @@
 
 ---
 
-## Note: `bin/check-tools`
+## `check-tools` Output
 
-`bin/check-tools` does not exist in this repository. The bin/ directory contains:
-`brakeman`, `bundler-audit`, `check-worktree`, `ci`, `dev`, `docker-entrypoint`,
-`importmap`, `jobs`, `kamal`, `rails`, `rake`, `rotate-master-key`, `rubocop`,
-`setup`, `thrust`, `worktree`
+`check-tools` is a system built-in at `/usr/local/bin/check-tools` (not a project script).
+The project's `bin/` directory contains: `brakeman`, `bundler-audit`, `check-worktree`,
+`ci`, `dev`, `docker-entrypoint`, `importmap`, `jobs`, `kamal`, `rails`, `rake`,
+`rotate-master-key`, `rubocop`, `setup`, `thrust`, `worktree`
+
+```
+   _____ _                 _        _____           _
+  / ____| |               | |      / ____|         | |
+ | |    | | __ _ _   _  __| | ___  | |     ___   __| | ___
+ | |    | |/ _` | | | |/ _` |/ _ \ | |    / _ \ / _` |/ _ \
+ | |____| | (_| | |_| | (_| |  __/ | |___| (_) | (_| |  __/
+  \_____|_|\__,_|\__,_|\__,_|\___|  \_____\___/ \__,_|\___|
+
+      Development Environment Tool Versions
+      =====================================
+
+=================== Python ===================
+✅ python3: Python 3.11.15
+✅ python: Python 3.11.15
+✅ pip: pip 24.0 from /usr/lib/python3/dist-packages/pip (python 3.11)
+✅ poetry: Poetry (version 2.3.3)
+✅ uv: uv 0.8.17
+✅ black: black, 26.3.1 (compiled: yes)
+✅ mypy: mypy 1.19.1 (compiled: yes)
+✅ pytest: pytest 9.0.2
+✅ ruff: ruff 0.15.8
+
+=================== NodeJS ===================
+✅ node: v22.22.2
+
+->       system
+iojs -> N/A (default)
+node -> stable (-> N/A) (default)
+unstable -> N/A (default)
+✅ nvm: available
+✅ npm: 10.9.7
+✅ yarn: 1.22.22
+✅ pnpm: 10.33.0
+✅ eslint: v10.1.0
+✅ prettier: 3.8.1
+✅ chromedriver: ChromeDriver 147.0.7727.24 (09d377d9438dc95267369f74a073acd81bdde38f-refs/branch-heads/7727@{#1413})
+
+=================== Java ===================
+✅ java: openjdk version "21.0.10" 2026-01-20
+  OpenJDK Runtime Environment (build 21.0.10+7-Ubuntu-124.04)
+  OpenJDK 64-Bit Server VM (build 21.0.10+7-Ubuntu-124.04, mixed mode, sharing)
+✅ maven: Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+✅ gradle: Gradle 8.14.3
+
+=================== Go ===================
+✅ go: go version go1.24.7 linux/amd64
+
+=================== Rust ===================
+✅ rustc: rustc 1.94.1 (e408947bf 2026-03-25)
+✅ cargo: cargo 1.94.1 (29ea6fb6a 2026-03-24)
+
+=================== C/C++ Compilers ===================
+✅ clang: Ubuntu clang version 18.1.3 (1ubuntu1)
+✅ gcc: gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+✅ cmake: cmake version 3.28.3
+✅ ninja: 1.11.1
+✅ conan: Conan version 2.27.0
+
+=================== Docker ===================
+✅ docker: Docker version 29.3.1, build c2be9cc
+✅ dockerd: Docker version 29.3.1, build f78c987
+✅ docker compose: Docker Compose version v5.1.1
+
+=================== Other Utilities ===================
+✅ awk: mawk 1.3.4 20240123
+✅ curl: curl 8.5.0 (x86_64-pc-linux-gnu) libcurl/8.5.0 OpenSSL/3.0.13 zlib/1.3 brotli/1.1.0 zstd/1.5.5 libidn2/2.3.7 libpsl/0.21.2 (+libidn2/2.3.7) libssh/0.10.6/openssl/zlib nghttp2/1.59.0 librtmp/2.3 OpenLDAP/2.6.10
+✅ git: git version 2.43.0
+✅ grep: grep (GNU grep) 3.11
+✅ gzip: gzip 1.12
+✅ jq: jq-1.7
+✅ make: GNU Make 4.3
+✅ rg: ripgrep 14.1.0
+✅ sed: sed (GNU sed) 4.9
+✅ tar: tar (GNU tar) 1.35
+✅ tmux: tmux 3.4
+✅ yq: yq 0.0.0
+✅ vim: VIM - Vi IMproved 9.1 (2024 Jan 02, compiled Mar 10 2026 09:13:01)
+✅ nano:  GNU nano, version 7.2
+
+✅ All tool validations passed
+```
 
 ---
 
