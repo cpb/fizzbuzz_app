@@ -1,7 +1,7 @@
 class FizzBuzzJob < ApplicationJob
   queue_as :default
 
-  def perform(number)
+  def perform(number, tab_token = nil)
     result = FizzBuzzer.call(number)
     Turbo::StreamsChannel.broadcast_append_to(
       "fizz_buzz_channel",
