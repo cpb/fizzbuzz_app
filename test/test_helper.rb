@@ -4,10 +4,13 @@ require "rails/test_help"
 require "vcr"
 require "webmock"
 
+WebMock.disable_net_connect!(allow_localhost: true)
+
 VCR.configure do |config|
   config.cassette_library_dir = "test/cassettes"
   config.hook_into :webmock
   config.filter_sensitive_data("<OLLAMA_API_BASE>") { RubyLLM.config.ollama_api_base }
+  config.ignore_localhost = true
 end
 
 module ActiveSupport
