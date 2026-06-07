@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "hk fix $CLAUDE_FILE_PATHS"
+            "command": "HK_PKL_BACKEND=pklr hk fix $CLAUDE_FILE_PATHS"
           }
         ]
       }
