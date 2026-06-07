@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Find and verify the tmux window that owns a worktree.
+#
+# Usage: bin/tmux-window <worktree-path>
+#
+# Reads <worktree-path>/.worktree-session.json to get the authoritative
+# recorded_window name (written by start-pr / continue-pr at creation time),
+# tries that name first, then falls back to a pane-path scan.
+# Verifies the result before returning it.
+#
+# Output: "session:index" on stdout if a window is found and verified; empty if not.
+# Warnings go to stderr. Exit code is always 0 (empty output means skip the kill step).
+
+set -uo pipefail
+
+wt_path="${1:?Usage: bin/tmux-window <worktree-path>}"
+recorded_window=""
+
+session_file="$wt_path/.worktree-session.json"
+if [ -f "$session_file" ]; then
+  recorded_window=$(jq -r '.tmux_window // empty' "$session_file" 2>/dev/null || true)
+fi
+
+# Primary: recorded_window name lookup (authoritative, written at worktree-creation time)
+if [ -n "$recorded_window" ]; then
+  target=$(tmux list-windows -a -F "#{session_name}:#{window_index} #{window_name}" \
+    | awk -v name="$recorded_window" '$2 == name {print $1; exit}')
+  if [ -n "$target" ]; then
+    echo "$target"
+    exit 0
+  fi
+fi
+
+# Fallback: pane-path scan
+target=$(tmux list-panes -a -F "#{session_name}:#{window_index} #{pane_current_path}" \
+  | awk -v p="$wt_path" 'index($2, p) == 1 {print $1; exit}')
+
+if [ -z "$target" ]; then
+  exit 0
+fi
+
+# Guard: verify the found window's name before returning it
+if [ -n "$recorded_window" ]; then
+  actual_name=$(tmux display-message -t "$target" -p "#{window_name}" 2>/dev/null || echo "")
+  if [ "$actual_name" != "$recorded_window" ]; then
+    echo "WARNING: pane-path scan found $target (name='$actual_name') but expected '$recorded_window' — skipping to avoid wrong kill" >&2
+    exit 0
+  fi
+else
+  echo "WARNING: no recorded_window in $session_file — cannot verify pane-path result; skipping kill" >&2
+  exit 0
+fi
+
+echo "$target"

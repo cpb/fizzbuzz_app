@@ -62,28 +62,16 @@ fi
 
 **3. Detect which tmux window owns this worktree**
 
-Find the window target for any pane whose current path is inside the worktree:
 ```bash
-pr_target=$(tmux list-panes -a -F "#{session_name}:#{window_index} #{pane_current_path}" \
-  | awk -v p="$wt_path" 'index($2, p) == 1 {print $1; exit}')
-```
-
-Check whether that target is the window we are currently running in:
-```bash
+pr_target=$(bin/tmux-window "$wt_path")
 current_target=$(tmux display-message -p "#{session_name}:#{window_index}" 2>/dev/null || echo "")
 same_window=$( [ -n "$pr_target" ] && [ "$pr_target" = "$current_target" ] && echo "yes" || echo "no" )
 ```
 
-`pr_target` may be empty if no window is open for this worktree — that is fine, skip the kill step.
-
-If the path scan found nothing but `recorded_window` is set, fall back to finding the window by name:
-
-```bash
-if [ -z "$pr_target" ] && [ -n "$recorded_window" ]; then
-  pr_target=$(tmux list-windows -a -F "#{session_name}:#{window_index} #{window_name}" \
-    | awk -v name="$recorded_window" '$2 == name {print $1; exit}')
-fi
-```
+`bin/tmux-window` reads `.worktree-session.json` from the worktree path, tries
+`recorded_window` first (the authoritative name written at creation time), falls back
+to a pane-path scan, and verifies the result before returning it. Empty output means
+no window was found — skip the kill step.
 
 **4. Block until CI completes**
 
