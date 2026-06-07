@@ -297,15 +297,31 @@ def cmd_harness(args)
   check_tmux
   id = args.shift
   use_gemini = args.include?("--gemini")
-  unless id && (session = (wt = find_worktree(id)) ? JSON.parse(File.read(File.join(wt[:path], ".worktree-session.json"))) : nil)
+
+  if id
+    # Precise branch-name prefix match, then session JSON scan by number field.
+    # Never fall back to CWD — fail loudly if id is given but not found.
+    wts = worktrees
+    wt = wts.find { |w| w[:branch] && (w[:branch] =~ /^(?:refs\/heads\/)?(?:issue|pr)-#{Regexp.escape(id)}(?:\/|$)/ || w[:branch] == id) }
+    unless wt
+      wt = wts.find do |w|
+        sf = File.join(w[:path], ".worktree-session.json")
+        next false unless File.exist?(sf)
+        JSON.parse(File.read(sf))["number"].to_s == id.to_s
+      rescue JSON::ParserError
+        false
+      end
+    end
+    abort "Could not find worktree or session file for '#{id}'" unless wt
+    session_file = File.join(wt[:path], ".worktree-session.json")
+    abort "Could not find .worktree-session.json for '#{id}'" unless File.exist?(session_file)
+    session = JSON.parse(File.read(session_file))
+  else
     session = load_session
     id = session["number"] if session
   end
 
-  abort "Usage: bin/worktree harness [id]" unless id || session
-  
-  # Ensure we have a valid session object if we couldn't find it via ID
-  session ||= JSON.parse(File.read(File.join(find_worktree(id)[:path], ".worktree-session.json")))
+  abort "Usage: bin/worktree harness [id]" unless session
   
   wt_path = session["worktree_path"]
   tmux_target = session["tmux_target"] || session["tmux_window"]
