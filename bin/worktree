@@ -139,17 +139,16 @@ TEST_FIRST_HILL_PROTOCOL = <<~MD
   This issue carries the `test-first` label. **You must not write any
   implementation code until the hill draft PR has been reviewed.**
 
-  Your plan must begin with a single step: invoke `/hill-first` with the
-  layers described in the acceptance criteria above. Do nothing else first —
-  no stubs, no production code, no implementation commits.
+  Your plan must contain **exactly one step**: invoke `/hill-first` with the
+  layers described in the acceptance criteria above. **Do not include
+  implementation steps, architecture steps, or any other steps in your plan.**
+  The plan ends at `/hill-first` — full stop.
 
-  After `/hill-first` completes:
-  - A draft PR will be open with failing tests for each layer.
-  - The operator reviews the expected failure messages and removes the
-    `hill-ready` label to signal approval.
-  - Only then does implementation begin (via `/continue-pr`).
+  After `/hill-first` completes, a draft PR will be open with failing tests.
+  Implementation planning happens in a separate session after the operator
+  reviews and removes the `hill-ready` label (via `/continue-pr`).
 
-  **If you skip `/hill-first` and implement directly, you are doing it wrong.**
+  **If your plan includes implementation steps, delete them. The plan is wrong.**
 MD
 
 CLOSING_PROTOCOL_NEW_PR = <<~MD
