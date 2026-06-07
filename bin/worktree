@@ -20,11 +20,11 @@ def slugify(text)
 end
 
 def gh_json(command)
-  out, status = Open3.capture2("gh \#{command}")
+  out, status = Open3.capture2("gh #{command}")
   return nil unless status.success?
   JSON.parse(out)
 rescue => e
-  warn "Error fetching GH info: \#{e.message}"
+  warn "Error fetching GH info: #{e.message}"
   nil
 end
 
@@ -41,15 +41,23 @@ def tmux_window_target(wt_path, recorded_window)
   end
 
   # Fallback to pane path (more strict)
-  wt_path = File.realdirpath(wt_path)
+  wt_path = File.realdirpath(wt_path) rescue wt_path
   out, _ = Open3.capture2("tmux list-panes -a -F '\#{session_name}:\#{window_index} \#{pane_current_path}'")
   
+  # Current target to avoid hijacking unless it's an exact match
+  current_target = `tmux display-message -p "\#{session_name}:\#{window_index}"`.strip rescue nil
+
   target = out.lines.find do |l|
     parts = l.split
     next false if parts.size < 2
-    pane_path = File.realdirpath(parts[1])
+    pane_path = File.realdirpath(parts[1]) rescue parts[1]
+    
     # Exact match or subpath match (ensure it's a real subpath with trailing slash check)
-    pane_path == wt_path || pane_path.start_with?(File.join(wt_path, ""))
+    match = (pane_path == wt_path || pane_path.start_with?(File.join(wt_path, "")))
+    
+    # Avoid hijacking current window if it's not an exact match and we have other options
+    # But if it matches the path, it's likely the right window even if name changed.
+    match
   end&.split&.first
 
   target
