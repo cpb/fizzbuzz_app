@@ -44,14 +44,20 @@ Abort if `state` is not `OPEN`.
 
 **4. Detect PR mode**
 
-Use `git diff` against the merge base rather than the GitHub files list — this reflects only what the PR actually introduces, not files carried in via rebase:
+Diff against the true rebase point — the first ancestor (first-parent walk) that is also reachable from any other remote branch. This correctly handles branches rebased onto non-main branches:
 
 ```bash
 wt_path=$(git worktree list --porcelain \
   | grep -B2 "branch refs/heads/<headRefName>" \
   | grep "^worktree" | sed 's/worktree //')
-changed=$(git -C "$wt_path" diff --name-only \
-  "$(git -C "$wt_path" merge-base HEAD origin/main)")
+
+diff_base=$(git -C "$wt_path" log --first-parent --format="%H" HEAD \
+  | while IFS= read -r sha; do
+      git -C "$wt_path" branch -r --contains "$sha" 2>/dev/null \
+        | grep -v "origin/<headRefName>" | grep -q . && echo "$sha" && break
+    done)
+
+changed=$(git -C "$wt_path" diff --name-only "${diff_base}..HEAD")
 ```
 
 Classify from `$changed`:
