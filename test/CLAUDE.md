@@ -9,7 +9,7 @@
 | `test/controllers/fizz_buzz_controller_test.rb` | `GET /` returns 200; `POST` enqueues `FizzBuzzJob` or `LlmFizzBuzzJob` based on `use_llm` param; `POST` with 1 does not enqueue; redirect URL includes a UUID `tab_token` |
 | `test/jobs/fizz_buzz_job_test.rb` | Job counts down, stops at 1, broadcasts to `fizz_buzz_channel:#{tab_token}` (not global channel), carries token through each iteration |
 | `test/jobs/llm_fizz_buzz_job_test.rb` | Same structural guarantees as `fizz_buzz_job_test.rb` for the LLM variant |
-| `test/system/fizz_buzz_test.rb` | Fill form → click Start → results appear via Turbo Stream; default starting number is 10; tab A stream is unaffected when tab B submits afterward; "Use LLM" checkbox test skipped pending VCR-backed fakes (see #51) |
+| `test/system/fizz_buzz_test.rb` | Fill form → click Start → results appear via Turbo Stream; default starting number is 10; tab A stream is unaffected when tab B submits afterward; "Use LLM" checkbox asserts stub produces `3, 2, 1` (TODO: update to `Fizz, 2, 1` when #51 lands) |
 
 ## What needs manual confirmation
 

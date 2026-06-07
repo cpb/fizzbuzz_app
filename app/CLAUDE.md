@@ -10,7 +10,7 @@
 
 ## Key behaviour
 
-`FizzBuzzController#create` reads `params[:starting_integer]`, generates a UUID `tab_token`, redirects back to the form with both params. When `params[:use_llm]` is present it enqueues `LlmFizzBuzzJob`; otherwise `FizzBuzzJob`. Both are enqueued with `set(wait: 1.second).perform_later(starting - 1, tab_token)` (skipped when starting is 1).
+`FizzBuzzController#create` reads `params[:starting_integer]`, generates a UUID `tab_token`, redirects back to the form with `starting_integer`, `tab_token`, and `use_llm` params. When `params[:use_llm]` is present it enqueues `LlmFizzBuzzJob`; otherwise `FizzBuzzJob`. Both are enqueued with `set(wait: 1.second).perform_later(starting - 1, tab_token)` (skipped when starting is 1).
 
 `FizzBuzzJob` broadcasts a Turbo Stream append to `"fizz_buzz_channel:#{tab_token}"` for the current number's FizzBuzz result, sleeps 1 second, then enqueues itself for `number - 1` with the same `tab_token` until it reaches 1. Results appear in the `#results` div in real time.
 
