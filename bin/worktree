@@ -266,7 +266,8 @@ end
 def cmd_harness(args)
   check_tmux
   id = args.shift
-  abort "Usage: bin/worktree harness <id>" unless id
+  abort "Usage: bin/worktree harness <id> [--gemini]" unless id
+  use_gemini = args.include?("--gemini")
 
   # Always look up session file by ID — never fall through to current dir
   wts = worktrees
@@ -284,14 +285,27 @@ def cmd_harness(args)
   # Final verification of target
   actual_target = tmux_window_target(wt_path, session["tmux_window"])
   target = actual_target || tmux_target
+
+  # Ensure the window exists
+  unless target && system("tmux has-session -t #{target.shellescape} 2>/dev/null")
+    puts "→ Creating new tmux window '#{tmux_target}'..."
+    system("tmux new-window -n #{tmux_target.shellescape} -c #{wt_path.shellescape}")
+    target = tmux_target
+  end
   
-  claude_cmd = "claude --remote-control #{remote_control}"
-  claude_cmd += " --permission-mode plan" if type == "issue"
-  claude_cmd += " \"$(< pr_context.md)\""
+  if use_gemini
+    cmd = "gemini --skip-trust"
+    cmd += " --approval-mode plan" if type == "issue"
+    cmd += " --prompt-interactive \"$(< pr_context.md)\""
+  else
+    cmd = "claude --remote-control #{remote_control}"
+    cmd += " --permission-mode plan" if type == "issue"
+    cmd += " \"$(< pr_context.md)\""
+  end
   
   puts "→ Sending command to tmux window '#{target}':"
-  puts "  #{claude_cmd}"
-  system("tmux send-keys -t #{target.shellescape} #{claude_cmd.shellescape} Enter")
+  puts "  #{cmd}"
+  system("tmux send-keys -t #{target.shellescape} #{cmd.shellescape} Enter")
 end
 
 def cmd_check_hill(args)
