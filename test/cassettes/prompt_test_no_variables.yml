@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<OLLAMA_API_BASE>/chat/completions"
+    body:
+      encoding: UTF-8
+      string: '{"model":"gemma3","messages":[{"role":"user","content":"No substitution
+        needed"}],"stream":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.0
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 02 Dec 2025 02:28:28 GMT
+      Content-Length:
+      - '486'
+    body:
+      encoding: UTF-8
+      string: '{"id":"chatcmpl-504","object":"chat.completion","created":1764642508,"model":"gemma3","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"Okay,
+        great! I understand. I won''t use any substitutions. \n\nHow can I help you
+        today? Do you want me to:\n\n*   Continue a conversation?\n*   Answer a question?\n*   Generate
+        some text based on a prompt?"},"finish_reason":"stop"}],"usage":{"prompt_tokens":12,"completion_tokens":56,"total_tokens":68}}
+
+        '
+  recorded_at: Tue, 02 Dec 2025 02:28:28 GMT
+recorded_with: VCR 6.3.1
