@@ -555,6 +555,56 @@ def cmd_down(args)
   puts "Worktree '#{name}' removed."
 end
 
+def cmd_handoff(args)
+  id = args.shift
+  
+  # 1. Resolve PR number
+  unless id
+    session_file = ".worktree-session.json"
+    if File.exist?(session_file)
+      id = JSON.parse(File.read(session_file))["number"]
+    else
+      id = `gh pr view --json number --jq '.number' 2>/dev/null`.strip
+      id = nil if id.empty?
+    end
+  end
+
+  # 2. Fetch PR info
+  info = nil
+  if id && !id.empty?
+    info = gh_json("pr view #{id} --json number,title,url,body")
+  end
+
+  # 3. Git context
+  branch = `git branch --show-current`.strip
+  base = `git merge-base origin/main HEAD 2>/dev/null || git merge-base main HEAD`.strip
+  
+  commits = []
+  unless base.empty?
+    out, _ = Open3.capture2("git log #{base}..HEAD --reverse --oneline")
+    out.each_line { |line| commits << line.strip }
+  end
+
+  files = []
+  unless base.empty?
+    out, _ = Open3.capture2("git diff #{base}..HEAD --name-only")
+    files = out.lines.map(&:strip).uniq
+  end
+
+  # 4. Session info
+  session = File.exist?(".worktree-session.json") ? JSON.parse(File.read(".worktree-session.json")) : nil
+
+  result = {
+    pr: info,
+    branch: branch,
+    commits: commits,
+    changed_files: files,
+    session: session
+  }
+
+  puts JSON.pretty_generate(result)
+end
+
 def cmd_list(_args)
   wts = worktrees
   puts "%-30s %-20s %-6s %s" % ["BRANCH", "PATH", "PORT", "SERVER"]
@@ -587,6 +637,7 @@ USAGE = <<~USAGE
     logs <name>               Tail dev server log
     stop <name>               Stop dev server (keeps worktree intact)
     down <name>               Stop server and remove worktree
+    handoff [id]              Gather PR and git context for session handoff
     list                      Show all worktrees with port and server status
 USAGE
 
@@ -603,6 +654,7 @@ when "logs"       then cmd_logs(ARGV)
 when "stop"       then cmd_stop(ARGV)
 when "down"           then cmd_down(ARGV)
 when "down-children"  then cmd_down_children(ARGV)
+when "handoff"        then cmd_handoff(ARGV)
 when "list"           then cmd_list(ARGV)
 else
   puts USAGE
