@@ -198,7 +198,24 @@ gh pr edit $hill_pr_number --add-label "hill-ready"
 
 Call `TaskUpdate` on the draft-PR task, marking it complete.
 
-**11. Self-destruct and print final instructions**
+**11. Post instructions as a GitHub comment, then self-destruct**
+
+Post a comment on the hill draft PR so the instructions survive after this session closes:
+
+```bash
+gh pr comment $hill_pr_number --body "$(cat <<'COMMENT'
+## Hill ready for review
+
+CI is running — wait for it to confirm the failures are **assertion failures** (not load errors).
+
+**To proceed:**
+1. Review the expected failure messages in the PR description.
+2. Open `/continue-pr <hill_pr_number>` — that session will inspect CI and ask whether the hill is correctly specified.
+3. If something is missing, describe it and the session will fix the hill.
+4. When satisfied, **remove the `hill-ready` label** — `/continue-pr` will detect the removal and switch to implementation planning.
+COMMENT
+)"
+```
 
 Schedule the current tmux window to close 3 seconds from now:
 
@@ -211,20 +228,7 @@ Print:
 
 ```
 Hill draft PR: <hill_pr_url>
-`hill-ready` applied — PR is ready for your review.
-
-Expected failures:
-  <slug1>: <first line of failure message>
-  <slug2>: <first line of failure message>
-  ...
-
-Review the expected failures. When satisfied the tests correctly specify the
-intended behavior, remove the `hill-ready` label from the PR — that signals
-implementation can begin.
-
-To start implementation after removing the label:
-  /continue-pr <hill_pr_number>
-
+`hill-ready` applied. Instructions posted as a PR comment.
 This session is closing in 3 seconds.
 ```
 

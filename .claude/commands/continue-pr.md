@@ -56,30 +56,70 @@ Fetch labels from the PR:
 hill_ready=$(gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])')
 ```
 
-If `hill_ready` is `true`, this PR is a hill awaiting human review. Print:
+If `hill_ready` is `true`, this PR is a hill under review. Enter the following loop:
 
-```
-PR #<number> has the `hill-ready` label — this is a hill under review.
-Review the expected failures in the PR, then remove the `hill-ready` label to signal approval.
-Watching for label removal (checking every 60 seconds)...
-```
-
-Poll until the label is gone:
+**a) Wait for CI to finish (failures are expected):**
 
 ```bash
-while true; do
-  result=$(gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])')
-  [ "$result" = "false" ] && break
-  sleep 60
-done
+gh pr checks $number --watch 2>&1 | tail -40
 ```
 
-Once the loop exits, print:
-```
-hill-ready label removed — beginning implementation planning.
+CI on a hill PR is expected to exit non-zero (tests should fail). Once checks are no longer pending, continue.
+
+**b) Inspect CI failure quality:**
+
+Fetch the check results and the PR description (which lists expected failure messages):
+
+```bash
+gh pr checks $number
+gh pr view $number --json body --jq '.body'
 ```
 
-If the hill gate was active, append the following to `pr_context.md` in step 8 (after the standard PR body):
+Classify the failures:
+- **Assertion failures** (`Expected … got …`, `assert_equal` mismatch) — correct; the hill is behavioral.
+- **Load errors** (`NameError`, `NoMethodError`, `LoadError`, routing errors) — incorrect; stubs are missing.
+- **All tests passing** — something is badly wrong; the hill isn't failing.
+
+**c) Reflect and elicit feedback with `AskUserQuestion`:**
+
+Present a 2–4 sentence summary of what CI shows versus what was expected. For example:
+> "CI shows 3 failures. 2 are assertion failures matching the expected messages; 1 is a NameError on `FizzBuzzChannel` — a stub is missing. Does this match what you expected, or should we add the missing stub?"
+
+Ask:
+- Question: "Does CI correctly confirm the hill? Or is something missing / wrong?"
+- Options: "Looks correct — I'll remove `hill-ready` now" / "Something needs fixing — [I'll describe]" / "All wrong — start the hill over"
+
+**d) On "Something needs fixing":**
+
+Collect the specifics from the operator. Fix the hill in this worktree — add missing stubs, adjust test assertions, or remove extraneous passing tests. Commit and push. Then return to step (a) to re-check CI.
+
+**e) On "All wrong — start the hill over":**
+
+Collect the specifics. This is out of scope for a simple fix; note it and stop. The operator will need to re-run `/hill-first`.
+
+**f) On "Looks correct — I'll remove `hill-ready` now":**
+
+Check whether the label is already gone (the operator may have removed it while you were working):
+
+```bash
+gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])'
+```
+
+If still present, wait for the operator to remove it, then confirm:
+
+```bash
+# Check once manually after the operator signals they've removed it
+gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])'
+```
+
+Once the label is gone, print:
+```
+hill-ready removed — switching to implementation planning.
+```
+
+Set a flag `hill_gate_cleared=true` and continue to step 4.
+
+If the hill gate was active (`hill_gate_cleared=true`), append the following section in step 8 (after the standard PR body in `pr_context.md`):
 
 ```markdown
 
