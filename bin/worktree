@@ -131,6 +131,26 @@ rescue Errno::ESRCH, Errno::EPERM
   false
 end
 
+TEST_FIRST_HILL_PROTOCOL = <<~MD
+  ---
+
+  ## Test-first hill required
+
+  This issue carries the `test-first` label. **You must not write any
+  implementation code until the hill draft PR has been reviewed.**
+
+  Your plan must contain **exactly one step**: invoke `/hill-first` with the
+  layers described in the acceptance criteria above. **Do not include
+  implementation steps, architecture steps, or any other steps in your plan.**
+  The plan ends at `/hill-first` — full stop.
+
+  After `/hill-first` completes, a draft PR will be open with failing tests.
+  Implementation planning happens in a separate session after the operator
+  reviews and removes the `hill-ready` label (via `/continue-pr`).
+
+  **If your plan includes implementation steps, delete them. The plan is wrong.**
+MD
+
 CLOSING_PROTOCOL_NEW_PR = <<~MD
   ---
 
@@ -181,7 +201,9 @@ def build_pr_context(type, info, test_first: false)
     #{body}
   MD
 
-  if type == "issue" && !test_first
+  if type == "issue" && test_first
+    context += "\n#{TEST_FIRST_HILL_PROTOCOL}"
+  elsif type == "issue"
     context += "\n#{CLOSING_PROTOCOL_NEW_PR}"
   elsif type == "pr"
     context += "\n#{CLOSING_PROTOCOL_EXISTING_PR}"
@@ -275,15 +297,31 @@ def cmd_harness(args)
   check_tmux
   id = args.shift
   use_gemini = args.include?("--gemini")
-  unless id && (session = (wt = find_worktree(id)) ? JSON.parse(File.read(File.join(wt[:path], ".worktree-session.json"))) : nil)
+
+  if id
+    # Precise branch-name prefix match, then session JSON scan by number field.
+    # Never fall back to CWD — fail loudly if id is given but not found.
+    wts = worktrees
+    wt = wts.find { |w| w[:branch] && (w[:branch] =~ /^(?:refs\/heads\/)?(?:issue|pr)-#{Regexp.escape(id)}(?:\/|$)/ || w[:branch] == id) }
+    unless wt
+      wt = wts.find do |w|
+        sf = File.join(w[:path], ".worktree-session.json")
+        next false unless File.exist?(sf)
+        JSON.parse(File.read(sf))["number"].to_s == id.to_s
+      rescue JSON::ParserError
+        false
+      end
+    end
+    abort "Could not find worktree or session file for '#{id}'" unless wt
+    session_file = File.join(wt[:path], ".worktree-session.json")
+    abort "Could not find .worktree-session.json for '#{id}'" unless File.exist?(session_file)
+    session = JSON.parse(File.read(session_file))
+  else
     session = load_session
     id = session["number"] if session
   end
 
-  abort "Usage: bin/worktree harness [id]" unless id || session
-  
-  # Ensure we have a valid session object if we couldn't find it via ID
-  session ||= JSON.parse(File.read(File.join(find_worktree(id)[:path], ".worktree-session.json")))
+  abort "Usage: bin/worktree harness [id]" unless session
   
   wt_path = session["worktree_path"]
   tmux_target = session["tmux_target"] || session["tmux_window"]
@@ -583,15 +621,17 @@ def cmd_down(args)
   pid_file = File.join(wt_path, SERVER_PID)
   File.delete(pid_file) if File.exist?(pid_file)
 
+  # Run from git_root so this works even when CWD is the worktree being removed
+  # (git refuses to remove its own CWD even with --force).
   puts "→ git worktree remove #{wt_path}"
-  out, err, status = Open3.capture3("git worktree remove --force #{wt_path.shellescape}")
+  out, err, status = Open3.capture3("git -C #{git_root.shellescape} worktree remove --force #{wt_path.shellescape}")
   unless status.success?
     warn out
     warn err
     abort "git worktree remove failed"
   end
 
-  system("git worktree prune")
+  system("git -C #{git_root.shellescape} worktree prune")
   puts "Worktree '#{name}' removed."
 end
 
@@ -602,12 +642,13 @@ def cmd_handoff(args)
   unless id
     session_file = ".worktree-session.json"
     if File.exist?(session_file)
-      id = JSON.parse(File.read(session_file))["number"]
+      id = JSON.parse(File.read(session_file))["number"].to_s
     else
       id = `gh pr view --json number --jq '.number' 2>/dev/null`.strip
       id = nil if id.empty?
     end
   end
+  id = id.to_s if id
 
   # 2. Fetch PR info
   info = nil
