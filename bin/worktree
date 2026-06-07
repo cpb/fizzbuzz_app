@@ -99,6 +99,14 @@ def env_local_port(path)
   File.read(env_file).match(/^PORT=(\d+)/)&.captures&.first&.to_i
 end
 
+def load_session
+  return nil unless File.exist?(".worktree-session.json")
+  JSON.parse(File.read(".worktree-session.json"))
+rescue => e
+  warn "Error loading session: #{e.message}"
+  nil
+end
+
 def next_free_port
   used = worktrees.filter_map { |wt| env_local_port(wt[:path]) }.to_set
   port = BASE_PORT
@@ -266,16 +274,16 @@ end
 def cmd_harness(args)
   check_tmux
   id = args.shift
-  abort "Usage: bin/worktree harness <id> [--gemini]" unless id
   use_gemini = args.include?("--gemini")
+  unless id && (session = (wt = find_worktree(id)) ? JSON.parse(File.read(File.join(wt[:path], ".worktree-session.json"))) : nil)
+    session = load_session
+    id = session["number"] if session
+  end
 
-  # Always look up session file by ID — never fall through to current dir
-  wts = worktrees
-  wt = wts.find { |w| w[:branch] && (w[:branch].split("/").last.include?("-#{id}") || w[:branch] == id || w[:branch].include?("#{id}")) }
-  session_file = wt ? File.join(wt[:path], ".worktree-session.json") : ".worktree-session.json"
-
-  abort "Could not find .worktree-session.json for '#{id}'" unless File.exist?(session_file)
-  session = JSON.parse(File.read(session_file))
+  abort "Usage: bin/worktree harness [id]" unless id || session
+  
+  # Ensure we have a valid session object if we couldn't find it via ID
+  session ||= JSON.parse(File.read(File.join(find_worktree(id)[:path], ".worktree-session.json")))
   
   wt_path = session["worktree_path"]
   tmux_target = session["tmux_target"] || session["tmux_window"]
@@ -311,7 +319,10 @@ end
 def cmd_check_hill(args)
   check_tmux
   number = args.shift
-  abort "Usage: bin/worktree check-hill <number>" unless number
+  if !number && (session = load_session)
+    number = session["number"]
+  end
+  abort "Usage: bin/worktree check-hill [number]" unless number
   
   puts "→ Waiting for CI checks on PR ##{number}..."
   system("gh pr checks #{number} --watch")
@@ -472,7 +483,10 @@ end
 
 def cmd_cd(args)
   name = args.shift
-  abort "Usage: bin/worktree cd <name>" unless name
+  if !name && (session = load_session)
+    name = File.basename(session["worktree_path"])
+  end
+  abort "Usage: bin/worktree cd [name]" unless name
   wt = find_worktree(name) || abort("No worktree found for '#{name}'")
   # Print a cd command for eval — cannot change parent shell directory directly.
   puts "cd #{wt[:path]}"
@@ -480,7 +494,10 @@ end
 
 def cmd_server(args)
   name = args.shift
-  abort "Usage: bin/worktree server <name>" unless name
+  if !name && (session = load_session)
+    name = File.basename(session["worktree_path"])
+  end
+  abort "Usage: bin/worktree server [name]" unless name
   wt = find_worktree(name) || abort("No worktree found for '#{name}'")
   wt_path = wt[:path]
 
@@ -516,7 +533,10 @@ end
 
 def cmd_logs(args)
   name = args.shift
-  abort "Usage: bin/worktree logs <name>" unless name
+  if !name && (session = load_session)
+    name = File.basename(session["worktree_path"])
+  end
+  abort "Usage: bin/worktree logs [name]" unless name
   wt = find_worktree(name) || abort("No worktree found for '#{name}'")
   log_path = File.join(wt[:path], SERVER_LOG)
   abort "No log file at #{log_path}" unless File.exist?(log_path)
@@ -525,7 +545,10 @@ end
 
 def cmd_stop(args)
   name = args.shift
-  abort "Usage: bin/worktree stop <name>" unless name
+  if !name && (session = load_session)
+    name = File.basename(session["worktree_path"])
+  end
+  abort "Usage: bin/worktree stop [name]" unless name
   wt = find_worktree(name) || abort("No worktree found for '#{name}'")
   wt_path = wt[:path]
 
@@ -545,7 +568,10 @@ end
 
 def cmd_down(args)
   name = args.shift
-  abort "Usage: bin/worktree down <name>" unless name
+  if !name && (session = load_session)
+    name = File.basename(session["worktree_path"])
+  end
+  abort "Usage: bin/worktree down [name]" unless name
   wt = find_worktree(name) || abort("No worktree found for '#{name}'")
   wt_path = wt[:path]
 
@@ -569,6 +595,56 @@ def cmd_down(args)
   puts "Worktree '#{name}' removed."
 end
 
+def cmd_handoff(args)
+  id = args.shift
+  
+  # 1. Resolve PR number
+  unless id
+    session_file = ".worktree-session.json"
+    if File.exist?(session_file)
+      id = JSON.parse(File.read(session_file))["number"]
+    else
+      id = `gh pr view --json number --jq '.number' 2>/dev/null`.strip
+      id = nil if id.empty?
+    end
+  end
+
+  # 2. Fetch PR info
+  info = nil
+  if id && !id.empty?
+    info = gh_json("pr view #{id} --json number,title,url,body")
+  end
+
+  # 3. Git context
+  branch = `git branch --show-current`.strip
+  base = `git merge-base origin/main HEAD 2>/dev/null || git merge-base main HEAD`.strip
+  
+  commits = []
+  unless base.empty?
+    out, _ = Open3.capture2("git log #{base}..HEAD --reverse --oneline")
+    out.each_line { |line| commits << line.strip }
+  end
+
+  files = []
+  unless base.empty?
+    out, _ = Open3.capture2("git diff #{base}..HEAD --name-only")
+    files = out.lines.map(&:strip).uniq
+  end
+
+  # 4. Session info
+  session = File.exist?(".worktree-session.json") ? JSON.parse(File.read(".worktree-session.json")) : nil
+
+  result = {
+    pr: info,
+    branch: branch,
+    commits: commits,
+    changed_files: files,
+    session: session
+  }
+
+  puts JSON.pretty_generate(result)
+end
+
 def cmd_list(_args)
   wts = worktrees
   puts "%-30s %-20s %-6s %s" % ["BRANCH", "PATH", "PORT", "SERVER"]
@@ -589,18 +665,19 @@ USAGE = <<~USAGE
   Subcommands:
     prepare <id> [--pr|--issue] [--test-first]
                               Fetch GH info, create worktree, output JSON
-    harness <id>              Find/create tmux window and launch Claude
-    check-hill <number>       Wait for CI and report status for hill PRs
+    harness [id]              Find/create tmux window and launch Claude
+    check-hill [number]       Wait for CI and report status for hill PRs
     cleanup <id>              Wait for CI, merge PR, and tear down worktree/window
     add [--parent <p>] <branch> [path]
                               Create isolated worktree with .env.local + setup;
                               --parent records this worktree as a child of <p>
     down-children <parent>    Tear down all child worktrees recorded under <parent>
-    cd <name>                 Print cd command (eval "$(bin/worktree cd <name>)")
-    server <name>             Start dev server in background
-    logs <name>               Tail dev server log
-    stop <name>               Stop dev server (keeps worktree intact)
-    down <name>               Stop server and remove worktree
+    cd [name]                 Print cd command (eval "$(bin/worktree cd [name])")
+    server [name]             Start dev server in background
+    logs [name]               Tail dev server log
+    stop [name]               Stop dev server (keeps worktree intact)
+    down [name]               Stop server and remove worktree
+    handoff [id]              Gather PR and git context for session handoff
     list                      Show all worktrees with port and server status
 USAGE
 
@@ -617,6 +694,7 @@ when "logs"       then cmd_logs(ARGV)
 when "stop"       then cmd_stop(ARGV)
 when "down"           then cmd_down(ARGV)
 when "down-children"  then cmd_down_children(ARGV)
+when "handoff"        then cmd_handoff(ARGV)
 when "list"           then cmd_list(ARGV)
 else
   puts USAGE
