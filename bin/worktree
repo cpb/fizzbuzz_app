@@ -29,16 +29,31 @@ rescue => e
 end
 
 def tmux_window_target(wt_path, recorded_window)
-  # Look for window by name first
+  # Look for window by name first (authoritative)
   if recorded_window
     out, _ = Open3.capture2("tmux list-windows -a -F '\#{session_name}:\#{window_index} \#{window_name}'")
     target = out.lines.find { |l| l.split[1] == recorded_window }&.split&.first
     return target if target
   end
 
-  # Fallback to pane path
+  # Fallback to pane path (more strict)
+  wt_path = File.expand_path(wt_path)
   out, _ = Open3.capture2("tmux list-panes -a -F '\#{session_name}:\#{window_index} \#{pane_current_path}'")
-  target = out.lines.find { |l| l.split[1].start_with?(wt_path) }&.split&.first
+  
+  # Current target to avoid hijacking unless it's an exact match
+  current_target = `tmux display-message -p "\#{session_name}:\#{window_index}"`.strip rescue nil
+
+  target = out.lines.find do |l|
+    parts = l.split
+    next false if parts.size < 2
+    pane_path = File.expand_path(parts[1])
+    # Exact match or subpath match
+    pane_path == wt_path || pane_path.start_with?(File.join(wt_path, ""))
+  end&.split&.first
+
+  # If target is the current window, we might want to return nil to create a NEW window
+  # unless the user explicitly wants to use this window.
+  # For now, let's keep it but favor name matches.
   target
 end
 
@@ -127,6 +142,12 @@ def cmd_prepare(args)
   title = info["title"]
   slug = slugify(title)
   
+  labels = info["labels"] || []
+  hill_ready = labels.any? { |l| l["name"] == "hill-ready" }
+  test_first_label = labels.any? { |l| l["name"] == "test-first" }
+  
+  test_first = test_first || test_first_label
+  
   branch = type == "pr" ? info["headRefName"] : "issue-#{number}/#{slug[0..49]}"
   prefix = type == "pr" ? "x" : "o"
   
@@ -154,7 +175,8 @@ def cmd_prepare(args)
     title: title,
     headRefName: branch,
     url: info["url"],
-    test_first: test_first
+    test_first: test_first,
+    hill_ready: hill_ready
   }
   File.write(File.join(wt_path, ".worktree-session.json"), JSON.pretty_generate(session))
   
