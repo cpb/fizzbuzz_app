@@ -31,6 +31,8 @@ slug=$(gh issue view $ARGUMENTS --json title \
   --jq '.title | ascii_downcase | gsub("[^a-z0-9]+"; "-") | ltrimstr("-") | rtrimstr("-")' \
   | cut -c1-50)
 branch="issue-<number>/$slug"
+rc_slug=$(echo "$slug" | cut -c1-30 | sed 's/-$//')
+remote_control="o-$number-$rc_slug"
 ```
 
 **4. Check for an existing worktree**
@@ -51,7 +53,7 @@ bin/worktree add <branch>
 
 ```bash
 git worktree list --porcelain \
-  | grep -B1 "branch refs/heads/<branch>" \
+  | grep -B2 "branch refs/heads/<branch>" \
   | grep "^worktree" \
   | sed 's/worktree //'
 ```
@@ -66,6 +68,22 @@ URL: <url>
 Labels: <labels>
 
 <body>
+```
+
+Then write `<worktree-path>/.worktree-session.json`:
+
+```bash
+jq -n \
+  --arg remote_control "$remote_control" \
+  --arg tmux_window "issue-$number" \
+  --arg worktree_path "$wt_path" \
+  --arg type "issue" \
+  --argjson number "$number" \
+  --arg title "$title" \
+  --arg url "$url" \
+  --rawfile initial_prompt "$wt_path/pr_context.md" \
+  '{remote_control:$remote_control,tmux_window:$tmux_window,worktree_path:$worktree_path,type:$type,number:$number,title:$title,url:$url,initial_prompt:$initial_prompt}' \
+  > "$wt_path/.worktree-session.json"
 ```
 
 **8. Find or create the tmux window**
@@ -85,10 +103,11 @@ Use the new window as the target.
 
 **9. Start Claude in plan mode**
 
-Send the command to the window. `--permission-mode plan` starts Claude in plan mode so it must get approval before making any edits. The issue description becomes the opening prompt:
+Send the command to the window. `--permission-mode plan` starts Claude in plan mode so it must get approval before making any edits. Build the command string first so `$remote_control` expands in the current shell while `$(< pr_context.md)` is deferred to the tmux window's shell:
 
 ```bash
-tmux send-keys -t "<window-target>" 'claude --permission-mode plan "$(< pr_context.md)"' Enter
+claude_cmd="claude --remote-control $remote_control --permission-mode plan \"\$(< pr_context.md)\""
+tmux send-keys -t "<window-target>" "$claude_cmd" Enter
 ```
 
 **10. Print a confirmation**
@@ -97,5 +116,6 @@ tmux send-keys -t "<window-target>" 'claude --permission-mode plan "$(< pr_conte
 Started: issue-<number>  →  <worktree-path>
 Issue #<number>: <title>
 <url>
+Remote control: <remote_control>
 Claude is in plan mode — it will propose a plan before making any changes.
 ```

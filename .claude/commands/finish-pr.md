@@ -26,10 +26,21 @@ Abort if `state` is not `OPEN`.
 **3. Resolve the worktree path for this PR**
 
 ```bash
-git worktree list --porcelain | grep -B1 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
+git worktree list --porcelain | grep -B2 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
 ```
 
 Store this as `wt_path`. If no worktree exists for this branch, skip steps 6 and 7 (nothing to tear down locally).
+
+Read the session file if it exists:
+
+```bash
+remote_control=""
+recorded_window=""
+if [ -f "$wt_path/.worktree-session.json" ]; then
+  remote_control=$(jq -r '.remote_control' "$wt_path/.worktree-session.json")
+  recorded_window=$(jq -r '.tmux_window'   "$wt_path/.worktree-session.json")
+fi
+```
 
 **4. Detect which tmux window owns this worktree**
 
@@ -46,6 +57,15 @@ same_window=$( [ -n "$pr_target" ] && [ "$pr_target" = "$current_target" ] && ec
 ```
 
 `pr_target` may be empty if no window is open for this worktree — that is fine, skip the kill step.
+
+If the path scan found nothing but `recorded_window` is set, fall back to finding the window by name:
+
+```bash
+if [ -z "$pr_target" ] && [ -n "$recorded_window" ]; then
+  pr_target=$(tmux list-windows -a -F "#{session_name}:#{window_index} #{window_name}" \
+    | awk -v name="$recorded_window" '$2 == name {print $1; exit}')
+fi
+```
 
 **5. Block until CI completes**
 
