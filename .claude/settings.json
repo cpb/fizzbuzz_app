@@ -1,5 +1,12 @@
 {
   "enabledMcpjsonServers": ["playwright"],
+  "permissions": {
+    "allow": [
+      "Bash(bin/worktree *)",
+      "Bash(pr_json=*)",
+      "Bash(issue_json=*)"
+    ]
+  },
   "hooks": {
     "PreToolUse": [
       {
