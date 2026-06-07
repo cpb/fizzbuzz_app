@@ -7,42 +7,60 @@ Finish a PR: block until CI completes, merge on green, tear down the worktree, a
 
 ## Steps
 
-**1. Determine the PR number**
+**1. Determine PR details**
 
-If `$ARGUMENTS` is set, use it. Otherwise detect from the current branch:
-```bash
-gh pr view --json number --jq '.number'
-```
-Abort if no PR is found for the current branch.
-
-**2. Fetch PR details**
+Check for a session file in the current directory first:
 
 ```bash
-gh pr view <number> --json number,title,headRefName,url,state
-```
-
-Abort if `state` is not `OPEN`.
-
-**3. Resolve the worktree path for this PR**
-
-```bash
-git worktree list --porcelain | grep -B2 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
+session_loaded=""
+if [ -f ".worktree-session.json" ] && [ "$(jq -r '.type' .worktree-session.json)" = "pr" ]; then
+  number=$(jq '.number' .worktree-session.json)
+  title=$(jq -r '.title' .worktree-session.json)
+  headRefName=$(jq -r '.headRefName' .worktree-session.json)
+  url=$(jq -r '.url' .worktree-session.json)
+  wt_path=$(jq -r '.worktree_path' .worktree-session.json)
+  remote_control=$(jq -r '.remote_control' .worktree-session.json)
+  recorded_window=$(jq -r '.tmux_window' .worktree-session.json)
+  session_loaded=true
+fi
 ```
 
-Store this as `wt_path`. If no worktree exists for this branch, skip steps 6 and 7 (nothing to tear down locally).
-
-Read the session file if it exists:
+If not loaded, fall back to `gh`:
 
 ```bash
-remote_control=""
-recorded_window=""
-if [ -f "$wt_path/.worktree-session.json" ]; then
+if [ -z "$session_loaded" ]; then
+  number=${ARGUMENTS:-$(gh pr view --json number --jq '.number')}
+  pr_json=$(gh pr view "$number" --json title,headRefName,url)
+  title=$(echo "$pr_json" | jq -r '.title')
+  headRefName=$(echo "$pr_json" | jq -r '.headRefName')
+  url=$(echo "$pr_json" | jq -r '.url')
+fi
+```
+
+Abort if no PR number could be determined.
+
+**2. Resolve the worktree path**
+
+Skip if `wt_path` is already set from the session file.
+
+```bash
+if [ -z "$wt_path" ]; then
+  wt_path=$(git worktree list --porcelain | grep -B2 "branch refs/heads/$headRefName" | grep "^worktree" | sed 's/worktree //')
+fi
+```
+
+If no worktree exists for this branch, skip steps 5 and 6 (nothing to tear down locally).
+
+If `remote_control` and `recorded_window` are not yet set, read from the worktree session file:
+
+```bash
+if [ -z "$remote_control" ] && [ -f "$wt_path/.worktree-session.json" ]; then
   remote_control=$(jq -r '.remote_control' "$wt_path/.worktree-session.json")
   recorded_window=$(jq -r '.tmux_window'   "$wt_path/.worktree-session.json")
 fi
 ```
 
-**4. Detect which tmux window owns this worktree**
+**3. Detect which tmux window owns this worktree**
 
 Find the window target for any pane whose current path is inside the worktree:
 ```bash
@@ -67,7 +85,7 @@ if [ -z "$pr_target" ] && [ -n "$recorded_window" ]; then
 fi
 ```
 
-**5. Block until CI completes**
+**4. Block until CI completes**
 
 `gh pr checks --watch` streams live check status and exits 0 when all pass, 1 when any fail:
 ```bash
@@ -80,7 +98,7 @@ CI failed on PR #<number>. Fix the failures before finishing.
 ```
 …and stop. Do NOT merge or clean up.
 
-**6. Merge the PR**
+**5. Merge the PR**
 
 ```bash
 gh pr merge <number> --squash
@@ -92,7 +110,7 @@ git push origin --delete <headRefName>
 ```
 (Skip the push if the remote branch is already gone — `git ls-remote --exit-code origin <headRefName>` exits non-zero if it doesn't exist.)
 
-**7. Update main in the main worktree**
+**6. Update main in the main worktree**
 
 Fast-forward the local `main` branch to match the remote after the squash merge:
 ```bash
@@ -103,14 +121,14 @@ git -C "$main_worktree" merge --ff-only origin/main
 
 If `merge --ff-only` fails (unexpected divergence), print a warning but continue — do not abort the cleanup.
 
-**8. Remove the worktree**
+**7. Remove the worktree**
 
-`git worktree remove` fails if the shell is currently inside the directory being removed. Always cd to the main worktree first (reuse `$main_worktree` from step 7):
+`git worktree remove` fails if the shell is currently inside the directory being removed. Always cd to the main worktree first (reuse `$main_worktree` from step 6):
 ```bash
 cd "$main_worktree" && bin/worktree down <headRefName>
 ```
 
-**9. Close the tmux window**
+**8. Close the tmux window**
 
 Skip this step if `pr_target` is empty (no window was open for this worktree).
 
