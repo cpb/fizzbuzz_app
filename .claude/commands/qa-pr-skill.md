@@ -7,7 +7,15 @@ Exercise skill changes in the PR-branch worktree using an automated Claude sessi
 
 ## Steps
 
-**1. Fetch PR and extract test-plan items**
+**1. Check prerequisites and fetch PR**
+
+```bash
+if ! command -v claude >/dev/null 2>&1; then
+  echo "ERROR: desktop-only — requires 'claude' CLI in PATH."
+  echo "This skill spawns a Claude session in a tmux window and is not supported in cloud environments."
+  exit 1
+fi
+```
 
 ```bash
 gh pr view $ARGUMENTS --json number,title,body,headRefName,url

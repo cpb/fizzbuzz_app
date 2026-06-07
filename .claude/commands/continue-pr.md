@@ -9,6 +9,14 @@ Set up an isolated worktree and launch a Claude session primed with the full PR 
 
 **1. Check prerequisites**
 
+```bash
+if ! command -v claude >/dev/null 2>&1; then
+  echo "ERROR: desktop-only — requires 'claude' CLI in PATH."
+  echo "This skill spawns a Claude session in a tmux window and is not supported in cloud environments."
+  exit 1
+fi
+```
+
 Verify you are inside a tmux session:
 ```bash
 if [ -z "$TMUX" ]; then echo "ERROR: not inside tmux — run this from inside a tmux session"; exit 1; fi

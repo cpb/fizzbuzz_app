@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Per-skill tool dependencies and auth requirements.
+# Tool lists use space-separated names checked with `command -v`.
+SKILLS=(
+  "start-pr"
+  "continue-pr"
+  "qa-pr-skill"
+  "finish-pr"
+  "qa-pr"
+  "qa-pr-app"
+  "run-fizzbuzz-app"
+  "new-issue"
+)
+
+declare -A SKILL_TOOLS
+SKILL_TOOLS["start-pr"]="claude gh tmux jq"
+SKILL_TOOLS["continue-pr"]="claude gh tmux jq"
+SKILL_TOOLS["qa-pr-skill"]="claude gh tmux jq"
+SKILL_TOOLS["finish-pr"]="gh tmux jq"
+SKILL_TOOLS["qa-pr"]="gh jq"
+SKILL_TOOLS["qa-pr-app"]="gh jq node"
+SKILL_TOOLS["run-fizzbuzz-app"]="node"
+SKILL_TOOLS["new-issue"]="gh jq"
+
+declare -A SKILL_AUTH
+SKILL_AUTH["start-pr"]="GITHUB_TOKEN"
+SKILL_AUTH["continue-pr"]="GITHUB_TOKEN"
+SKILL_AUTH["qa-pr-skill"]="GITHUB_TOKEN"
+SKILL_AUTH["finish-pr"]="GITHUB_TOKEN"
+SKILL_AUTH["qa-pr"]="GITHUB_TOKEN"
+SKILL_AUTH["qa-pr-app"]="GITHUB_TOKEN"
+SKILL_AUTH["run-fizzbuzz-app"]="none"
+SKILL_AUTH["new-issue"]="GITHUB_TOKEN"
+
+# Skills that require the claude CLI and are desktop-only
+DESKTOP_ONLY="start-pr continue-pr qa-pr-skill"
+
+if [ $# -gt 0 ]; then
+  # Verify specific tools; fail fast if any are missing
+  missing=()
+  for tool in "$@"; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+      missing+=("$tool")
+    fi
+  done
+  if [ "${#missing[@]}" -gt 0 ]; then
+    echo "ERROR: missing tools: ${missing[*]}" >&2
+    echo "Run 'brew bundle' to install, or check your PATH." >&2
+    exit 1
+  fi
+  echo "OK: all tools found (${*})"
+else
+  # Print per-skill dependency map with cloud-readiness status
+  printf "%-20s %-28s %-14s %s\n" "Skill" "Tools" "Auth" "Cloud-ready?"
+  printf "%-20s %-28s %-14s %s\n" "────────────────────" "────────────────────────────" "──────────────" "────────────"
+  for skill in "${SKILLS[@]}"; do
+    tools="${SKILL_TOOLS[$skill]}"
+    auth="${SKILL_AUTH[$skill]}"
+    cloud="Yes"
+    for d in $DESKTOP_ONLY; do
+      [ "$d" = "$skill" ] && cloud="No (requires claude CLI)" && break
+    done
+    printf "%-20s %-28s %-14s %s\n" "$skill" "$tools" "$auth" "$cloud"
+  done
+  echo ""
+  echo "Notes:"
+  echo "  node  — used via 'npx playwright' for headless browser automation"
+  echo "  claude — the Claude Code CLI; spawned in tmux windows for desktop-only skills"
+fi

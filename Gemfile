@@ -67,5 +67,8 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem "selenium-webdriver"
+  # Playwright Ruby client — browser automation for system tests and skills (via npx playwright)
+  gem "playwright-ruby-client"
+  # Capybara driver backed by Playwright (replaces selenium-webdriver for system tests)
+  gem "capybara-playwright-driver"
 end
