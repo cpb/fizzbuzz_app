@@ -7,9 +7,16 @@ class FizzBuzzControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should enqueue job on post" do
-    # Controller enqueues starting + 1 (first result rendered synchronously)
+    # Controller enqueues starting - 1 (first result rendered synchronously)
     # with a 1-second delay so the browser WebSocket reconnects first.
-    assert_enqueued_with(job: FizzBuzzJob, args: [ 2 ]) do
+    assert_enqueued_with(job: FizzBuzzJob, args: [ 4 ]) do
+      post start_fizz_buzz_url, params: { starting_integer: 5 }
+    end
+    assert_response :redirect
+  end
+
+  test "should not enqueue job when starting at 1" do
+    assert_no_enqueued_jobs do
       post start_fizz_buzz_url, params: { starting_integer: 1 }
     end
     assert_response :redirect

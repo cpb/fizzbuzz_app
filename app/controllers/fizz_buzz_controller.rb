@@ -9,6 +9,6 @@ class FizzBuzzController < ApplicationController
     redirect_to start_fizz_buzz_path(starting_integer: starting)
     # Wait 1 second before the first broadcast so the browser has time to
     # load the redirected page and re-establish its WebSocket connection.
-    FizzBuzzJob.set(wait: 1.second).perform_later(starting + 1)
+    FizzBuzzJob.set(wait: 1.second).perform_later(starting - 1) if starting > 1
   end
 end
