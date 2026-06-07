@@ -29,11 +29,30 @@ Store as `wt_path`. If no worktree exists for this branch, abort:
 ERROR: No worktree found for <headRefName>. Run /continue-pr <number> first.
 ```
 
-**3. Compose the test-runner prompt**
+**3. Elicit dependencies from the operator**
 
-Build a structured message that instructs the new Claude session to exercise and report on each item automatically. The prompt should contain:
+Read each test-plan item and identify the concrete inputs the automated session will need in order to actually exercise the skills (not simulate them). Common dependencies:
 
-```
+- Items that invoke `/start-pr` need a real open GitHub issue number
+- Items that invoke `/continue-pr` or `/finish-pr` need a real open PR number
+- Items that check a file or branch name need the actual expected value
+- Items that verify a tmux window need the expected window name
+
+For each dependency found, collect it from the operator using `AskUserQuestion` before starting the session. For example:
+
+- "Item 1 requires running `/start-pr`. What open issue number should it use?"
+- "Item 3 requires inspecting `/finish-pr` behaviour. What PR number should it reference for the session file check?"
+
+Store the collected values. If the operator cannot supply a dependency (e.g., no suitable open issue exists), note it as a skip condition and tell the operator the item will be marked Needs-review rather than exercised.
+
+**4. Compose the test-runner prompt**
+
+Build a structured message that instructs the new Claude session to exercise and report on each item automatically. Substitute all dependency values (issue numbers, PR numbers, expected names) into the item descriptions — do not leave angle-bracket placeholders.
+
+Write the prompt to a temp file to avoid shell quoting issues:
+
+```bash
+cat > /tmp/qa-skill-<number>-prompt.txt << 'PROMPT'
 You are verifying a pull request's skill changes. The PR branch is already
 checked out in this worktree — skill files in .claude/commands/ are the
 PR's versions.
@@ -43,30 +62,32 @@ PR #<number>: <title>
 
 ## Test-plan items to verify
 
-<n>. <item 1>
-<n>. <item 2>
+1. <item 1 with concrete dependency values substituted>
+2. <item 2 with concrete dependency values substituted>
 ...
 
 ## Instructions
 
 For each item above, in order:
-1. Exercise the skill described — invoke it with representative arguments,
-   observe what happens, and capture the outcome.
+1. Exercise the skill described using the concrete values provided — invoke it
+   with the supplied arguments, observe what happens, and capture the outcome.
 2. Check any side effects mentioned (files written, tmux windows opened,
-   commands run, etc.) with brief bash checks.
-3. Do not ask for operator input — run everything automatically and report.
+   commands run, JSON fields present) with brief bash checks.
+3. For items marked "(inspect only)" or where live invocation would have
+   irreversible side effects (e.g. merging a PR), verify by reading the skill
+   file and running any safe supporting bash checks instead.
+4. Do not ask for operator input — run everything automatically and report.
 
 Produce a numbered verification report at the end:
 
-  1. [Pass/Fail/Needs-review] — <item text>
-     Observed: <one sentence describing what actually happened>
+  1. [Pass/Fail/Needs-review] — item text
+     Observed: one sentence describing what actually happened
 
 Be concise. The operator will read this report and confirm in the qa-pr session.
+PROMPT
 ```
 
-Store the full prompt string as `test_runner_prompt`.
-
-**4. Open a Claude session in the PR worktree**
+**5. Open a Claude session in the PR worktree**
 
 Check for an existing pane already running in the worktree:
 ```bash
@@ -74,17 +95,17 @@ tmux list-panes -a -F "#{session_name}:#{window_index} #{pane_current_path}" \
   | awk -v p="$wt_path" 'index($2, p) == 1 {print $1; exit}'
 ```
 
-If none found, create a new window named `qa-skill-<number>`:
+Create a new window named `qa-skill-<number>` (always use a fresh window so the session starts clean):
 ```bash
 tmux new-window -n "qa-skill-<number>" -c "$wt_path"
 ```
 
-Send the test-runner prompt as the opening message:
+Send the test-runner prompt using single quotes so the current shell does not interpret the subshell — the tmux window's shell expands it:
 ```bash
-tmux send-keys -t "qa-skill-<number>" "claude \"$test_runner_prompt\"" Enter
+tmux send-keys -t "qa-skill-<number>" 'claude "$(< /tmp/qa-skill-<number>-prompt.txt)"' Enter
 ```
 
-**5. Tell the operator**
+**6. Tell the operator**
 
 Print:
 ```
@@ -93,14 +114,14 @@ Switch to that window to watch. Return here once it has finished and produced
 a verification report.
 ```
 
-**6. Await operator review**
+**7. Await operator review**
 
 Use `AskUserQuestion`:
 
 - Question: "Review the verification report in qa-skill-<number>. How did it go?"
 - Options: "All items passed" / "One or more items failed"
 
-**7. On "All items passed"**
+**8. On "All items passed"**
 
 For each test-plan item, fetch the current PR body and replace `- [ ] <item text>` with `- [x] <item text>`:
 ```bash
@@ -116,7 +137,7 @@ Print:
 
 Return to the caller (router).
 
-**8. On "One or more items failed"**
+**9. On "One or more items failed"**
 
 Use `AskUserQuestion` to collect details:
 - Question: "Which item(s) failed, and what was observed? (Describe briefly)"
