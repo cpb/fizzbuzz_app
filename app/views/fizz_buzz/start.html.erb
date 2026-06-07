@@ -13,7 +13,7 @@
 <% end %>
 <div id="results">
   <% if params[:starting_integer].present? %>
-    <% buzzer = params[:use_llm].present? ? LlmFizzBuzzer : FizzBuzzer %>
+    <% buzzer = params[:use_llm].present? ? LLMFizzBuzzer : FizzBuzzer %>
     <%= render "result", result: buzzer.call(params[:starting_integer].to_i) %>
   <% end %>
 </div>
