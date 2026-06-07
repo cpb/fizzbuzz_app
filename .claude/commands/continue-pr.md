@@ -62,10 +62,10 @@ git worktree list --porcelain | grep -B2 "branch refs/heads/<headRefName>" | gre
 
 **6. Derive the remote-control name**
 
-Use `$title` (already extracted) to build the slug. `-Rr` treats the shell variable as a raw string:
+Using the already-fetched PR JSON, derive a terse slug from the PR title and build the remote-control name:
 
 ```bash
-rc_slug=$(echo "$title" | jq -Rr 'ascii_downcase | gsub("[^a-z0-9]+"; "-") | ltrimstr("-") | rtrimstr("-")' \
+rc_slug=$(echo "$pr_json" | jq -r '.title | ascii_downcase | gsub("[^a-z0-9]+"; "-") | ltrimstr("-") | rtrimstr("-")' \
   | cut -c1-30 | sed 's/-$//')
 remote_control="x-$number-$rc_slug"
 ```
