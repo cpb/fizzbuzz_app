@@ -2,6 +2,7 @@ require "test_helper"
 
 class PublishGistJobTest < ActiveJob::TestCase
   test "calls create_gist then update_gist on publisher" do
+    link = links(:one)
     calls = []
 
     spy = Object.new
@@ -12,7 +13,7 @@ class PublishGistJobTest < ActiveJob::TestCase
     GistPublisher.define_singleton_method(:new) { |**| spy }
 
     begin
-      PublishGistJob.perform_now
+      PublishGistJob.perform_now(link_id: link.id)
     ensure
       GistPublisher.singleton_class.define_method(:new, original_new)
     end
