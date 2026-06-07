@@ -5,17 +5,84 @@ http_interactions:
     uri: https://api.github.com/gists
     body:
       encoding: UTF-8
-      string: ''
-    headers: {}
+      string: '{"description":"Links","public":false,"files":{"links.md":{"content":"-
+        foo"}}}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.github.com
+      Authorization:
+      - token <GITHUB_TOKEN>
   response:
     status:
       code: 201
       message: Created
     headers:
+      Date:
+      - Sun, 07 Jun 2026 23:43:09 GMT
       Content-Type:
       - application/json; charset=utf-8
+      Content-Length:
+      - '3160'
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP,Accept-Encoding, Accept, X-Requested-With
+      Etag:
+      - '"3173821a7a112f4c531f6881f6c049c4f3d5ab09494e6db5645f8eea52ee54b9"'
+      X-Oauth-Scopes:
+      - gist
+      X-Accepted-Oauth-Scopes:
+      - ''
+      Github-Authentication-Token-Expiration:
+      - 2026-07-07 23:37:29 UTC
+      Location:
+      - https://api.github.com/gists/ba576e2f3aa24bdb1920b3cb1f358eba
+      X-Github-Media-Type:
+      - github.v3; format=json
+      X-Github-Api-Version-Selected:
+      - '2022-11-28'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset, Warning
+      Access-Control-Allow-Origin:
+      - "*"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Frame-Options:
+      - deny
+      X-Content-Type-Options:
+      - nosniff
+      X-Xss-Protection:
+      - '0'
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Content-Security-Policy:
+      - default-src 'none'
+      X-Github-Request-Id:
+      - E3E1:18A3B4:233896:847753:6A26020C
+      Server:
+      - github.com
+      X-Ratelimit-Limit:
+      - '5000'
+      X-Ratelimit-Remaining:
+      - '4984'
+      X-Ratelimit-Reset:
+      - '1780875995'
+      X-Ratelimit-Used:
+      - '16'
+      X-Ratelimit-Resource:
+      - core
     body:
       encoding: UTF-8
-      string: '{"id":"abc123","html_url":"https://gist.github.com/abc123","description":"Links","public":false}'
-  recorded_at: 'Mon, 01 Jan 2024 00:00:00 GMT'
-recorded_with: VCR 6.3.1
+      string: '{"url":"https://api.github.com/gists/ba576e2f3aa24bdb1920b3cb1f358eba","forks_url":"https://api.github.com/gists/ba576e2f3aa24bdb1920b3cb1f358eba/forks","commits_url":"https://api.github.com/gists/ba576e2f3aa24bdb1920b3cb1f358eba/commits","id":"ba576e2f3aa24bdb1920b3cb1f358eba","node_id":"G_kwDNKTbaACBiYTU3NmUyZjNhYTI0YmRiMTkyMGIzY2IxZjM1OGViYQ","git_pull_url":"https://gist.github.com/ba576e2f3aa24bdb1920b3cb1f358eba.git","git_push_url":"https://gist.github.com/ba576e2f3aa24bdb1920b3cb1f358eba.git","html_url":"https://gist.github.com/cpb/ba576e2f3aa24bdb1920b3cb1f358eba","files":{"links.md":{"filename":"links.md","type":"text/markdown","language":"Markdown","raw_url":"https://gist.githubusercontent.com/cpb/ba576e2f3aa24bdb1920b3cb1f358eba/raw/e0b2e86d1161005e17ad5959a2bbbaad7dac4492/links.md","size":5,"truncated":false,"content":"-
+        foo","encoding":"utf-8"}},"public":false,"created_at":"2026-06-07T23:43:09Z","updated_at":"2026-06-07T23:43:09Z","description":"Links","comments":0,"user":null,"comments_enabled":true,"comments_url":"https://api.github.com/gists/ba576e2f3aa24bdb1920b3cb1f358eba/comments","owner":{"login":"cpb","id":10550,"node_id":"MDQ6VXNlcjEwNTUw","avatar_url":"https://avatars.githubusercontent.com/u/10550?v=4","gravatar_id":"","url":"https://api.github.com/users/cpb","html_url":"https://github.com/cpb","followers_url":"https://api.github.com/users/cpb/followers","following_url":"https://api.github.com/users/cpb/following{/other_user}","gists_url":"https://api.github.com/users/cpb/gists{/gist_id}","starred_url":"https://api.github.com/users/cpb/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/cpb/subscriptions","organizations_url":"https://api.github.com/users/cpb/orgs","repos_url":"https://api.github.com/users/cpb/repos","events_url":"https://api.github.com/users/cpb/events{/privacy}","received_events_url":"https://api.github.com/users/cpb/received_events","type":"User","user_view_type":"public","site_admin":false},"forks":[],"history":[{"user":{"login":"cpb","id":10550,"node_id":"MDQ6VXNlcjEwNTUw","avatar_url":"https://avatars.githubusercontent.com/u/10550?v=4","gravatar_id":"","url":"https://api.github.com/users/cpb","html_url":"https://github.com/cpb","followers_url":"https://api.github.com/users/cpb/followers","following_url":"https://api.github.com/users/cpb/following{/other_user}","gists_url":"https://api.github.com/users/cpb/gists{/gist_id}","starred_url":"https://api.github.com/users/cpb/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/cpb/subscriptions","organizations_url":"https://api.github.com/users/cpb/orgs","repos_url":"https://api.github.com/users/cpb/repos","events_url":"https://api.github.com/users/cpb/events{/privacy}","received_events_url":"https://api.github.com/users/cpb/received_events","type":"User","user_view_type":"public","site_admin":false},"version":"08b6efe655d6864f93af1bddd016ef00c59f8083","committed_at":"2026-06-07T23:43:09Z","change_status":{"total":1,"additions":1,"deletions":0},"url":"https://api.github.com/gists/ba576e2f3aa24bdb1920b3cb1f358eba/08b6efe655d6864f93af1bddd016ef00c59f8083"}],"truncated":false}'
+  recorded_at: Sun, 07 Jun 2026 23:43:09 GMT
+recorded_with: VCR 6.4.0
