@@ -3,7 +3,7 @@ class PublishGistJob < ApplicationJob
 
   def perform(link_id:, session_id:)
     link = Link.find(link_id)
-    publisher = GistPublisher.new(token: ENV["GITHUB_TOKEN"])
+    publisher = GistPublisher.new(token: Rails.application.credentials.github.token)
     result = publisher.create_gist(description: link.title, content: link.url)
     link.update!(gist_id: result[:id])
     publisher.update_gist(id: result[:id], content: link.url)
