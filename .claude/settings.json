@@ -10,6 +10,26 @@
             "command": "bin/check-worktree"
           }
         ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] || exit 0 && exec bin/claude-code-web-setup"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "hk fix $CLAUDE_FILE_PATHS"
+          }
+        ]
       }
     ]
   }
