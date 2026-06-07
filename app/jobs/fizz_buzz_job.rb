@@ -10,6 +10,6 @@ class FizzBuzzJob < ApplicationJob
       locals: { result: result }
     )
     sleep 1
-    FizzBuzzJob.perform_later(number + 1)
+    FizzBuzzJob.perform_later(number - 1) if number > 1
   end
 end

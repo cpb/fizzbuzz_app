@@ -2,7 +2,7 @@
 
 <%= form_with url: start_fizz_buzz_path, method: :post do |f| %>
   <%= f.label :starting_integer %>
-  <%= f.number_field :starting_integer, value: params[:starting_integer] || 1 %>
+  <%= f.number_field :starting_integer, value: params[:starting_integer] || 100 %>
   <%= f.submit "Start" %>
 <% end %>
 
