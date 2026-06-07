@@ -21,4 +21,14 @@ class FizzBuzzJobTest < ActiveJob::TestCase
     end
     assert_match "Fizz", broadcasts("fizz_buzz_channel").last
   end
+
+  test "broadcasts to tab-scoped channel and carries token through countdown" do
+    tab_token = "test-tab-token"
+    assert_broadcasts("fizz_buzz_channel:#{tab_token}", 1) do
+      assert_enqueued_with(job: FizzBuzzJob, args: [4, tab_token]) do
+        FizzBuzzJob.perform_now(5, tab_token)
+      end
+    end
+    assert_no_broadcasts("fizz_buzz_channel")
+  end
 end
