@@ -13,8 +13,8 @@ class FizzBuzzTest < ApplicationSystemTestCase
     assert_selector "#results p", count: 3
   end
 
-  test "default starting number is 100" do
+  test "default starting number is 10" do
     visit start_fizz_buzz_path
-    assert_field "Starting integer", with: "100"
+    assert_field "Starting integer", with: "10"
   end
 end
