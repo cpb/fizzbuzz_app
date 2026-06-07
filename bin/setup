@@ -12,7 +12,16 @@ FileUtils.chdir APP_ROOT do
   # This script is idempotent, so that you can run it at any time and get an expectable outcome.
   # Add necessary setup steps to this file.
 
-  puts "== Installing dependencies =="
+  if RbConfig::CONFIG["host_os"].include?("darwin")
+    puts "== Checking Homebrew dependencies =="
+    if system("command -v brew >/dev/null 2>&1")
+      system!("brew bundle")
+    else
+      puts "Warning: Homebrew not found — skipping brew bundle. Install from https://brew.sh"
+    end
+  end
+
+  puts "\n== Installing dependencies =="
   system("bundle check") || system!("bundle install")
 
   # puts "\n== Copying sample files =="

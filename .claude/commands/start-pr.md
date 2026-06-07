@@ -10,6 +10,11 @@ Set up an isolated worktree and launch Claude in plan mode, primed with the full
 **1. Check prerequisites**
 
 ```bash
+if ! command -v claude >/dev/null 2>&1; then
+  echo "ERROR: desktop-only — requires 'claude' CLI in PATH."
+  echo "This skill spawns a Claude session in a tmux window and is not supported in cloud environments."
+  exit 1
+fi
 if [ -z "$TMUX" ]; then echo "ERROR: not inside tmux"; exit 1; fi
 if [ -z "$ARGUMENTS" ]; then echo "Usage: /start-pr <issue-number>"; exit 1; fi
 ```
