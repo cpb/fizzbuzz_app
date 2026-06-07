@@ -13,6 +13,17 @@ TOOL_NAME=$(printf '%s' "$INPUT" | jq -r '.tool_name // empty' 2>/dev/null || tr
 RECEIPTS_DIR="tmp/claude-web-receipts"
 mkdir -p "$RECEIPTS_DIR"
 
+install_gems() {
+  local lock_hash
+  lock_hash=$(sha256sum Gemfile.lock 2>/dev/null | cut -c1-8 || echo "no-lock")
+  local receipt="$RECEIPTS_DIR/gems-$lock_hash"
+
+  [ -f "$receipt" ] && return 0
+
+  bundle install
+  touch "$receipt"
+}
+
 install_hk() {
   local receipt="$RECEIPTS_DIR/hk"
 
@@ -36,6 +47,7 @@ install_hk() {
 
 case "$TOOL_NAME" in
   Edit|Write)
+    install_gems
     install_hk
     ;;
 esac
