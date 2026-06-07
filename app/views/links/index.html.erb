@@ -1,0 +1,10 @@
+<h1>Links</h1>
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+<ul>
+  <% @links.each do |link| %>
+    <li><%= link.title %> - <%= link.url %></li>
+  <% end %>
+</ul>
+<%= link_to "New Link", new_link_path %>
