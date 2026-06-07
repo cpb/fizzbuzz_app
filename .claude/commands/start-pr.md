@@ -80,9 +80,10 @@ jq -n \
   --arg type "issue" \
   --argjson number "$number" \
   --arg title "$title" \
+  --arg headRefName "$branch" \
   --arg url "$url" \
   --rawfile initial_prompt "$wt_path/pr_context.md" \
-  '{remote_control:$remote_control,tmux_window:$tmux_window,worktree_path:$worktree_path,type:$type,number:$number,title:$title,url:$url,initial_prompt:$initial_prompt}' \
+  '{remote_control:$remote_control,tmux_window:$tmux_window,worktree_path:$worktree_path,type:$type,number:$number,title:$title,headRefName:$headRefName,url:$url,initial_prompt:$initial_prompt}' \
   > "$wt_path/.worktree-session.json"
 ```
 
