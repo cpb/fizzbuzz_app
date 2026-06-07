@@ -13,6 +13,17 @@ class FizzBuzzTest < ApplicationSystemTestCase
     assert_selector "#results p", count: 3
   end
 
+  test "Use LLM checkbox streams correct FizzBuzz result" do
+    visit root_path
+    check "Use LLM"
+    fill_in "Starting integer", with: 3
+    click_on "Start"
+    # TODO: once #51 lands and real inference is wired, change text: "3" → text: "Fizz"
+    assert_selector "#results p", text: "3"
+    assert_selector "#results p", text: "2", wait: 5
+    assert_selector "#results p", text: "1", wait: 5
+  end
+
   test "default starting number is 10" do
     visit root_path
     assert_field "Starting integer", with: "10"

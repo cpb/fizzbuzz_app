@@ -381,8 +381,14 @@ def cmd_cleanup(args)
 end
 
 def cmd_add(args)
+  parent_branch = nil
+  if (idx = args.index("--parent"))
+    args.delete_at(idx)
+    parent_branch = args.delete_at(idx)
+  end
+
   branch = args.shift
-  abort "Usage: bin/worktree add <branch> [path]" unless branch
+  abort "Usage: bin/worktree add [--parent <branch>] <branch> [path]" unless branch
 
   wt_path = args.shift || File.expand_path("../../fizzbuzz_#{branch}", main_worktree_path)
   wt_path = File.expand_path(wt_path)
@@ -411,12 +417,43 @@ def cmd_add(args)
   system("cd #{wt_path.shellescape} && bin/setup --skip-server") ||
     warn("  Warning: bin/setup exited non-zero")
 
+  if parent_branch
+    parent_wt = find_worktree(parent_branch) || abort("Parent worktree '#{parent_branch}' not found")
+    children_file = File.join(parent_wt[:path], ".worktree-children")
+    children = File.exist?(children_file) ? JSON.parse(File.read(children_file)) : []
+    children << branch unless children.include?(branch)
+    File.write(children_file, JSON.generate(children))
+    puts "→ Registered as child of '#{parent_branch}'"
+  end
+
   puts
   puts "Worktree ready:"
   puts "  Path:   #{wt_path}"
   puts "  Port:   #{port}"
   puts "  Server: bin/worktree server #{branch}"
   puts "  Shell:  eval \"$(bin/worktree cd #{branch})\""
+end
+
+def cmd_down_children(args)
+  parent = args.shift
+  abort "Usage: bin/worktree down-children <parent>" unless parent
+  parent_wt = find_worktree(parent) || abort("No worktree found for '#{parent}'")
+  children_file = File.join(parent_wt[:path], ".worktree-children")
+  unless File.exist?(children_file)
+    puts "No children recorded for '#{parent}'."
+    return
+  end
+  children = JSON.parse(File.read(children_file))
+  children.each do |child_branch|
+    if find_worktree(child_branch)
+      puts "→ Tearing down child worktree: #{child_branch}"
+      cmd_down([child_branch])
+    else
+      puts "→ Skipping '#{child_branch}' (already removed)"
+    end
+  end
+  File.delete(children_file)
+  puts "All children of '#{parent}' removed."
 end
 
 def cmd_cd(args)
@@ -537,17 +574,20 @@ USAGE = <<~USAGE
 
   Subcommands:
     prepare <id> [--pr|--issue] [--test-first]
-                          Fetch GH info, create worktree, output JSON
-    harness <id>          Find/create tmux window and launch Claude
-    check-hill <number>   Wait for CI and report status for hill PRs
-    cleanup <id>          Wait for CI, merge PR, and tear down worktree/window
-    add <branch> [path]   Create isolated worktree with .env.local + setup
-    cd <name>             Print cd command (eval "$(bin/worktree cd <name>)")
-    server <name>         Start dev server in background
-    logs <name>           Tail dev server log
-    stop <name>           Stop dev server (keeps worktree intact)
-    down <name>           Stop server and remove worktree
-    list                  Show all worktrees with port and server status
+                              Fetch GH info, create worktree, output JSON
+    harness <id>              Find/create tmux window and launch Claude
+    check-hill <number>       Wait for CI and report status for hill PRs
+    cleanup <id>              Wait for CI, merge PR, and tear down worktree/window
+    add [--parent <p>] <branch> [path]
+                              Create isolated worktree with .env.local + setup;
+                              --parent records this worktree as a child of <p>
+    down-children <parent>    Tear down all child worktrees recorded under <parent>
+    cd <name>                 Print cd command (eval "$(bin/worktree cd <name>)")
+    server <name>             Start dev server in background
+    logs <name>               Tail dev server log
+    stop <name>               Stop dev server (keeps worktree intact)
+    down <name>               Stop server and remove worktree
+    list                      Show all worktrees with port and server status
 USAGE
 
 subcommand = ARGV.shift
@@ -561,8 +601,9 @@ when "cd"         then cmd_cd(ARGV)
 when "server"     then cmd_server(ARGV)
 when "logs"       then cmd_logs(ARGV)
 when "stop"       then cmd_stop(ARGV)
-when "down"       then cmd_down(ARGV)
-when "list"       then cmd_list(ARGV)
+when "down"           then cmd_down(ARGV)
+when "down-children"  then cmd_down_children(ARGV)
+when "list"           then cmd_list(ARGV)
 else
   puts USAGE
   exit subcommand.nil? ? 0 : 1
