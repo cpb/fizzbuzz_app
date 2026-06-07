@@ -123,6 +123,65 @@ rescue Errno::ESRCH, Errno::EPERM
   false
 end
 
+CLOSING_PROTOCOL_NEW_PR = <<~MD
+  ---
+
+  ## Closing protocol
+
+  Once all acceptance criteria above are met and the test suite passes:
+
+  1. **Make atomic commits as you go** — commit logical units of work as you complete them rather than one monolithic commit at the end. Each commit should be self-contained and aid review.
+  2. **Open the PR automatically** — when work is complete, push the branch and open a non-draft PR without waiting for a human prompt:
+     ```sh
+     git push -u origin HEAD
+     gh pr create --title "<descriptive title>" --body "<summary of changes>"
+     ```
+     Do not stop and ask permission — completing the work means opening the PR.
+MD
+
+CLOSING_PROTOCOL_EXISTING_PR = <<~MD
+  ---
+
+  ## Closing protocol
+
+  Once all acceptance criteria above are met and the test suite passes:
+
+  1. **Make atomic commits as you go** — commit logical units of work as you complete them rather than one monolithic commit at the end. Each commit should be self-contained and aid review.
+  2. **Push automatically when done** — once complete, push the branch without waiting for a human prompt:
+     ```sh
+     git push
+     ```
+     The PR is already open — do not stop and ask permission.
+MD
+
+def build_pr_context(type, info, test_first: false)
+  number = info["number"]
+  title  = info["title"]
+  url    = info["url"]
+  body   = (info["body"] || "").strip
+  labels = (info["labels"] || []).map { |l| l["name"] }
+
+  kind = type == "issue" ? "Issue" : "PR"
+  label_str = labels.empty? ? "(none)" : labels.join(", ")
+
+  context = <<~MD
+    # #{kind} ##{number} — #{title}
+
+    **URL:** #{url}
+    **Labels:** #{label_str}
+
+    #{body}
+  MD
+
+  if type == "issue" && !test_first
+    context += "\n#{CLOSING_PROTOCOL_NEW_PR}"
+  elsif type == "pr"
+    context += "\n#{CLOSING_PROTOCOL_EXISTING_PR}"
+  end
+
+  context
+end
+
 # ── subcommands ────────────────────────────────────────────────────────────────
 
 def cmd_prepare(args)
@@ -198,7 +257,8 @@ def cmd_prepare(args)
     hill_ready: hill_ready
   }
   File.write(File.join(wt_path, ".worktree-session.json"), JSON.pretty_generate(session))
-  
+  File.write(File.join(wt_path, "pr_context.md"), build_pr_context(type, info, test_first: test_first))
+
   # Output JSON for LLM consumption
   puts JSON.pretty_generate(session.merge(info: info))
 end

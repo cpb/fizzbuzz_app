@@ -12,27 +12,16 @@ Set up an isolated worktree and launch Claude in plan mode, primed with the full
 ```bash
 if [ -z "$ARGUMENTS" ]; then echo "Usage: /start-pr <issue-number>"; exit 1; fi
 
-# Fetch metadata and prepare worktree
 issue_json=$(bin/worktree prepare "$ARGUMENTS" --issue)
-wt_path=$(echo "$issue_json" | jq -r '.worktree_path')
-test_first=$(echo "$issue_json" | jq -r '.test_first')
 ```
 
-**2. Write the issue context file**
-
-Use inference to generate a high-quality `pr_context.md` in the worktree path.
-
-- Include the issue title, URL, and labels.
-- Summarize the body.
-- If `$test_first` is `true`, append the "Test-first hill required" section instructions (Outside-in test layers, `/hill-first`, etc.).
-
-**3. Launch the harness**
+**2. Launch the harness**
 
 ```bash
 bin/worktree harness "$ARGUMENTS"
 ```
 
-**4. Print a confirmation**
+**3. Print a confirmation**
 
 Print a summary including the worktree path, issue title/URL, and the remote control name from the JSON.
 Mention that Claude is in plan mode.
