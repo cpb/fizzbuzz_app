@@ -48,7 +48,7 @@ For each `(slug, name, spec)`:
 
 ```bash
 branch="hill/$parent_branch/$slug"
-bin/worktree add "$branch"
+bin/worktree add --parent "$parent_branch" "$branch"
 wt_path=$(git worktree list --porcelain \
   | grep -B2 "branch refs/heads/$branch" \
   | grep "^worktree" | sed 's/worktree //')
@@ -198,7 +198,13 @@ gh pr edit $hill_pr_number --add-label "hill-ready"
 
 Call `TaskUpdate` on the draft-PR task, marking it complete.
 
-**11. Post instructions as a GitHub comment, then self-destruct**
+**11. Tear down layer worktrees**
+
+```bash
+bin/worktree down-children "$parent_branch"
+```
+
+**12. Post instructions as a GitHub comment, then self-destruct**
 
 Post a comment on the hill draft PR so the instructions survive after this session closes:
 
