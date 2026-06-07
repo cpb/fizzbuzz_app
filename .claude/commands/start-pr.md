@@ -98,10 +98,17 @@ This issue carries the `test-first` label. Before writing any implementation:
    /hill-first layer1: "spec sentence", layer2: "spec sentence", ...
    ```
    This creates one isolated worktree per layer, writes a failing test in each,
-   and opens a draft PR for human review.
+   opens a draft PR, and automatically applies the `hill-ready` label.
 
-3. **Wait** for a human to apply the `hill-ready` label to the draft PR before
-   starting any implementation.
+3. **This session will close automatically** after `/hill-first` completes.
+   Do not plan or begin any implementation — `/hill-first` self-destructs this window.
+
+4. **After the session closes:** a human will review the expected failures in
+   the draft PR. When satisfied, they remove the `hill-ready` label, then run:
+   ```
+   /continue-pr <hill-pr-number>
+   ```
+   That session detects the cleared label and begins implementation planning.
 ```
 
 Then write `<worktree-path>/.worktree-session.json`:

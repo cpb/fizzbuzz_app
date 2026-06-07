@@ -145,33 +145,31 @@ Ensure the `hill-ready` label exists:
 
 ```bash
 gh label create "hill-ready" \
-  --description "Hill PR reviewed; failing tests accepted; implementation may begin" \
+  --description "Hill under review — remove this label to signal approval and begin implementation" \
   --color "0E8A16" \
   --force
 ```
 
-Push the branch:
+Push the branch and create the draft PR; capture the new PR number:
 
 ```bash
 git push -u origin "$parent_branch"
-```
 
-Build the PR body with one section per layer listing its expected failure message, then create the draft PR:
-
-```bash
-gh pr create \
+hill_pr_url=$(gh pr create \
   --title "hill: failing tests for issue #$parent_number" \
   --body "<body>" \
-  --draft
+  --draft)
+
+hill_pr_number=$(gh pr view --json number --jq '.number')
 ```
 
-The body must include:
+The PR body must include:
 
 ```markdown
 ## Hill: failing tests for issue #<parent_number>
 
 This draft PR contains only failing tests — one commit of stubs and one of tests per
-layer. CI should confirm failures. **Do not merge until implementation is complete.**
+layer. CI should confirm failures. **Do not merge — implementation happens on this branch.**
 
 ## Expected failure messages
 
@@ -188,21 +186,50 @@ layer. CI should confirm failures. **Do not merge until implementation is comple
 ## Reviewer instructions
 
 Review each expected failure message above. If they correctly specify the intended
-behavior per the issue, apply the `hill-ready` label to this PR. Implementation
-agents will not begin until `hill-ready` is set.
+behavior per the issue, **remove the `hill-ready` label** from this PR — that signals
+the implementation session to begin. Run `/continue-pr <hill_pr_number>` to start it.
+```
+
+Apply `hill-ready` to signal the PR is ready for human review:
+
+```bash
+gh pr edit $hill_pr_number --add-label "hill-ready"
 ```
 
 Call `TaskUpdate` on the draft-PR task, marking it complete.
 
-**11. Print confirmation**
+**11. Post instructions as a GitHub comment, then self-destruct**
+
+Post a comment on the hill draft PR so the instructions survive after this session closes:
+
+```bash
+gh pr comment $hill_pr_number --body "$(cat <<'COMMENT'
+## Hill ready for review
+
+CI is running — wait for it to confirm the failures are **assertion failures** (not load errors).
+
+**To proceed:**
+1. Review the expected failure messages in the PR description.
+2. Open `/continue-pr <hill_pr_number>` — that session will inspect CI and ask whether the hill is correctly specified.
+3. If something is missing, describe it and the session will fix the hill.
+4. When satisfied, **remove the `hill-ready` label** — `/continue-pr` will detect the removal and switch to implementation planning.
+COMMENT
+)"
+```
+
+Schedule the current tmux window to close 3 seconds from now:
+
+```bash
+current_window=$(tmux display-message -p "#{session_name}:#{window_index}")
+(sleep 3 && tmux kill-window -t "$current_window") &
+```
+
+Print:
 
 ```
-Hill draft PR opened: <url>
-
-Expected failures:
-  <slug1>: <first line of failure message>
-  <slug2>: <first line of failure message>
-  ...
-
-Apply the `hill-ready` label when you are satisfied the failures specify the right behavior.
+Hill draft PR: <hill_pr_url>
+`hill-ready` applied. Instructions posted as a PR comment.
+This session is closing in 3 seconds.
 ```
+
+Then stop — make no further tool calls.

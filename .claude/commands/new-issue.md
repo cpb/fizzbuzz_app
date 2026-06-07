@@ -68,47 +68,54 @@ Write a GitHub issue with this structure:
 
 Derive the title from the goal sentence (concise, imperative, ≤ 72 characters).
 
+Also infer whether this issue warrants a test-first hill:
+- **Recommend yes** if the issue specifies new or corrected behavior expressible as assertions — features, behavioral bugs, protocol/API changes, UI interactions.
+- **Recommend no** for chores, refactors, documentation updates, dependency bumps, configuration changes, or tooling work where behavior is not the primary deliverable.
+
+Note the recommendation and a one-sentence rationale; show both with the draft in step 6.
+
 **6. Show the draft and get approval**
 
-Display the proposed title and body, then use `AskUserQuestion` to ask:
+Display the proposed title and body, then show the test-first recommendation:
 
-> "Does this capture it? Approve to create, or tell me what to change."
+> Test-first hill: **Yes** *(reason)* — or — **No** *(reason)*
 
-Offer options: Approve / Edit title / Edit body / Start over.
+Use `AskUserQuestion` to collect approval. Offer four options, putting the recommended test-first setting first:
 
-Revise and re-show until approved.
+- Approve (test-first: Yes) — create the issue with the `test-first` label
+- Approve (test-first: No) — create the issue without the label
+- Edit content — I'll describe what to change
+- Start over
+
+Revise and re-show until the user selects one of the Approve options. Record the final choice as `test_first` (true / false).
 
 **7. Create the issue**
 
-```bash
-gh issue create --title "<title>" --body "<body>"
-```
-
-**8. Ask about test-first**
-
-Use `AskUserQuestion`:
-
-- Question: "Should this issue require a test-first hill? A hill means failing tests are merged as a draft PR — with CI confirming the failures — before any implementation begins."
-- Options: "Yes, require a test-first hill" / "No, standard workflow"
-
-If the user chooses yes:
+If `test_first` is true, ensure the label exists first:
 
 ```bash
 gh label create "test-first" \
   --description "Requires a test-first failing-test hill before implementation" \
   --color "FF6B35" \
   --force
-
-gh issue edit <number> --add-label "test-first"
 ```
 
-Print: `Applied test-first label to issue #<number>.`
+Then create the issue, including the label in the same command if needed:
 
-**9. Print a confirmation**
+```bash
+# test_first = false:
+gh issue create --title "<title>" --body "<body>"
+
+# test_first = true:
+gh issue create --title "<title>" --body "<body>" --label "test-first"
+```
+
+**8. Print a confirmation**
 
 ```
 Created issue #<number>: <title>
 <url>
+<if test_first>Labels: test-first</if>
 
 To start work on it now: /start-pr <number>
 ```

@@ -48,27 +48,111 @@ Check `state` and abort immediately if the PR is not open:
 
 Only proceed if `state` is `OPEN`.
 
-**3. Check for an existing worktree**
+**3. Check for hill-ready gate**
+
+Fetch labels from the PR:
+
+```bash
+hill_ready=$(gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])')
+```
+
+If `hill_ready` is `true`, this PR is a hill under review. Enter the following loop:
+
+**a) Wait for CI to finish (failures are expected):**
+
+```bash
+gh pr checks $number --watch 2>&1 | tail -40
+```
+
+CI on a hill PR is expected to exit non-zero (tests should fail). Once checks are no longer pending, continue.
+
+**b) Inspect CI failure quality:**
+
+Fetch the check results and the PR description (which lists expected failure messages):
+
+```bash
+gh pr checks $number
+gh pr view $number --json body --jq '.body'
+```
+
+Classify the failures:
+- **Assertion failures** (`Expected … got …`, `assert_equal` mismatch) — correct; the hill is behavioral.
+- **Load errors** (`NameError`, `NoMethodError`, `LoadError`, routing errors) — incorrect; stubs are missing.
+- **All tests passing** — something is badly wrong; the hill isn't failing.
+
+**c) Reflect and elicit feedback with `AskUserQuestion`:**
+
+Present a 2–4 sentence summary of what CI shows versus what was expected. For example:
+> "CI shows 3 failures. 2 are assertion failures matching the expected messages; 1 is a NameError on `FizzBuzzChannel` — a stub is missing. Does this match what you expected, or should we add the missing stub?"
+
+Ask:
+- Question: "Does CI correctly confirm the hill? Or is something missing / wrong?"
+- Options: "Looks correct — I'll remove `hill-ready` now" / "Something needs fixing — [I'll describe]" / "All wrong — start the hill over"
+
+**d) On "Something needs fixing":**
+
+Collect the specifics from the operator. Fix the hill in this worktree — add missing stubs, adjust test assertions, or remove extraneous passing tests. Commit and push. Then return to step (a) to re-check CI.
+
+**e) On "All wrong — start the hill over":**
+
+Collect the specifics. This is out of scope for a simple fix; note it and stop. The operator will need to re-run `/hill-first`.
+
+**f) On "Looks correct — I'll remove `hill-ready` now":**
+
+Check whether the label is already gone (the operator may have removed it while you were working):
+
+```bash
+gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])'
+```
+
+If still present, wait for the operator to remove it, then confirm:
+
+```bash
+# Check once manually after the operator signals they've removed it
+gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])'
+```
+
+Once the label is gone, print:
+```
+hill-ready removed — switching to implementation planning.
+```
+
+Set a flag `hill_gate_cleared=true` and continue to step 4.
+
+If the hill gate was active (`hill_gate_cleared=true`), append the following section in step 8 (after the standard PR body in `pr_context.md`):
+
+```markdown
+
+## Implementation task
+
+The `hill-ready` label was just removed — you are cleared to implement.
+
+This PR was a hill (draft with failing tests). After implementing:
+1. Update this PR description to describe the implementation
+2. Convert from draft to ready: `gh pr ready <number>`
+```
+
+**4. Check for an existing worktree**
 
 ```bash
 git worktree list --porcelain
 ```
 
-If `branch refs/heads/<headRefName>` already appears, skip to step 5.
+If `branch refs/heads/<headRefName>` already appears, skip to step 6.
 
-**4. Create the worktree**
+**5. Create the worktree**
 
 ```bash
 bin/worktree add <headRefName>
 ```
 
-**5. Resolve the worktree path**
+**6. Resolve the worktree path**
 
 ```bash
 git worktree list --porcelain | grep -B2 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
 ```
 
-**6. Derive the remote-control name**
+**7. Derive the remote-control name**
 
 Using the already-fetched PR JSON, derive a terse slug from the PR title and build the remote-control name:
 
@@ -78,7 +162,7 @@ rc_slug=$(echo "$pr_json" | jq -r '.title | ascii_downcase | gsub("[^a-z0-9]+"; 
 remote_control="x-$number-$rc_slug"
 ```
 
-**7. Write the PR context file**
+**8. Write the PR context file**
 
 Write the following markdown to `<worktree-path>/pr_context.md` (use `$pr_body` for `<body>`):
 
@@ -87,6 +171,19 @@ Write the following markdown to `<worktree-path>/pr_context.md` (use `$pr_body` 
 URL: <url>
 
 <body>
+```
+
+If the hill gate from step 3 was active (hill-ready was detected and removed), append to `pr_context.md`:
+
+```markdown
+
+## Implementation task
+
+The `hill-ready` label was just removed — you are cleared to implement.
+
+This PR was a hill (draft with failing tests). After implementing:
+1. Update this PR description to describe the implementation
+2. Convert from draft to ready: `gh pr ready <number>`
 ```
 
 Then write `<worktree-path>/.worktree-session.json`:
@@ -106,7 +203,7 @@ jq -n \
   > "$wt_path/.worktree-session.json"
 ```
 
-**8. Create the tmux window**
+**9. Create the tmux window**
 
 Check whether any existing pane is already running inside the worktree path:
 ```bash
@@ -114,7 +211,7 @@ tmux list-panes -a -F "#{session_name}:#{window_index} #{pane_current_path}" \
   | awk -v p="<worktree-path>" 'index($2, p) == 1 {print $1; exit}'
 ```
 
-If a match is found, skip window creation and use that target for send-keys in step 9.
+If a match is found, skip window creation and use that target for send-keys in step 10.
 
 If no match, create a new window named `pr-<number>` starting in the worktree:
 ```bash
@@ -122,7 +219,7 @@ tmux new-window -n "pr-<number>" -c "<worktree-path>"
 ```
 The new window target is `pr-<number>`.
 
-**9. Start Claude primed with the PR description**
+**10. Start Claude primed with the PR description**
 
 Build the command string first so `$remote_control` expands in the current shell while `$(< pr_context.md)` is deferred to the tmux window's shell:
 ```bash
@@ -130,7 +227,7 @@ claude_cmd="claude --remote-control $remote_control \"\$(< pr_context.md)\""
 tmux send-keys -t "<window-target>" "$claude_cmd" Enter
 ```
 
-**10. Print a confirmation**
+**11. Print a confirmation**
 
 ```
 Created: pr-<number>  →  <worktree-path>
