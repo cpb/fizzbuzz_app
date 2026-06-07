@@ -15,16 +15,24 @@ if [ -z "$TMUX" ]; then echo "ERROR: not inside tmux — run this from inside a 
 
 **2. Determine the PR number**
 
-If `$ARGUMENTS` is set, use it. Otherwise read from `.worktree-session.json`:
-```bash
-jq -r '.number' .worktree-session.json
+Try each source in order, stopping at the first that succeeds:
+
+1. `$ARGUMENTS` — use it directly if set.
+2. `.worktree-session.json` — read with:
+   ```bash
+   jq -r '.number' .worktree-session.json
+   ```
+3. Current branch — detect from git:
+   ```bash
+   gh pr view --json number --jq '.number'
+   ```
+
+If all three fail, abort:
+```
+ERROR: could not determine PR number. Run /qa-pr <pr-number>.
 ```
 
-If `.worktree-session.json` does not exist and no argument was given, abort with:
-```
-ERROR: no PR number provided and .worktree-session.json not found.
-Run /qa-pr <pr-number>, or start this worktree with /start-pr or /continue-pr.
-```
+Print which source was used, e.g. `Using PR #<n> from .worktree-session.json`.
 
 **3. Fetch PR details**
 
