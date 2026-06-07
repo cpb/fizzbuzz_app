@@ -1,0 +1,12 @@
+<li id="<%= dom_id(link) %>">
+  <%= link.title %> - <%= link.url %>
+  
+  <% if link.gist_id.present? %>
+    <div>
+      <a href="https://gist.github.com/<%= link.gist_id %>" target="_blank">View Gist</a>
+      <%= QrCodeGenerator.call("https://gist.github.com/#{link.gist_id}").html_safe %>
+    </div>
+  <% else %>
+    <%= button_to "Publish", links_publish_path(id: link.id), method: :post %>
+  <% end %>
+</li>
