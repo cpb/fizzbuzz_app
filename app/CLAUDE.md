@@ -14,7 +14,7 @@
 
 `FizzBuzzJob` broadcasts a Turbo Stream append to `"fizz_buzz_channel:#{tab_token}"` for the current number's FizzBuzz result, sleeps 1 second, then enqueues itself for `number - 1` with the same `tab_token` until it reaches 1. Results appear in the `#results` div in real time.
 
-`LLMFizzBuzzJob` follows the same broadcast/countdown pattern, delegating to `LlmFizzBuzzer.call(number)`. Currently a painted-door stub that returns `number.to_s`; real inference is wired in issue #51.
+`LLMFizzBuzzJob` follows the same broadcast/countdown pattern, delegating to `LLMFizzBuzzer.call(number)`. Currently a painted-door stub that returns `number.to_s`; real inference is wired in issue #51.
 
 The `tab_token` travels in the URL so each browser tab gets its own scoped channel — tabs stream independently and do not share results.
 
