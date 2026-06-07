@@ -5,9 +5,9 @@
 | Test file | What it covers |
 |---|---|
 | `test/models/fizz_buzzer_test.rb` | `FizzBuzzer.call` returns correct string for multiples of 3, 5, 15, and plain numbers |
-| `test/controllers/fizz_buzz_controller_test.rb` | `GET /fizz_buzz/start` returns 200; `POST` enqueues job with correct arg; `POST` with 1 does not enqueue |
-| `test/jobs/fizz_buzz_job_test.rb` | Job counts down, stops at 1, broadcasts correct result on `fizz_buzz_channel` |
-| `test/system/fizz_buzz_test.rb` | Fill form → click Start → results appear via Turbo Stream; default starting number is 100 |
+| `test/controllers/fizz_buzz_controller_test.rb` | `GET /` returns 200; `POST` enqueues job with `(starting-1, tab_token)`; `POST` with 1 does not enqueue; redirect URL includes a UUID `tab_token` |
+| `test/jobs/fizz_buzz_job_test.rb` | Job counts down, stops at 1, broadcasts to `fizz_buzz_channel:#{tab_token}` (not global channel), carries token through each iteration |
+| `test/system/fizz_buzz_test.rb` | Fill form → click Start → results appear via Turbo Stream; default starting number is 10; tab A stream is unaffected when tab B submits afterward |
 
 ## What needs manual confirmation
 
