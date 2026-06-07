@@ -113,7 +113,16 @@ Be concise. The operator will read this report and confirm in the qa-pr session.
 PROMPT
 ```
 
-**5. Open a Claude session in the PR worktree**
+**5. Derive the remote-control name**
+
+Slugify the PR title: lowercase, replace runs of non-alphanumeric characters with `-`, strip leading/trailing hyphens, truncate to 30 characters.
+
+```bash
+rc_slug=$(echo "<pr-title>" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]\+/-/g' | sed 's/^-//' | sed 's/-$//' | cut -c1-30 | sed 's/-$//')
+remote_control="q-<number>-$rc_slug"
+```
+
+**6. Open a Claude session in the PR worktree**
 
 Check for an existing pane already running in the worktree:
 ```bash
@@ -126,28 +135,31 @@ Create a new window named `qa-skill-<number>` (always use a fresh window so the 
 tmux new-window -n "qa-skill-<number>" -c "$wt_path"
 ```
 
-Send the test-runner prompt using single quotes so the current shell does not interpret the subshell — the tmux window's shell expands it:
+Build the command string so `$remote_control` expands in the current shell while the file read is deferred to the tmux window's shell:
 ```bash
-tmux send-keys -t "qa-skill-<number>" 'claude "$(< /tmp/qa-skill-<number>-prompt.txt)"' Enter
+claude_cmd="claude --remote-control $remote_control \"$(< /tmp/qa-skill-<number>-prompt.txt)\""
+tmux send-keys -t "qa-skill-<number>" "$claude_cmd" Enter
 ```
 
-**6. Tell the operator**
+**7. Tell the operator**
 
 Print:
 ```
 A Claude session is running the skill test plan in window qa-skill-<number>.
-Switch to that window to watch. Return here once it has finished and produced
+Remote control: <remote_control>
+Switch to that window to watch, or connect from the Claude Code web app using
+the remote-control name above. Return here once it has finished and produced
 a verification report.
 ```
 
-**7. Await operator review**
+**8. Await operator review**
 
 Use `AskUserQuestion`:
 
 - Question: "Review the verification report in qa-skill-<number>. How did it go?"
 - Options: "All items passed" / "One or more items failed"
 
-**8. On "All items passed"**
+**9. On "All items passed"**
 
 For each test-plan item, fetch the current PR body and replace `- [ ] <item text>` with `- [x] <item text>`:
 ```bash
@@ -163,7 +175,7 @@ Print:
 
 Return to the caller (router).
 
-**9. On "One or more items failed"**
+**10. On "One or more items failed"**
 
 Use `AskUserQuestion` to collect details:
 - Question: "Which item(s) failed, and what was observed? (Describe briefly)"
