@@ -10,7 +10,6 @@ Set up an isolated worktree and launch Claude in plan mode, primed with the full
 **1. Prepare the worktree**
 
 ```bash
-if [ -z "$TMUX" ]; then echo "ERROR: not inside tmux"; exit 1; fi
 if [ -z "$ARGUMENTS" ]; then echo "Usage: /start-pr <issue-number>"; exit 1; fi
 
 # Fetch metadata and prepare worktree

@@ -10,7 +10,6 @@ Set up an isolated worktree and launch a Claude session primed with the full PR 
 **1. Check prerequisites and prepare worktree**
 
 ```bash
-if [ -z "$TMUX" ]; then echo "ERROR: not inside tmux"; exit 1; fi
 if [ -z "$ARGUMENTS" ]; then echo "Usage: /continue-pr <pr-number>"; exit 1; fi
 
 # Fetch metadata and prepare worktree

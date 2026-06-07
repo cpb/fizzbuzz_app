@@ -20,12 +20,16 @@ def slugify(text)
 end
 
 def gh_json(command)
-  out, status = Open3.capture2("gh #{command}")
+  out, status = Open3.capture2("gh \#{command}")
   return nil unless status.success?
   JSON.parse(out)
 rescue => e
-  warn "Error fetching GH info: #{e.message}"
+  warn "Error fetching GH info: \#{e.message}"
   nil
+end
+
+def check_tmux
+  abort "ERROR: not inside tmux — run this from inside a tmux session" unless ENV["TMUX"]
 end
 
 def tmux_window_target(wt_path, recorded_window)
@@ -37,23 +41,17 @@ def tmux_window_target(wt_path, recorded_window)
   end
 
   # Fallback to pane path (more strict)
-  wt_path = File.expand_path(wt_path)
+  wt_path = File.realdirpath(wt_path)
   out, _ = Open3.capture2("tmux list-panes -a -F '\#{session_name}:\#{window_index} \#{pane_current_path}'")
   
-  # Current target to avoid hijacking unless it's an exact match
-  current_target = `tmux display-message -p "\#{session_name}:\#{window_index}"`.strip rescue nil
-
   target = out.lines.find do |l|
     parts = l.split
     next false if parts.size < 2
-    pane_path = File.expand_path(parts[1])
-    # Exact match or subpath match
+    pane_path = File.realdirpath(parts[1])
+    # Exact match or subpath match (ensure it's a real subpath with trailing slash check)
     pane_path == wt_path || pane_path.start_with?(File.join(wt_path, ""))
   end&.split&.first
 
-  # If target is the current window, we might want to return nil to create a NEW window
-  # unless the user explicitly wants to use this window.
-  # For now, let's keep it but favor name matches.
   target
 end
 
@@ -116,12 +114,13 @@ end
 # ── subcommands ────────────────────────────────────────────────────────────────
 
 def cmd_prepare(args)
+  check_tmux
   id = args.shift
   abort "Usage: bin/worktree prepare <id> [--pr|--issue] [--test-first]" unless id
   
   is_pr = args.delete("--pr")
   is_issue = args.delete("--issue")
-  test_first = args.delete("--test-first")
+  test_first_arg = args.delete("--test-first")
   
   type = is_pr ? "pr" : (is_issue ? "issue" : nil)
   
@@ -146,7 +145,7 @@ def cmd_prepare(args)
   hill_ready = labels.any? { |l| l["name"] == "hill-ready" }
   test_first_label = labels.any? { |l| l["name"] == "test-first" }
   
-  test_first = test_first || test_first_label
+  test_first = test_first_arg || test_first_label
   
   branch = type == "pr" ? info["headRefName"] : "issue-#{number}/#{slug[0..49]}"
   prefix = type == "pr" ? "x" : "o"
@@ -165,10 +164,18 @@ def cmd_prepare(args)
     wt_path = File.expand_path("../../fizzbuzz_#{safe_branch}", git_root)
     cmd_add([branch, wt_path])
   end
+
+  # Resolve/Create tmux window
+  target = tmux_window_target(wt_path, tmux_window)
+  unless target
+    system("tmux new-window -n #{tmux_window.shellescape} -c #{wt_path.shellescape}")
+    target = tmux_window
+  end
   
   session = {
     remote_control: remote_control,
     tmux_window: tmux_window,
+    tmux_target: target,
     worktree_path: wt_path,
     type: type,
     number: number,
@@ -185,9 +192,9 @@ def cmd_prepare(args)
 end
 
 def cmd_harness(args)
+  check_tmux
   id = args.shift
   abort "Usage: bin/worktree harness <id>" unless id
-  abort "ERROR: not inside tmux" unless ENV["TMUX"]
 
   # Try to find session file in current dir or by id
   session_file = ".worktree-session.json"
@@ -202,15 +209,13 @@ def cmd_harness(args)
   session = JSON.parse(File.read(session_file))
   
   wt_path = session["worktree_path"]
-  tmux_window = session["tmux_window"]
+  tmux_target = session["tmux_target"] || session["tmux_window"]
   remote_control = session["remote_control"]
   type = session["type"]
   
-  target = tmux_window_target(wt_path, tmux_window)
-  unless target
-    system("tmux new-window -n #{tmux_window.shellescape} -c #{wt_path.shellescape}")
-    target = tmux_window # Use name as target
-  end
+  # Final verification of target
+  actual_target = tmux_window_target(wt_path, session["tmux_window"])
+  target = actual_target || tmux_target
   
   claude_cmd = "claude --remote-control #{remote_control}"
   claude_cmd += " --permission-mode plan" if type == "issue"
@@ -222,6 +227,7 @@ def cmd_harness(args)
 end
 
 def cmd_check_hill(args)
+  check_tmux
   number = args.shift
   abort "Usage: bin/worktree check-hill <number>" unless number
   
@@ -238,6 +244,7 @@ def cmd_check_hill(args)
 end
 
 def cmd_cleanup(args)
+  check_tmux
   id = args.shift
   session = nil
   if File.exist?(".worktree-session.json")
