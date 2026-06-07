@@ -21,6 +21,13 @@ class FizzBuzzControllerTest < ActionDispatch::IntegrationTest
     assert_response :redirect
   end
 
+  test "should enqueue LlmFizzBuzzJob when use_llm param is present" do
+    assert_enqueued_with(job: LlmFizzBuzzJob) do
+      post root_url, params: { starting_integer: 5, use_llm: "1" }
+    end
+    assert_response :redirect
+  end
+
   test "generates a unique tab_token in redirect URL and passes it to FizzBuzzJob" do
     post root_url, params: { starting_integer: 5 }
     redirect_params = Rack::Utils.parse_query(URI.parse(response.location).query)
