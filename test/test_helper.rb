@@ -2,7 +2,7 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "vcr"
-require "webmock"
+require "webmock/minitest"
 
 WebMock.disable_net_connect!(allow_localhost: [ "127.0.0.1", "localhost" ])
 
