@@ -1,6 +1,6 @@
 <h1>FizzBuzz</h1>
 
-<%= form_with url: start_fizz_buzz_path, method: :post do |f| %>
+<%= form_with url: root_path, method: :post do |f| %>
   <%= f.label :starting_integer %>
   <%= f.number_field :starting_integer, value: params[:starting_integer] || 10 %>
   <%= f.submit "Start" %>

@@ -2,7 +2,7 @@ require "test_helper"
 
 class FizzBuzzControllerTest < ActionDispatch::IntegrationTest
   test "should get start" do
-    get start_fizz_buzz_url
+    get root_url
     assert_response :success
   end
 
@@ -10,14 +10,14 @@ class FizzBuzzControllerTest < ActionDispatch::IntegrationTest
     # Controller enqueues starting - 1 (first result rendered synchronously)
     # with a 1-second delay so the browser WebSocket reconnects first.
     assert_enqueued_with(job: FizzBuzzJob, args: [ 4 ]) do
-      post start_fizz_buzz_url, params: { starting_integer: 5 }
+      post root_url, params: { starting_integer: 5 }
     end
     assert_response :redirect
   end
 
   test "should not enqueue job when starting at 1" do
     assert_no_enqueued_jobs do
-      post start_fizz_buzz_url, params: { starting_integer: 1 }
+      post root_url, params: { starting_integer: 1 }
     end
     assert_response :redirect
   end

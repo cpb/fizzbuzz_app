@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   root "fizz_buzz#start"
-  get "fizz_buzz/start", to: "fizz_buzz#start", as: :start_fizz_buzz
-  post "fizz_buzz/start", to: "fizz_buzz#create"
+  post "/", to: "fizz_buzz#create"
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

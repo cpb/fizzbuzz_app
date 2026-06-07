@@ -4,8 +4,8 @@
 
 | Method | Path | Controller#action | UI surface |
 |---|---|---|---|
-| `GET` | `/fizz_buzz/start` | `FizzBuzzController#start` | Form: enter a starting number and click Start |
-| `POST` | `/fizz_buzz/start` | `FizzBuzzController#create` | Redirects back to GET; enqueues `FizzBuzzJob` |
+| `GET` | `/` | `FizzBuzzController#start` | Form: enter a starting number and click Start |
+| `POST` | `/` | `FizzBuzzController#create` | Redirects back to GET; enqueues `FizzBuzzJob` |
 | `GET` | `/up` | `Rails::HealthController#show` | Health check — returns 200 when the server is ready |
 
 ## Key behaviour
