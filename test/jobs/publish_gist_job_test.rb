@@ -13,7 +13,7 @@ class PublishGistJobTest < ActiveJob::TestCase
     GistPublisher.define_singleton_method(:new) { |**| spy }
 
     begin
-      PublishGistJob.perform_now(link_id: link.id)
+      PublishGistJob.perform_now(link_id: link.id, session_id: "test")
     ensure
       GistPublisher.singleton_class.define_method(:new, original_new)
     end

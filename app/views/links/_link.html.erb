@@ -1,4 +1,5 @@
 <li id="<%= dom_id(link) %>">
+  <%= turbo_stream_from [link, session_id] %>
   <%= link.title %> - <%= link.url %>
   
   <% if link.gist_id.present? %>

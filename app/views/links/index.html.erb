@@ -6,7 +6,7 @@
 <%= turbo_stream_from :links %>
 
 <ul id="links">
-  <%= render partial: "links/link", collection: @links %>
+  <%= render partial: "links/link", collection: @links, locals: { session_id: session.id.to_s } %>
 </ul>
 
 <%= link_to "New Link", new_link_path %>
