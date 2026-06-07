@@ -4,6 +4,8 @@
 require "open3"
 require "fileutils"
 require "shellwords"
+require "json"
+require "set"
 
 BASE_PORT = 3001
 SERVER_LOG = "log/dev_server.log"
@@ -11,6 +13,33 @@ SERVER_PID = "tmp/pids/dev_server.pid"
 
 def git_root
   @git_root ||= `git rev-parse --show-toplevel`.strip
+end
+
+def slugify(text)
+  text.downcase.strip.gsub(/[^a-z0-9]+/, "-").gsub(/^-+|-+$/, "")
+end
+
+def gh_json(command)
+  out, status = Open3.capture2("gh #{command}")
+  return nil unless status.success?
+  JSON.parse(out)
+rescue => e
+  warn "Error fetching GH info: #{e.message}"
+  nil
+end
+
+def tmux_window_target(wt_path, recorded_window)
+  # Look for window by name first
+  if recorded_window
+    out, _ = Open3.capture2("tmux list-windows -a -F '\#{session_name}:\#{window_index} \#{window_name}'")
+    target = out.lines.find { |l| l.split[1] == recorded_window }&.split&.first
+    return target if target
+  end
+
+  # Fallback to pane path
+  out, _ = Open3.capture2("tmux list-panes -a -F '\#{session_name}:\#{window_index} \#{pane_current_path}'")
+  target = out.lines.find { |l| l.split[1].start_with?(wt_path) }&.split&.first
+  target
 end
 
 # Returns [{path:, branch:}, ...] for all worktrees
@@ -70,6 +99,189 @@ rescue Errno::ESRCH, Errno::EPERM
 end
 
 # ── subcommands ────────────────────────────────────────────────────────────────
+
+def cmd_prepare(args)
+  id = args.shift
+  abort "Usage: bin/worktree prepare <id> [--pr|--issue] [--test-first]" unless id
+  
+  is_pr = args.delete("--pr")
+  is_issue = args.delete("--issue")
+  test_first = args.delete("--test-first")
+  
+  type = is_pr ? "pr" : (is_issue ? "issue" : nil)
+  
+  info = nil
+  if type == "pr" || type.nil?
+    info = gh_json("pr view #{id} --json number,title,body,url,labels,state,headRefName")
+    type = "pr" if info
+  end
+  
+  if info.nil? && (type == "issue" || type.nil?)
+    info = gh_json("issue view #{id} --json number,title,body,url,labels,state")
+    type = "issue" if info
+  end
+  
+  abort "Could not find Issue/PR #{id}" unless info
+  
+  number = info["number"]
+  title = info["title"]
+  slug = slugify(title)
+  
+  branch = type == "pr" ? info["headRefName"] : "issue-#{number}/#{slug[0..49]}"
+  prefix = type == "pr" ? "x" : "o"
+  
+  rc_slug = slug[0..29]
+  remote_control = "#{prefix}-#{number}-#{rc_slug}"
+  tmux_window = "#{type}-#{number}"
+  
+  # Ensure worktree exists
+  wt = find_worktree(branch)
+  if wt
+    wt_path = wt[:path]
+  else
+    # Replace slashes in branch name for the directory name to keep it flat
+    safe_branch = branch.gsub("/", "_")
+    wt_path = File.expand_path("../../fizzbuzz_#{safe_branch}", git_root)
+    cmd_add([branch, wt_path])
+  end
+  
+  session = {
+    remote_control: remote_control,
+    tmux_window: tmux_window,
+    worktree_path: wt_path,
+    type: type,
+    number: number,
+    title: title,
+    headRefName: branch,
+    url: info["url"],
+    test_first: test_first
+  }
+  File.write(File.join(wt_path, ".worktree-session.json"), JSON.pretty_generate(session))
+  
+  # Output JSON for LLM consumption
+  puts JSON.pretty_generate(session.merge(info: info))
+end
+
+def cmd_harness(args)
+  id = args.shift
+  abort "Usage: bin/worktree harness <id>" unless id
+  abort "ERROR: not inside tmux" unless ENV["TMUX"]
+
+  # Try to find session file in current dir or by id
+  session_file = ".worktree-session.json"
+  unless File.exist?(session_file)
+    wts = worktrees
+    # Match by number or branch name
+    wt = wts.find { |w| w[:branch] && (w[:branch].split("/").last.include?("-#{id}") || w[:branch] == id || w[:branch].include?("#{id}")) }
+    session_file = File.join(wt[:path], ".worktree-session.json") if wt
+  end
+  
+  abort "Could not find .worktree-session.json" unless File.exist?(session_file)
+  session = JSON.parse(File.read(session_file))
+  
+  wt_path = session["worktree_path"]
+  tmux_window = session["tmux_window"]
+  remote_control = session["remote_control"]
+  type = session["type"]
+  
+  target = tmux_window_target(wt_path, tmux_window)
+  unless target
+    system("tmux new-window -n #{tmux_window.shellescape} -c #{wt_path.shellescape}")
+    target = tmux_window # Use name as target
+  end
+  
+  claude_cmd = "claude --remote-control #{remote_control}"
+  claude_cmd += " --permission-mode plan" if type == "issue"
+  claude_cmd += " \"$(< pr_context.md)\""
+  
+  puts "→ Sending command to tmux window '#{target}':"
+  puts "  #{claude_cmd}"
+  system("tmux send-keys -t #{target.shellescape} #{claude_cmd.shellescape} Enter")
+end
+
+def cmd_check_hill(args)
+  number = args.shift
+  abort "Usage: bin/worktree check-hill <number>" unless number
+  
+  puts "→ Waiting for CI checks on PR ##{number}..."
+  system("gh pr checks #{number} --watch")
+  
+  checks, _ = Open3.capture2("gh pr checks #{number}")
+  info = gh_json("pr view #{number} --json body")
+  
+  puts "\n--- CI Check Summary ---"
+  puts checks
+  puts "\n--- PR Description (Expected Failures) ---"
+  puts info["body"] if info
+end
+
+def cmd_cleanup(args)
+  id = args.shift
+  session = nil
+  if File.exist?(".worktree-session.json")
+    session = JSON.parse(File.read(".worktree-session.json"))
+    id ||= session["number"]
+  end
+  
+  abort "Usage: bin/worktree cleanup <id>" unless id
+  
+  # Wait for CI if it's a PR
+  is_pr = session ? (session["type"] == "pr") : true
+  if is_pr
+    puts "→ Waiting for CI checks on PR ##{id}..."
+    system("gh pr checks #{id} --watch")
+    # We continue even if it fails, as gh pr merge will fail if required checks are red,
+    # or the user can choose to merge anyway if they have permission.
+    out, status = Open3.capture2("gh pr checks #{id}")
+    unless status.success?
+      puts out
+      abort "CI failed on PR ##{id}. Fix failures before cleaning up."
+    end
+  end
+  
+  unless session
+    info = gh_json("pr view #{id} --json number,title,headRefName") || gh_json("issue view #{id} --json number,title")
+    abort "Could not find PR/Issue ##{id}" unless info
+    session = { "number" => info["number"], "headRefName" => info["headRefName"], "type" => info["headRefName"] ? "pr" : "issue" }
+  end
+  
+  number = session["number"]
+  branch = session["headRefName"]
+  wt_path = session["worktree_path"] || (branch && find_worktree(branch)&.fetch(:path))
+  
+  if session["type"] == "pr"
+    puts "→ Merging PR ##{number}..."
+    system("gh pr merge #{number} --squash") || abort("Merge failed")
+    
+    if branch
+      puts "→ Deleting remote branch #{branch}..."
+      system("git push origin --delete #{branch}") rescue nil
+    end
+
+    main_wt = `git rev-parse --git-common-dir`.strip
+    main_wt = File.expand_path("..", main_wt)
+    puts "→ Updating main in #{main_wt}..."
+    system("git -C #{main_wt.shellescape} fetch origin main && git -C #{main_wt.shellescape} merge --ff-only origin/main")
+  end
+  
+  if wt_path
+    target = tmux_window_target(wt_path, session["tmux_window"])
+    if target
+      current_target = `tmux display-message -p "\#{session_name}:\#{window_index}"`.strip rescue ""
+      if target == current_target
+        puts "→ Scheduling self-destruct of this window..."
+        system("(sleep 3 && tmux kill-window -t #{target.shellescape}) &")
+      else
+        puts "→ Closing tmux window #{target}..."
+        system("tmux kill-window -t #{target.shellescape}")
+      end
+    end
+    
+    cmd_down([branch || File.basename(wt_path)])
+  end
+  
+  puts "Done."
+end
 
 def cmd_add(args)
   branch = args.shift
@@ -227,6 +439,11 @@ USAGE = <<~USAGE
   Usage: bin/worktree <subcommand> [args]
 
   Subcommands:
+    prepare <id> [--pr|--issue] [--test-first]
+                          Fetch GH info, create worktree, output JSON
+    harness <id>          Find/create tmux window and launch Claude
+    check-hill <number>   Wait for CI and report status for hill PRs
+    cleanup <id>          Wait for CI, merge PR, and tear down worktree/window
     add <branch> [path]   Create isolated worktree with .env.local + setup
     cd <name>             Print cd command (eval "$(bin/worktree cd <name>)")
     server <name>         Start dev server in background
@@ -238,13 +455,17 @@ USAGE
 
 subcommand = ARGV.shift
 case subcommand
-when "add"    then cmd_add(ARGV)
-when "cd"     then cmd_cd(ARGV)
-when "server" then cmd_server(ARGV)
-when "logs"   then cmd_logs(ARGV)
-when "stop"   then cmd_stop(ARGV)
-when "down"   then cmd_down(ARGV)
-when "list"   then cmd_list(ARGV)
+when "prepare"    then cmd_prepare(ARGV)
+when "harness"    then cmd_harness(ARGV)
+when "check-hill" then cmd_check_hill(ARGV)
+when "cleanup"    then cmd_cleanup(ARGV)
+when "add"        then cmd_add(ARGV)
+when "cd"         then cmd_cd(ARGV)
+when "server"     then cmd_server(ARGV)
+when "logs"       then cmd_logs(ARGV)
+when "stop"       then cmd_stop(ARGV)
+when "down"       then cmd_down(ARGV)
+when "list"       then cmd_list(ARGV)
 else
   puts USAGE
   exit subcommand.nil? ? 0 : 1
