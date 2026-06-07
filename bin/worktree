@@ -642,12 +642,13 @@ def cmd_handoff(args)
   unless id
     session_file = ".worktree-session.json"
     if File.exist?(session_file)
-      id = JSON.parse(File.read(session_file))["number"]
+      id = JSON.parse(File.read(session_file))["number"].to_s
     else
       id = `gh pr view --json number --jq '.number' 2>/dev/null`.strip
       id = nil if id.empty?
     end
   end
+  id = id.to_s if id
 
   # 2. Fetch PR info
   info = nil
