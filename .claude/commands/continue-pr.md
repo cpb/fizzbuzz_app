@@ -52,7 +52,17 @@ bin/worktree add <headRefName>
 git worktree list --porcelain | grep -B1 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
 ```
 
-**6. Write the PR context file**
+**6. Derive the remote-control name**
+
+Using the already-fetched PR JSON, derive a terse slug from the PR title and build the remote-control name:
+
+```bash
+rc_slug=$(echo "$pr_json" | jq -r '.title | ascii_downcase | gsub("[^a-z0-9]+"; "-") | ltrimstr("-") | rtrimstr("-")' \
+  | cut -c1-30 | sed 's/-$//')
+remote_control="x-$number-$rc_slug"
+```
+
+**7. Write the PR context file**
 
 Write the following markdown to `<worktree-path>/pr_context.md`:
 
@@ -63,7 +73,23 @@ URL: <url>
 <body>
 ```
 
-**7. Create the tmux window**
+Then write `<worktree-path>/.worktree-session.json`:
+
+```bash
+jq -n \
+  --arg remote_control "$remote_control" \
+  --arg tmux_window "pr-$number" \
+  --arg worktree_path "$wt_path" \
+  --arg type "pr" \
+  --argjson number "$number" \
+  --arg title "$title" \
+  --arg url "$url" \
+  --rawfile initial_prompt "$wt_path/pr_context.md" \
+  '{remote_control:$remote_control,tmux_window:$tmux_window,worktree_path:$worktree_path,type:$type,number:$number,title:$title,url:$url,initial_prompt:$initial_prompt}' \
+  > "$wt_path/.worktree-session.json"
+```
+
+**8. Create the tmux window**
 
 Check whether any existing pane is already running inside the worktree path:
 ```bash
@@ -71,7 +97,7 @@ tmux list-panes -a -F "#{session_name}:#{window_index} #{pane_current_path}" \
   | awk -v p="<worktree-path>" 'index($2, p) == 1 {print $1; exit}'
 ```
 
-If a match is found, skip window creation and use that target for send-keys in step 8.
+If a match is found, skip window creation and use that target for send-keys in step 9.
 
 If no match, create a new window named `pr-<number>` starting in the worktree:
 ```bash
@@ -79,17 +105,19 @@ tmux new-window -n "pr-<number>" -c "<worktree-path>"
 ```
 The new window target is `pr-<number>`.
 
-**8. Start Claude primed with the PR description**
+**9. Start Claude primed with the PR description**
 
-Send a command to the window target. The single quotes prevent the current shell from expanding the subshell — the tmux window's shell will expand it:
+Build the command string first so `$remote_control` expands in the current shell while `$(< pr_context.md)` is deferred to the tmux window's shell:
 ```bash
-tmux send-keys -t "<window-target>" 'claude "$(< pr_context.md)"' Enter
+claude_cmd="claude --remote-control $remote_control \"\$(< pr_context.md)\""
+tmux send-keys -t "<window-target>" "$claude_cmd" Enter
 ```
 
-**9. Print a confirmation**
+**10. Print a confirmation**
 
 ```
 Created: pr-<number>  →  <worktree-path>
 PR #<number>: <title>
 <url>
+Remote control: <remote_control>
 ```
