@@ -37,17 +37,27 @@ Print which source was used, e.g. `Using PR #<n> from .worktree-session.json`.
 **3. Fetch PR details**
 
 ```bash
-gh pr view <number> --json number,title,body,headRefName,url,state,files
+gh pr view <number> --json number,title,body,headRefName,url,state
 ```
 
 Abort if `state` is not `OPEN`.
 
 **4. Detect PR mode**
 
-Inspect `files[].path`:
+Use `git diff` against the merge base rather than the GitHub files list — this reflects only what the PR actually introduces, not files carried in via rebase:
+
+```bash
+wt_path=$(git worktree list --porcelain \
+  | grep -B2 "branch refs/heads/<headRefName>" \
+  | grep "^worktree" | sed 's/worktree //')
+changed=$(git -C "$wt_path" diff --name-only \
+  "$(git -C "$wt_path" merge-base HEAD origin/main)")
+```
+
+Classify from `$changed`:
 
 - **skill** — any path matches `.claude/commands/*.md`
-- **app** — any path matches `app/**`, `config/routes.rb`, or `db/**`
+- **app** — any path matches `app/*`, `config/routes.rb`, or `db/*`
 
 A PR may be both. Note which modes apply.
 
