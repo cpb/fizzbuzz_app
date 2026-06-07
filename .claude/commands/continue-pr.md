@@ -48,27 +48,71 @@ Check `state` and abort immediately if the PR is not open:
 
 Only proceed if `state` is `OPEN`.
 
-**3. Check for an existing worktree**
+**3. Check for hill-ready gate**
+
+Fetch labels from the PR:
+
+```bash
+hill_ready=$(gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])')
+```
+
+If `hill_ready` is `true`, this PR is a hill awaiting human review. Print:
+
+```
+PR #<number> has the `hill-ready` label — this is a hill under review.
+Review the expected failures in the PR, then remove the `hill-ready` label to signal approval.
+Watching for label removal (checking every 60 seconds)...
+```
+
+Poll until the label is gone:
+
+```bash
+while true; do
+  result=$(gh pr view $number --json labels --jq '[.labels[].name] | contains(["hill-ready"])')
+  [ "$result" = "false" ] && break
+  sleep 60
+done
+```
+
+Once the loop exits, print:
+```
+hill-ready label removed — beginning implementation planning.
+```
+
+If the hill gate was active, append the following to `pr_context.md` in step 8 (after the standard PR body):
+
+```markdown
+
+## Implementation task
+
+The `hill-ready` label was just removed — you are cleared to implement.
+
+This PR was a hill (draft with failing tests). After implementing:
+1. Update this PR description to describe the implementation
+2. Convert from draft to ready: `gh pr ready <number>`
+```
+
+**4. Check for an existing worktree**
 
 ```bash
 git worktree list --porcelain
 ```
 
-If `branch refs/heads/<headRefName>` already appears, skip to step 5.
+If `branch refs/heads/<headRefName>` already appears, skip to step 6.
 
-**4. Create the worktree**
+**5. Create the worktree**
 
 ```bash
 bin/worktree add <headRefName>
 ```
 
-**5. Resolve the worktree path**
+**6. Resolve the worktree path**
 
 ```bash
 git worktree list --porcelain | grep -B2 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
 ```
 
-**6. Derive the remote-control name**
+**7. Derive the remote-control name**
 
 Using the already-fetched PR JSON, derive a terse slug from the PR title and build the remote-control name:
 
@@ -78,7 +122,7 @@ rc_slug=$(echo "$pr_json" | jq -r '.title | ascii_downcase | gsub("[^a-z0-9]+"; 
 remote_control="x-$number-$rc_slug"
 ```
 
-**7. Write the PR context file**
+**8. Write the PR context file**
 
 Write the following markdown to `<worktree-path>/pr_context.md` (use `$pr_body` for `<body>`):
 
@@ -87,6 +131,19 @@ Write the following markdown to `<worktree-path>/pr_context.md` (use `$pr_body` 
 URL: <url>
 
 <body>
+```
+
+If the hill gate from step 3 was active (hill-ready was detected and removed), append to `pr_context.md`:
+
+```markdown
+
+## Implementation task
+
+The `hill-ready` label was just removed — you are cleared to implement.
+
+This PR was a hill (draft with failing tests). After implementing:
+1. Update this PR description to describe the implementation
+2. Convert from draft to ready: `gh pr ready <number>`
 ```
 
 Then write `<worktree-path>/.worktree-session.json`:
@@ -106,7 +163,7 @@ jq -n \
   > "$wt_path/.worktree-session.json"
 ```
 
-**8. Create the tmux window**
+**9. Create the tmux window**
 
 Check whether any existing pane is already running inside the worktree path:
 ```bash
@@ -114,7 +171,7 @@ tmux list-panes -a -F "#{session_name}:#{window_index} #{pane_current_path}" \
   | awk -v p="<worktree-path>" 'index($2, p) == 1 {print $1; exit}'
 ```
 
-If a match is found, skip window creation and use that target for send-keys in step 9.
+If a match is found, skip window creation and use that target for send-keys in step 10.
 
 If no match, create a new window named `pr-<number>` starting in the worktree:
 ```bash
@@ -122,7 +179,7 @@ tmux new-window -n "pr-<number>" -c "<worktree-path>"
 ```
 The new window target is `pr-<number>`.
 
-**9. Start Claude primed with the PR description**
+**10. Start Claude primed with the PR description**
 
 Build the command string first so `$remote_control` expands in the current shell while `$(< pr_context.md)` is deferred to the tmux window's shell:
 ```bash
@@ -130,7 +187,7 @@ claude_cmd="claude --remote-control $remote_control \"\$(< pr_context.md)\""
 tmux send-keys -t "<window-target>" "$claude_cmd" Enter
 ```
 
-**10. Print a confirmation**
+**11. Print a confirmation**
 
 ```
 Created: pr-<number>  →  <worktree-path>

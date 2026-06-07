@@ -145,33 +145,31 @@ Ensure the `hill-ready` label exists:
 
 ```bash
 gh label create "hill-ready" \
-  --description "Hill PR reviewed; failing tests accepted; implementation may begin" \
+  --description "Hill under review — remove this label to signal approval and begin implementation" \
   --color "0E8A16" \
   --force
 ```
 
-Push the branch:
+Push the branch and create the draft PR; capture the new PR number:
 
 ```bash
 git push -u origin "$parent_branch"
-```
 
-Build the PR body with one section per layer listing its expected failure message, then create the draft PR:
-
-```bash
-gh pr create \
+hill_pr_url=$(gh pr create \
   --title "hill: failing tests for issue #$parent_number" \
   --body "<body>" \
-  --draft
+  --draft)
+
+hill_pr_number=$(gh pr view --json number --jq '.number')
 ```
 
-The body must include:
+The PR body must include:
 
 ```markdown
 ## Hill: failing tests for issue #<parent_number>
 
 This draft PR contains only failing tests — one commit of stubs and one of tests per
-layer. CI should confirm failures. **Do not merge until implementation is complete.**
+layer. CI should confirm failures. **Do not merge — implementation happens on this branch.**
 
 ## Expected failure messages
 
@@ -188,21 +186,46 @@ layer. CI should confirm failures. **Do not merge until implementation is comple
 ## Reviewer instructions
 
 Review each expected failure message above. If they correctly specify the intended
-behavior per the issue, apply the `hill-ready` label to this PR. Implementation
-agents will not begin until `hill-ready` is set.
+behavior per the issue, **remove the `hill-ready` label** from this PR — that signals
+the implementation session to begin. Run `/continue-pr <hill_pr_number>` to start it.
+```
+
+Apply `hill-ready` to signal the PR is ready for human review:
+
+```bash
+gh pr edit $hill_pr_number --add-label "hill-ready"
 ```
 
 Call `TaskUpdate` on the draft-PR task, marking it complete.
 
-**11. Print confirmation**
+**11. Self-destruct and print final instructions**
+
+Schedule the current tmux window to close 3 seconds from now:
+
+```bash
+current_window=$(tmux display-message -p "#{session_name}:#{window_index}")
+(sleep 3 && tmux kill-window -t "$current_window") &
+```
+
+Print:
 
 ```
-Hill draft PR opened: <url>
+Hill draft PR: <hill_pr_url>
+`hill-ready` applied — PR is ready for your review.
 
 Expected failures:
   <slug1>: <first line of failure message>
   <slug2>: <first line of failure message>
   ...
 
-Apply the `hill-ready` label when you are satisfied the failures specify the right behavior.
+Review the expected failures. When satisfied the tests correctly specify the
+intended behavior, remove the `hill-ready` label from the PR — that signals
+implementation can begin.
+
+To start implementation after removing the label:
+  /continue-pr <hill_pr_number>
+
+This session is closing in 3 seconds.
 ```
+
+Then stop — make no further tool calls.
