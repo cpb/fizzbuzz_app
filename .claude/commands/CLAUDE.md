@@ -37,3 +37,4 @@ Do not test skill changes by reading the `.md` files statically — behaviour de
 | `/qa-pr-skill <n>` | Skill-contribution walkthrough via automated Claude session |
 | `/qa-pr-app <n>` | App-change walkthrough via dev server + browser automation |
 | `/new-issue [topic]` | Elicit intent and create a GitHub issue |
+| `/hill-first <layers>` | Write failing tests per layer, open draft PR for human hill review |

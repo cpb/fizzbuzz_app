@@ -6,7 +6,9 @@
   <%= f.submit "Start" %>
 <% end %>
 
-<%= turbo_stream_from "fizz_buzz_channel" %>
+<% if params[:tab_token].present? %>
+  <%= turbo_stream_from "fizz_buzz_channel:#{params[:tab_token]}" %>
+<% end %>
 <div id="results">
   <% if params[:starting_integer].present? %>
     <%= render "result", result: FizzBuzzer.call(params[:starting_integer].to_i) %>

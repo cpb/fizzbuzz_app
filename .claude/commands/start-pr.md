@@ -35,6 +35,12 @@ rc_slug=$(echo "$slug" | cut -c1-30 | sed 's/-$//')
 remote_control="o-$number-$rc_slug"
 ```
 
+Check whether the issue carries the `test-first` label:
+
+```bash
+test_first=$(echo "$issue_json" | jq -r '[.labels[].name] | contains(["test-first"])')
+```
+
 **4. Check for an existing worktree**
 
 ```bash
@@ -68,6 +74,29 @@ URL: <url>
 Labels: <labels>
 
 <body>
+```
+
+If `$test_first` is `true`, append this section to `pr_context.md`:
+
+```markdown
+
+## Test-first hill required
+
+This issue carries the `test-first` label. Before writing any implementation:
+
+1. **Plan the outside-in test layers.** For each distinct behavior to specify,
+   name a layer and write one sentence describing what the test will assert.
+   Examples: "controller routing", "model validation", "view rendering".
+
+2. **Invoke `/hill-first`** with the layer list once your plan is approved:
+   ```
+   /hill-first layer1: "spec sentence", layer2: "spec sentence", ...
+   ```
+   This creates one isolated worktree per layer, writes a failing test in each,
+   and opens a draft PR for human review.
+
+3. **Wait** for a human to apply the `hill-ready` label to the draft PR before
+   starting any implementation.
 ```
 
 Then write `<worktree-path>/.worktree-session.json`:

@@ -84,7 +84,27 @@ Revise and re-show until approved.
 gh issue create --title "<title>" --body "<body>"
 ```
 
-**8. Print a confirmation**
+**8. Ask about test-first**
+
+Use `AskUserQuestion`:
+
+- Question: "Should this issue require a test-first hill? A hill means failing tests are merged as a draft PR — with CI confirming the failures — before any implementation begins."
+- Options: "Yes, require a test-first hill" / "No, standard workflow"
+
+If the user chooses yes:
+
+```bash
+gh label create "test-first" \
+  --description "Requires a test-first failing-test hill before implementation" \
+  --color "FF6B35" \
+  --force
+
+gh issue edit <number> --add-label "test-first"
+```
+
+Print: `Applied test-first label to issue #<number>.`
+
+**9. Print a confirmation**
 
 ```
 Created issue #<number>: <title>

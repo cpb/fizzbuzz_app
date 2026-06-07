@@ -10,13 +10,15 @@
 
 ## Key behaviour
 
-`FizzBuzzController#create` reads `params[:starting_integer]`, redirects back to the form, and enqueues `FizzBuzzJob.set(wait: 1.second).perform_later(starting - 1)` (skipped when starting is 1).
+`FizzBuzzController#create` reads `params[:starting_integer]`, generates a UUID `tab_token`, redirects back to the form with both params, and enqueues `FizzBuzzJob.set(wait: 1.second).perform_later(starting - 1, tab_token)` (skipped when starting is 1).
 
-`FizzBuzzJob` broadcasts a Turbo Stream append to the `fizz_buzz_channel` for the current number's FizzBuzz result, sleeps 1 second, then enqueues itself for `number - 1` until it reaches 1. Results appear in the `#results` div in real time.
+`FizzBuzzJob` broadcasts a Turbo Stream append to `"fizz_buzz_channel:#{tab_token}"` for the current number's FizzBuzz result, sleeps 1 second, then enqueues itself for `number - 1` with the same `tab_token` until it reaches 1. Results appear in the `#results` div in real time.
+
+The `tab_token` travels in the URL so each browser tab gets its own scoped channel — tabs stream independently and do not share results.
 
 ## Key UI elements
 
-- **Number field**: `starting_integer` (default 100)
+- **Number field**: `starting_integer` (default 10)
 - **Submit button**: "Start"
 - **Results container**: `#results` div, populated by Turbo Stream appends
-- **Turbo Stream subscription**: `fizz_buzz_channel`
+- **Turbo Stream subscription**: `fizz_buzz_channel:#{tab_token}` (present only after form submit)

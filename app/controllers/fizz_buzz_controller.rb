@@ -4,11 +4,8 @@ class FizzBuzzController < ApplicationController
 
   def create
     starting = params[:starting_integer].to_i
-    # Redirect back to start, which renders the first result synchronously.
-    # The job picks up from the next number to avoid a broadcast race with reconnection.
-    redirect_to root_path(starting_integer: starting)
-    # Wait 1 second before the first broadcast so the browser has time to
-    # load the redirected page and re-establish its WebSocket connection.
-    FizzBuzzJob.set(wait: 1.second).perform_later(starting - 1) if starting > 1
+    tab_token = SecureRandom.uuid
+    redirect_to root_path(starting_integer: starting, tab_token: tab_token)
+    FizzBuzzJob.set(wait: 1.second).perform_later(starting - 1, tab_token) if starting > 1
   end
 end
