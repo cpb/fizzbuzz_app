@@ -7,157 +7,21 @@ Set up an isolated worktree and launch Claude in plan mode, primed with the full
 
 ## Steps
 
-**1. Check prerequisites**
+**1. Prepare the worktree**
 
 ```bash
-if ! command -v claude >/dev/null 2>&1; then
-  echo "ERROR: desktop-only — requires 'claude' CLI in PATH."
-  echo "This skill spawns a Claude session in a tmux window and is not supported in cloud environments."
-  exit 1
-fi
-if [ -z "$TMUX" ]; then echo "ERROR: not inside tmux"; exit 1; fi
 if [ -z "$ARGUMENTS" ]; then echo "Usage: /start-pr <issue-number>"; exit 1; fi
+
+issue_json=$(bin/worktree prepare "$ARGUMENTS" --issue)
 ```
 
-**2. Fetch issue details**
+**2. Launch the harness**
 
 ```bash
-gh issue view $ARGUMENTS --json number,title,body,url,labels,state
+bin/worktree harness "$ARGUMENTS"
 ```
 
-Abort if the issue is not found or `state` is `CLOSED`.
+**3. Print a confirmation**
 
-**3. Derive the branch name**
-
-Slugify the title: lowercase, replace runs of non-alphanumeric characters with `-`, strip leading/trailing hyphens, truncate to 50 characters. Prefix with `issue-<number>/`:
-
-```bash
-slug=$(gh issue view $ARGUMENTS --json title \
-  --jq '.title | ascii_downcase | gsub("[^a-z0-9]+"; "-") | ltrimstr("-") | rtrimstr("-")' \
-  | cut -c1-50)
-branch="issue-<number>/$slug"
-rc_slug=$(echo "$slug" | cut -c1-30 | sed 's/-$//')
-remote_control="o-$number-$rc_slug"
-```
-
-Check whether the issue carries the `test-first` label:
-
-```bash
-test_first=$(echo "$issue_json" | jq -r '[.labels[].name] | contains(["test-first"])')
-```
-
-**4. Check for an existing worktree**
-
-```bash
-git worktree list --porcelain
-```
-
-If `branch refs/heads/<branch>` already appears, skip to step 6.
-
-**5. Create the worktree**
-
-```bash
-bin/worktree add <branch>
-```
-
-**6. Resolve the worktree path**
-
-```bash
-git worktree list --porcelain \
-  | grep -B2 "branch refs/heads/<branch>" \
-  | grep "^worktree" \
-  | sed 's/worktree //'
-```
-
-**7. Write the issue context file**
-
-Write the following markdown to `<worktree-path>/pr_context.md`:
-
-```
-# Issue #<number>: <title>
-URL: <url>
-Labels: <labels>
-
-<body>
-```
-
-If `$test_first` is `true`, append this section to `pr_context.md`:
-
-```markdown
-
-## Test-first hill required
-
-This issue carries the `test-first` label. Before writing any implementation:
-
-1. **Plan the outside-in test layers.** For each distinct behavior to specify,
-   name a layer and write one sentence describing what the test will assert.
-   Examples: "controller routing", "model validation", "view rendering".
-
-2. **Invoke `/hill-first`** with the layer list once your plan is approved:
-   ```
-   /hill-first layer1: "spec sentence", layer2: "spec sentence", ...
-   ```
-   This creates one isolated worktree per layer, writes a failing test in each,
-   opens a draft PR, and automatically applies the `hill-ready` label.
-
-3. **This session will close automatically** after `/hill-first` completes.
-   Do not plan or begin any implementation — `/hill-first` self-destructs this window.
-
-4. **After the session closes:** a human will review the expected failures in
-   the draft PR. When satisfied, they remove the `hill-ready` label, then run:
-   ```
-   /continue-pr <hill-pr-number>
-   ```
-   That session detects the cleared label and begins implementation planning.
-```
-
-Then write `<worktree-path>/.worktree-session.json`:
-
-```bash
-jq -n \
-  --arg remote_control "$remote_control" \
-  --arg tmux_window "issue-$number" \
-  --arg worktree_path "$wt_path" \
-  --arg type "issue" \
-  --argjson number "$number" \
-  --arg title "$title" \
-  --arg headRefName "$branch" \
-  --arg url "$url" \
-  --rawfile initial_prompt "$wt_path/pr_context.md" \
-  '{remote_control:$remote_control,tmux_window:$tmux_window,worktree_path:$worktree_path,type:$type,number:$number,title:$title,headRefName:$headRefName,url:$url,initial_prompt:$initial_prompt}' \
-  > "$wt_path/.worktree-session.json"
-```
-
-**8. Find or create the tmux window**
-
-Check for an existing pane already in this worktree:
-```bash
-pr_target=$(tmux list-panes -a -F "#{session_name}:#{window_index} #{pane_current_path}" \
-  | awk -v p="<worktree-path>" 'index($2, p) == 1 {print $1; exit}')
-```
-
-If no match, create a new window named `issue-<number>`:
-```bash
-tmux new-window -n "issue-<number>" -c "<worktree-path>"
-```
-
-Use the new window as the target.
-
-**9. Start Claude in plan mode**
-
-Send the command to the window. `--permission-mode plan` starts Claude in plan mode so it must get approval before making any edits. Build the command string first so `$remote_control` expands in the current shell while `$(< pr_context.md)` is deferred to the tmux window's shell:
-
-```bash
-claude_cmd="claude --remote-control $remote_control --permission-mode plan \"\$(< pr_context.md)\""
-tmux send-keys -t "<window-target>" "$claude_cmd" Enter
-```
-
-**10. Print a confirmation**
-
-```
-Started: issue-<number>  →  <worktree-path>
-Issue #<number>: <title>
-<url>
-Remote control: <remote_control>
-Claude is in plan mode — it will propose a plan before making any changes.
-```
+Print a summary including the worktree path, issue title/URL, and the remote control name from the JSON.
+Mention that Claude is in plan mode.
