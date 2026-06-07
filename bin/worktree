@@ -606,15 +606,17 @@ def cmd_down(args)
   pid_file = File.join(wt_path, SERVER_PID)
   File.delete(pid_file) if File.exist?(pid_file)
 
+  # Run from git_root so this works even when CWD is the worktree being removed
+  # (git refuses to remove its own CWD even with --force).
   puts "→ git worktree remove #{wt_path}"
-  out, err, status = Open3.capture3("git worktree remove --force #{wt_path.shellescape}")
+  out, err, status = Open3.capture3("git -C #{git_root.shellescape} worktree remove --force #{wt_path.shellescape}")
   unless status.success?
     warn out
     warn err
     abort "git worktree remove failed"
   end
 
-  system("git worktree prune")
+  system("git -C #{git_root.shellescape} worktree prune")
   puts "Worktree '#{name}' removed."
 end
 
