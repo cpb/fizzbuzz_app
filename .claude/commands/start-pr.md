@@ -53,7 +53,7 @@ bin/worktree add <branch>
 
 ```bash
 git worktree list --porcelain \
-  | grep -B1 "branch refs/heads/<branch>" \
+  | grep -B2 "branch refs/heads/<branch>" \
   | grep "^worktree" \
   | sed 's/worktree //'
 ```

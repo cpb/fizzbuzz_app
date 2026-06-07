@@ -21,8 +21,16 @@ if [ -z "$ARGUMENTS" ]; then echo "Usage: /continue-pr <pr-number>"; exit 1; fi
 
 **2. Fetch PR details**
 
+Fetch metadata fields (without body) and extract each value — body is fetched separately to avoid jq failing on control characters that can appear in PR descriptions:
+
 ```bash
-gh pr view $ARGUMENTS --json number,title,headRefName,url,body,state
+pr_json=$(gh pr view $ARGUMENTS --json number,title,headRefName,url,state)
+number=$(echo "$pr_json" | jq '.number')
+title=$(echo "$pr_json" | jq -r '.title')
+headRefName=$(echo "$pr_json" | jq -r '.headRefName')
+url=$(echo "$pr_json" | jq -r '.url')
+state=$(echo "$pr_json" | jq -r '.state')
+pr_body=$(gh pr view $ARGUMENTS --json body --jq '.body')
 ```
 
 Check `state` and abort immediately if the PR is not open:
@@ -49,22 +57,22 @@ bin/worktree add <headRefName>
 **5. Resolve the worktree path**
 
 ```bash
-git worktree list --porcelain | grep -B1 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
+git worktree list --porcelain | grep -B2 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
 ```
 
 **6. Derive the remote-control name**
 
-Using the already-fetched PR JSON, derive a terse slug from the PR title and build the remote-control name:
+Use `$title` (already extracted) to build the slug. `-Rr` treats the shell variable as a raw string:
 
 ```bash
-rc_slug=$(echo "$pr_json" | jq -r '.title | ascii_downcase | gsub("[^a-z0-9]+"; "-") | ltrimstr("-") | rtrimstr("-")' \
+rc_slug=$(echo "$title" | jq -Rr 'ascii_downcase | gsub("[^a-z0-9]+"; "-") | ltrimstr("-") | rtrimstr("-")' \
   | cut -c1-30 | sed 's/-$//')
 remote_control="x-$number-$rc_slug"
 ```
 
 **7. Write the PR context file**
 
-Write the following markdown to `<worktree-path>/pr_context.md`:
+Write the following markdown to `<worktree-path>/pr_context.md` (use `$pr_body` for `<body>`):
 
 ```
 # PR #<number>: <title>

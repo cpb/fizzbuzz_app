@@ -26,7 +26,7 @@ Abort if `state` is not `OPEN`.
 **3. Resolve the worktree path for this PR**
 
 ```bash
-git worktree list --porcelain | grep -B1 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
+git worktree list --porcelain | grep -B2 "branch refs/heads/<headRefName>" | grep "^worktree" | sed 's/worktree //'
 ```
 
 Store this as `wt_path`. If no worktree exists for this branch, skip steps 6 and 7 (nothing to tear down locally).
