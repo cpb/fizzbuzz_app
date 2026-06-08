@@ -31,9 +31,11 @@ controller-routing: "GET /fizzbuzz returns 200", model-validation: "FizzBuzz rej
 
 ```bash
 parent_branch=$(git branch --show-current)
-parent_number=$(jq -r '.number' .worktree-session.json 2>/dev/null \
-  || echo "$parent_branch" | grep -oE '[0-9]+' | head -1)
+jq -r '.number' .worktree-session.json > /tmp/hill-parent-number.txt 2>/dev/null
+grep -qE '[0-9]' /tmp/hill-parent-number.txt || echo "$parent_branch" | grep -oE '[0-9]+' | head -1 > /tmp/hill-parent-number.txt
 ```
+
+Reference `$(cat /tmp/hill-parent-number.txt)` wherever `$parent_number` is used.
 
 **4. Create a task list**
 
@@ -49,10 +51,12 @@ For each `(slug, name, spec)`:
 ```bash
 branch="hill/$parent_branch/$slug"
 bin/worktree add --parent "$parent_branch" "$branch"
-wt_path=$(git worktree list --porcelain \
+git worktree list --porcelain \
   | grep -B2 "branch refs/heads/$branch" \
-  | grep "^worktree" | sed 's/worktree //')
+  | grep "^worktree" | sed 's/worktree //' > /tmp/hill-wt-path-$slug.txt
 ```
+
+Reference `$(cat /tmp/hill-wt-path-$slug.txt)` wherever `$wt_path` is used (including in the subagent prompt).
 
 Then use the `Agent` tool (`run_in_background: true`) with this prompt, substituting `<wt_path>`, `<name>`, `<spec>`, and `<slug>` with concrete values:
 
@@ -156,11 +160,11 @@ Push the branch and create the draft PR; capture the new PR number:
 git push -u origin "$parent_branch"
 
 hill_pr_url=$(gh pr create \
-  --title "hill: failing tests for issue #$parent_number" \
+  --title "hill: failing tests for issue #$(cat /tmp/hill-parent-number.txt)" \
   --body "<body>" \
   --draft)
 
-hill_pr_number=$(gh pr view --json number --jq '.number')
+gh pr view --json number --jq '.number' > /tmp/hill-pr-number.txt
 ```
 
 The PR body must include:
@@ -193,7 +197,7 @@ the implementation session to begin. Run `/continue-pr <hill_pr_number>` to star
 Apply `hill-ready` to signal the PR is ready for human review:
 
 ```bash
-gh pr edit $hill_pr_number --add-label "hill-ready"
+gh pr edit $(cat /tmp/hill-pr-number.txt) --add-label "hill-ready"
 ```
 
 Call `TaskUpdate` on the draft-PR task, marking it complete.
@@ -209,7 +213,7 @@ bin/worktree down-children "$parent_branch"
 Post a comment on the hill draft PR so the instructions survive after this session closes:
 
 ```bash
-gh pr comment $hill_pr_number --body "$(cat <<'COMMENT'
+gh pr comment $(cat /tmp/hill-pr-number.txt) --body "$(cat <<'COMMENT'
 ## Hill ready for review
 
 CI is running — wait for it to confirm the failures are **assertion failures** (not load errors).
@@ -226,8 +230,8 @@ COMMENT
 Schedule the current tmux window to close 3 seconds from now:
 
 ```bash
-current_window=$(tmux display-message -p "#{session_name}:#{window_index}")
-(sleep 3 && tmux kill-window -t "$current_window") &
+tmux display-message -p "#{session_name}:#{window_index}" > /tmp/hill-current-window.txt
+(sleep 3 && tmux kill-window -t "$(cat /tmp/hill-current-window.txt)") &
 ```
 
 Print:
