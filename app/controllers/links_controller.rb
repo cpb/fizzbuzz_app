@@ -17,7 +17,7 @@ class LinksController < ApplicationController
   end
 
   def publish
-    PublishGistJob.perform_later({})
+    PublishGistJob.perform_later
     head :no_content
   end
 end
