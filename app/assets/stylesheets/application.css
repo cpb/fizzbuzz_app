@@ -1,10 +1,252 @@
 /*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
+ * Johari design language tokens and styles
  */
+
+:root {
+  --cream:         #F5EDD6;
+  --teal:          #4A9B8E;
+  --peach:         #E8855A;
+  --blush:         #D4849C;
+  --mint:          #7AC4B6;
+  --charcoal:      #2C2C2C;
+  --border:        #2C2C2C;
+  --grid:          rgba(44, 44, 44, 0.06);
+  --drawer-height: 80px;
+}
+
+/* Base */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1 {
+  font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
+  font-weight: 900;
+  font-stretch: condensed;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 2.5rem;
+  margin: 0 0 1.5rem 0;
+}
+
+a {
+  color: var(--teal);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Page content */
+
+main.page-content {
+  padding: 2rem;
+  padding-bottom: calc(var(--drawer-height) + 2rem);
+}
+
+/* Bottom drawer */
+
+.bottom-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--drawer-height);
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  gap: 1rem;
+}
+
+/* Square-bordered button — Johari box-button aesthetic */
+
+.btn {
+  display: inline-block;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 0.1s, color 0.1s;
+}
+
+.btn:hover {
+  background: var(--charcoal);
+  color: var(--cream);
+  text-decoration: none;
+}
+
+/* button_to wraps in <form>, unwrap the visual */
+.btn-form {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+/* Drawer form */
+
+.drawer-form {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.drawer-form label {
+  font-size: 0.7rem;
+}
+
+.drawer-form input[type="number"] {
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.4rem;
+  width: 5rem;
+  outline: none;
+}
+
+.drawer-form input[type="number"]:focus {
+  background: rgba(44, 44, 44, 0.05);
+}
+
+.drawer-form input[type="checkbox"] {
+  accent-color: var(--teal);
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.drawer-form .checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Results */
+
+@keyframes float-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+#results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.result {
+  animation: float-up 0.5s ease-out forwards;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0;
+  padding: 0.1rem 0;
+}
+
+.result--fizz     { color: var(--teal); }
+.result--buzz     { color: var(--peach); }
+.result--number   { color: var(--charcoal); }
+
+.result--fizzbuzz {
+  background: linear-gradient(90deg, var(--teal), var(--peach));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Links page */
+
+#links {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+#links li {
+  border-bottom: 1px solid var(--grid);
+  padding: 0.6rem 0;
+  font-size: 0.9rem;
+}
+
+#qr_code_container {
+  margin: 1.5rem 0;
+}
+
+#qr_code_container img {
+  border: 1px solid var(--border);
+  display: block;
+}
+
+/* Flash */
+
+.flash-notice {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--teal);
+  margin-bottom: 1rem;
+}
+
+/* New link form */
+
+.form-field {
+  margin-bottom: 1rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.form-field input[type="text"],
+.form-field input[type="url"] {
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.5rem;
+  width: 24rem;
+  outline: none;
+}
+
+.form-field input:focus {
+  background: rgba(44, 44, 44, 0.05);
+}
