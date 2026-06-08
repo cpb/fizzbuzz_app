@@ -1,0 +1,10 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "a5a2179d985f9aa2010f46a6334ef3d8d2de1da79d6e1de4d5152ee5bcdce6a7",
+      "note": "gist_id is sourced from the GitHub API response and is always a safe hex string. This per-link partial is being replaced by a page-level QR code in issue #63 implementation."
+    }
+  ],
+  "updated": "2026-06-08 00:00:00 +0000",
+  "brakeman_version": "8.0.4"
+}
