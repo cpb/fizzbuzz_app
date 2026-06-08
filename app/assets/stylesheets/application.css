@@ -59,6 +59,18 @@ main.page-content {
   padding: 2rem;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* Bottom drawer */
 
 .bottom-drawer {
@@ -153,12 +165,18 @@ main.page-content {
 
 @keyframes float-up {
   from {
-    transform: translateY(60px);
+    transform: translateY(40px);
     opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
   }
   to {
     transform: translateY(0);
     opacity: 1;
+    max-height: 3rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
   }
 }
 
@@ -179,12 +197,16 @@ main.page-content {
 .result {
   pointer-events: auto;
   animation: float-up 0.5s ease-out forwards;
+  overflow: hidden;
   font-size: 1.5rem;
   font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
   margin: 0;
   padding: 0.1rem 0;
 }
+
+.result--loading  { color: var(--charcoal); opacity: 0.3; animation: none; }
+#results-loader:not(:only-child) { display: none; }
 
 .result--fizz     { color: var(--teal); }
 .result--buzz     { color: var(--peach); }
