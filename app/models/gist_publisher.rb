@@ -6,7 +6,7 @@ class GistPublisher
     @token = token
   end
 
-  def create_gist(description:, content:)
+  def create_gist(description:, content: nil, links: nil)
     uri = URI("https://api.github.com/gists")
     request = Net::HTTP::Post.new(uri)
     request["Authorization"] = "token #{@token}"
