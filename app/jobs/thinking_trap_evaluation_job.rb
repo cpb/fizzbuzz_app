@@ -1,3 +1,4 @@
 class ThinkingTrapEvaluationJob < ApplicationJob
-  def perform(*); end
+  def perform(*)
+  end
 end
