@@ -39,6 +39,6 @@
 /pr_context.md
 /.worktree-session.json
 
-
-
+# Ignore key files for decrypting credentials and more.
+/config/*.key
 
