@@ -24,7 +24,7 @@ class FizzbuzzBasicEvalTest < EvalTestCase
     end
 
     execution = run.prompt_executions.find_by!(sample: sample)
-    puts "\nDEBUG: Execution output: #{execution.output}"
+    puts "\nDEBUG: Execution output: #{execution.message}"
     assert execution.passed, "Sample 15 should pass regex check"
   end
 end

@@ -11,7 +11,9 @@ VCR.configure do |config|
   config.hook_into :webmock
   config.filter_sensitive_data("<OLLAMA_API_BASE>") { RubyLLM.config.ollama_api_base }
   config.ignore_request do |request|
-    [ "127.0.0.1", "localhost" ].include?(URI(request.uri).host)
+    uri = URI(request.uri)
+    ollama_port = URI(RubyLLM.config.ollama_api_base).port
+    [ "127.0.0.1", "localhost" ].include?(uri.host) && uri.port != ollama_port
   end
 end
 
