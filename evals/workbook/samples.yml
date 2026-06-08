@@ -2,12 +2,13 @@ _fixture:
   model_class: RubyLLM::Evals::Sample
 
 # --- Catastrophizing ---
+# Defining feature: small event blown up to disproportionate catastrophe
 catastrophizing_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "A deploy I pushed caused a 5-minute outage. This is a catastrophe — the whole company will lose trust in engineering and we'll definitely lose our biggest customer."
+    situation: "My linter flagged an unused variable in my code. I can't stop spiraling: this means the entire codebase has quality issues, the team will lose all faith in my work, and I'll be asked off the project."
     trap: "Catastrophizing"
 
 catastrophizing_negative:
@@ -15,16 +16,17 @@ catastrophizing_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "A deploy I pushed caused a 5-minute outage. This is a catastrophe — the whole company will lose trust in engineering and we'll definitely lose our biggest customer."
-    trap: "Mind Reading"
+    situation: "My linter flagged an unused variable in my code. I can't stop spiraling: this means the entire codebase has quality issues, the team will lose all faith in my work, and I'll be asked off the project."
+    trap: "Should Statements"
 
 # --- Personalizing ---
+# Defining feature: self-blame for an event with a clear external cause
 personalizing_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "Our sprint retrospective flagged slow test runs as a team problem. I wrote most of the tests this quarter, so this is entirely my fault and I've let the whole team down."
+    situation: "Our backend went down for 20 minutes because of a documented cloud provider hardware failure completely outside our team's control. The post-incident report confirms zero connection to our code. Despite this documentation, I take full personal responsibility for every minute of downtime and see it as my failure."
     trap: "Personalizing"
 
 personalizing_negative:
@@ -32,16 +34,17 @@ personalizing_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "Our sprint retrospective flagged slow test runs as a team problem. I wrote most of the tests this quarter, so this is entirely my fault and I've let the whole team down."
-    trap: "All-or-Nothing"
+    situation: "While I was on vacation last week, the CI pipeline started failing because of a version conflict in a third-party dependency that updated automatically. The cause was logged and confirmed. My teammates fixed it without me. Despite being completely unavailable and having no connection to the cause, I feel entirely responsible for the disruption and see it as my personal failure."
+    trap: "Should Statements"
 
 # --- Mind Reading ---
+# Defining feature: assuming specific unexpressed thoughts of another person
 mind_reading_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "I submitted a PR and my senior engineer has been online all afternoon but hasn't reviewed it yet. They must think my code is so bad it's not worth their time."
+    situation: "During our sprint retrospective, I shared an idea for streamlining our deployment pipeline. My tech lead listened without interrupting, gave a brief nod, and said 'noted' before moving to the next agenda item. I know with absolute certainty what was going through his mind: he thinks the idea is naive and not worth the team's consideration."
     trap: "Mind Reading"
 
 mind_reading_negative:
@@ -49,16 +52,17 @@ mind_reading_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "I submitted a PR and my senior engineer has been online all afternoon but hasn't reviewed it yet. They must think my code is so bad it's not worth their time."
-    trap: "Catastrophizing"
+    situation: "During our sprint retrospective, I shared an idea for streamlining our deployment pipeline. My tech lead listened without interrupting, gave a brief nod, and said 'noted' before moving to the next agenda item. I know with absolute certainty what was going through his mind: he thinks the idea is naive and not worth the team's consideration."
+    trap: "Should Statements"
 
 # --- All-or-Nothing ---
+# Defining feature: strict binary with no middle ground
 all_or_nothing_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "I got a comment asking me to rename a variable in my PR. Either my code is perfect or it's garbage, and receiving any feedback means I completely failed."
+    situation: "I wrote 90% of the tests in this sprint with no issues, but one test had an incorrect assertion. In my mind, that one mistake cancels out everything — either your tests are completely reliable or they are completely worthless, and mine are now worthless."
     trap: "All-or-Nothing"
 
 all_or_nothing_negative:
@@ -66,16 +70,17 @@ all_or_nothing_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "I got a comment asking me to rename a variable in my PR. Either my code is perfect or it's garbage, and receiving any feedback means I completely failed."
-    trap: "Labeling"
+    situation: "I wrote 90% of the tests in this sprint with no issues, but one test had an incorrect assertion. In my mind, that one mistake cancels out everything — either your tests are completely reliable or they are completely worthless, and mine are now worthless."
+    trap: "Mind Reading"
 
 # --- Fortune Telling ---
+# Defining feature: predicting a specific negative future outcome as certain
 fortune_telling_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "I've been asked to lead the architecture review next week. I know I'm going to freeze up and everyone will realize I have no idea what I'm talking about."
+    situation: "I am about to have my weekly check-in with my manager. I know for certain that she will ask about the delayed feature, I will struggle to explain the delay clearly, and the meeting will end on an awkward note."
     trap: "Fortune Telling"
 
 fortune_telling_negative:
@@ -83,16 +88,17 @@ fortune_telling_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "I've been asked to lead the architecture review next week. I know I'm going to freeze up and everyone will realize I have no idea what I'm talking about."
-    trap: "Emotional Reasoning"
+    situation: "I am about to have my weekly check-in with my manager. I know for certain that she will ask about the delayed feature, I will struggle to explain the delay clearly, and the meeting will end on an awkward note."
+    trap: "Should Statements"
 
 # --- Emotional Reasoning ---
+# Defining feature: using a feeling as direct proof of a fact
 emotional_reasoning_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "Looking at this codebase makes me feel stupid and confused. That feeling proves I'm definitely not skilled enough to work on it."
+    situation: "Before yesterday's code review session, I felt a knot of anxiety in my stomach. That anxious feeling is conclusive proof that I had written bad code. My anxiety does not lie — if the code were solid, I would feel calm. The knot in my stomach is objective evidence that there are serious errors in my pull request."
     trap: "Emotional Reasoning"
 
 emotional_reasoning_negative:
@@ -100,16 +106,17 @@ emotional_reasoning_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "Looking at this codebase makes me feel stupid and confused. That feeling proves I'm definitely not skilled enough to work on it."
-    trap: "Overgeneralizing"
+    situation: "Before yesterday's code review session, I felt a knot of anxiety in my stomach. That anxious feeling is conclusive proof that I had written bad code. My anxiety does not lie — if the code were solid, I would feel calm. The knot in my stomach is objective evidence that there are serious errors in my pull request."
+    trap: "Should Statements"
 
 # --- Should Statements ---
+# Defining feature: rigid "should/must/ought to" rules applied to self
 should_statements_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "I sent a pull request with a bug in it. I should always write perfect code the first time — a real senior engineer never ships something broken."
+    situation: "I had to look up the Ruby String#chars method to check its return type. By my own standard, I should always have the return types of all common Ruby methods memorized. I must never have to look up something this basic — needing to Google it means I am failing my own expectations as a developer."
     trap: "Should Statements"
 
 should_statements_negative:
@@ -117,16 +124,17 @@ should_statements_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "I sent a pull request with a bug in it. I should always write perfect code the first time — a real senior engineer never ships something broken."
-    trap: "Personalizing"
+    situation: "I pushed a hotfix directly to main without opening a pull request. A professional developer should always follow the pull request workflow, no matter the urgency. I must never bypass code review. By skipping these steps, I have failed to meet the standard that every competent engineer is expected to uphold."
+    trap: "Fortune Telling"
 
 # --- Labeling ---
+# Defining feature: attaching a fixed global identity label to self from a single event
 labeling_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "I introduced a regression in the payment flow. I'm a careless developer who can't be trusted with anything important."
+    situation: "I deployed code that had a typo in a variable name. That single mistake defines my identity as a developer: I am a careless programmer."
     trap: "Labeling"
 
 labeling_negative:
@@ -134,16 +142,17 @@ labeling_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "I introduced a regression in the payment flow. I'm a careless developer who can't be trusted with anything important."
+    situation: "I deployed code that had a typo in a variable name. That single mistake defines my identity as a developer: I am a careless programmer."
     trap: "Fortune Telling"
 
 # --- Mental Filter ---
+# Defining feature: ignoring many positives to zero in on one negative
 mental_filter_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "My performance review said I'm excelling in collaboration, delivery, and code quality — but there was one note about improving documentation. I spent the whole week fixated on that single criticism."
+    situation: "My performance review included four specific positive highlights and one improvement note about documentation. After the meeting, I spent the entire afternoon unable to think about anything except the documentation note. When my partner asked how the review went, I said 'not great.' I could not bring myself to mention the four positive highlights — only the criticism registered."
     trap: "Mental Filter"
 
 mental_filter_negative:
@@ -151,16 +160,17 @@ mental_filter_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "My performance review said I'm excelling in collaboration, delivery, and code quality — but there was one note about improving documentation. I spent the whole week fixated on that single criticism."
-    trap: "Overgeneralizing"
+    situation: "Our team's quarterly report showed we delivered three major features on time, reduced critical bug count by 45%, achieved our velocity target for four consecutive sprints, and received written commendations from two product stakeholders. One sprint had a delayed release due to an infrastructure issue. After the all-hands meeting, all I could think about was that one delayed release. When our engineering director asked how the quarter went, I said it was not a good one."
+    trap: "Mind Reading"
 
 # --- Overgeneralizing ---
+# Defining feature: one isolated incident used to conclude a permanent pattern
 overgeneralizing_positive:
   prompt: thinking_trap_identification
   eval_type: regex
   expected_output: "(?i)affirm"
   variables:
-    situation: "I missed an edge case in today's code review. I always miss things like this — I'll never be a thorough developer no matter how hard I try."
+    situation: "I asked the same clarifying question twice in today's sprint planning because I had forgotten the answer from last week's meeting. I always do this — I never retain discussion outcomes between sprint meetings. This is the same problem I have in every sprint I have ever attended, and it will always be this way. I have a permanent inability to carry meeting context from session to session."
     trap: "Overgeneralizing"
 
 overgeneralizing_negative:
@@ -168,5 +178,5 @@ overgeneralizing_negative:
   eval_type: regex
   expected_output: "(?i)challenge"
   variables:
-    situation: "I missed an edge case in today's code review. I always miss things like this — I'll never be a thorough developer no matter how hard I try."
-    trap: "Mental Filter"
+    situation: "I got a bug report about a null pointer I introduced three months ago. While fixing it, I realized I have introduced at least one null-pointer bug in every major feature I have ever shipped. I always make this exact type of mistake. I have never successfully shipped a feature without introducing some kind of null-pointer defect. This will never change."
+    trap: "Mind Reading"
