@@ -1,26 +1,46 @@
 module EvalFixtureWriter
-  def self.append(dir, runs)
+  PERMITTED_CLASSES = [ Symbol, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone ].freeze
+
+  def self.append(dir, runs, sample_labels: {}, prompt_label: nil)
     Array(runs).each do |run|
-      append_record(dir, "runs.yml", run, [ "active_job_id", "provider", "model", "started_at", "ended_at", "ruby_llm_evals_prompt_id" ])
-      run.prompt_executions.each do |e|
-        append_record(dir, "executions.yml", e, [ "active_job_id", "ruby_llm_evals_run_id", "ruby_llm_evals_sample_id", "message", "input", "output", "passed" ])
-      end
+      run_key = "runs_#{SecureRandom.hex(4)}"
+      write_run(dir, run, run_key, prompt_label)
+      run.prompt_executions.each { |e| write_execution(dir, e, run_key, sample_labels) }
     end
   end
 
   private
 
-  def self.append_record(dir, filename, record, fields)
+  def self.write_run(dir, run, run_key, prompt_label)
+    append_record(dir, "runs.yml", run.class.name, run_key, {
+      "active_job_id" => run.active_job_id,
+      "provider" => run.provider,
+      "model" => run.model,
+      "started_at" => run.started_at,
+      "ended_at" => run.ended_at,
+      "prompt" => prompt_label || run.ruby_llm_evals_prompt_id
+    })
+  end
+
+  def self.write_execution(dir, execution, run_key, sample_labels)
+    append_record(dir, "executions.yml", execution.class.name, "executions_#{SecureRandom.hex(4)}", {
+      "active_job_id" => execution.active_job_id,
+      "run" => run_key,
+      "sample" => (sample_labels[execution.ruby_llm_evals_sample_id] || execution.ruby_llm_evals_sample_id).to_s,
+      "eval_type" => execution.eval_type,
+      "expected_output" => execution.expected_output,
+      "message" => execution.message,
+      "input" => execution.input,
+      "output" => execution.output,
+      "passed" => execution.passed
+    })
+  end
+
+  def self.append_record(dir, filename, model_class, key, record_data)
     path = Rails.root.join("evals", dir, filename)
-    data = path.exist? ? YAML.safe_load(File.read(path), permitted_classes: [ Symbol, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone ], aliases: true) || {} : {}
-
-    data["_fixture"] ||= { "model_class" => record.class.name }
-
-    key = "#{filename.delete_suffix('.yml')}_#{SecureRandom.hex(4)}"
-    record_data = {}
-    fields.each { |f| record_data[f] = record.send(f) }
+    data = path.exist? ? YAML.safe_load(File.read(path), permitted_classes: PERMITTED_CLASSES, aliases: true) || {} : {}
+    data["_fixture"] ||= { "model_class" => model_class }
     data[key] = record_data
-
     File.write(path, data.to_yaml)
   end
 end

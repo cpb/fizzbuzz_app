@@ -6,11 +6,12 @@ class FizzbuzzEvalEvalTest < EvalTestCase
 
   setup do
     @runs = []
+    @sample_labels = {}
     @eval_dir = "fizzbuzz"
   end
 
   teardown do
-    EvalFixtureWriter.append(@eval_dir, @runs)
+    EvalFixtureWriter.append(@eval_dir, @runs, sample_labels: @sample_labels, prompt_label: "fizzbuzz_eval")
   end
 
   test "15 is FizzBuzz" do
@@ -30,6 +31,7 @@ class FizzbuzzEvalEvalTest < EvalTestCase
   def run_eval(sample_key)
     prompt = fizzbuzz_prompts(:fizzbuzz_eval)
     sample = fizzbuzz_samples(sample_key)
+    @sample_labels[sample.id] = sample_key
     run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-#{SecureRandom.hex(4)}", started_at: Time.current)
     @runs << run
 
