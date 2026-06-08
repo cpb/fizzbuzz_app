@@ -1,1 +1,7 @@
-<p id="result_<%= Time.now.to_i %>"><%= result %></p>
+<% css_class = case result.to_s
+               when /\AFizzBuzz\z/i then "result--fizzbuzz"
+               when /\AFizz\z/i     then "result--fizz"
+               when /\ABuzz\z/i     then "result--buzz"
+               else                      "result--number"
+               end %>
+<p id="result_<%= Time.now.to_i %>" class="result <%= css_class %>"><%= result %></p>
