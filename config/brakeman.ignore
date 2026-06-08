@@ -1,0 +1,10 @@
+{
+  "ignored_warnings": [
+    {
+      "fingerprint": "a44846379e7d0903b05f08460ef8bed8b99d7191f61d43ca01e67e59fe1ed25a",
+      "note": "QrCodeGenerator.call returns a safe SVG string built entirely by the rqrcode gem from a URL value; the .html_safe call is intentional. Gist#url is sourced from the GitHub API html_url field."
+    }
+  ],
+  "updated": "2026-06-08 00:00:00 +0000",
+  "brakeman_version": "8.0.4"
+}
