@@ -17,7 +17,7 @@ class GistPublisher
       description: description,
       public: false,
       files: {
-        "links.md" => { content: content }
+        "Necessary Eval: Links!" => { content: content }
       }
     }.to_json
 
@@ -34,7 +34,7 @@ class GistPublisher
     request["Authorization"] = "token #{@token}"
     request.body = {
       files: {
-        "links.md" => { content: content }
+        "Necessary Eval: Links!" => { content: content }
       }
     }.to_json
 

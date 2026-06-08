@@ -32,7 +32,7 @@ class GistPublisherTest < ActiveSupport::TestCase
     publisher.create_gist(description: "Links", links: [ links(:one), links(:two) ])
 
     expected_content = "- [GitHub](https://github.com)\n- [Google](https://google.com)"
-    assert_equal expected_content, captured_body["files"]["links.md"]["content"]
+    assert_equal expected_content, captured_body["files"]["Necessary Eval: Links!"]["content"]
   end
 
   test "create_gist uses 'Necessary Eval: Links!' as the gist filename" do
