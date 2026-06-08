@@ -1,0 +1,38 @@
+fizzbuzz_basic:
+  _fixture: fizzbuzz_basic
+  model_class: RubyLLM::Evals::Prompt
+  name: "FizzBuzz Basic"
+  slug: "fizzbuzz-basic"
+  provider: "ollama"
+  model: "llama3.2"
+  message: "Rules: Divisible by 3 -> Fizz, 5 -> Buzz, Both -> FizzBuzz. Otherwise number. Is {{number}} a FizzBuzz number? Answer in one word."
+
+yoda_fizzbuzz:
+  _fixture: yoda_fizzbuzz
+  model_class: RubyLLM::Evals::Prompt
+  name: "Yoda FizzBuzz"
+  slug: "yoda-fizzbuzz"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "Speak like Yoda, you must. Evaluate if the number is Fizz, Buzz, FizzBuzz, or normal."
+  message: "{{number}}"
+
+fizzbuzz_eval:
+  _fixture: fizzbuzz_eval
+  model_class: RubyLLM::Evals::Prompt
+  name: "FizzBuzz Eval"
+  slug: "fizzbuzz-eval"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "Analyze FizzBuzz rules. If divisible by 3 and 5, return 'FizzBuzz'. Only 3, 'Fizz'. Only 5, 'Buzz'. Otherwise, number."
+  message: "{{number}}"
+
+fizzbuzz_clean:
+  _fixture: fizzbuzz_clean
+  model_class: RubyLLM::Evals::Prompt
+  name: "FizzBuzz Clean"
+  slug: "fizzbuzz-clean"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "Return ONLY JSON: {\"result\": \"Fizz\"}. Divisible by 3 -> Fizz. 5 -> Buzz. Both -> FizzBuzz. Otherwise number."
+  message: "{{number}}"
