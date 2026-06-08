@@ -1,8 +1,8 @@
 {
   "ignored_warnings": [
     {
-      "fingerprint": "a5a2179d985f9aa2010f46a6334ef3d8d2de1da79d6e1de4d5152ee5bcdce6a7",
-      "note": "gist_id is sourced from the GitHub API response and is always a safe hex string. This per-link partial is being replaced by a page-level QR code in issue #63 implementation."
+      "fingerprint": "a44846379e7d0903b05f08460ef8bed8b99d7191f61d43ca01e67e59fe1ed25a",
+      "note": "QrCodeGenerator.call returns a safe SVG string built entirely by the rqrcode gem from a URL value; the .html_safe call is intentional. Gist#url is sourced from the GitHub API html_url field."
     }
   ],
   "updated": "2026-06-08 00:00:00 +0000",
