@@ -3,7 +3,7 @@ fizzbuzz_basic_15:
   model_class: RubyLLM::Evals::Sample
   prompt_slug: "fizzbuzz-basic"
   eval_type: "regex"
-  expected_output: "(?i)fizzbuzz|3"
+  expected_output: "(?i)no"
   variables: { "number": "15" }
 
 yoda_fizzbuzz_1:
@@ -11,5 +11,21 @@ yoda_fizzbuzz_1:
   model_class: RubyLLM::Evals::Sample
   prompt_slug: "yoda-fizzbuzz"
   eval_type: "regex"
-  expected_output: "(?i)1"
+  expected_output: "(?i)normal"
   variables: { "number": "1" }
+
+fizzbuzz_eval_15:
+  _fixture: fizzbuzz_eval_15
+  model_class: RubyLLM::Evals::Sample
+  prompt_slug: "fizzbuzz-eval"
+  eval_type: "regex"
+  expected_output: "(?i)fizzbuzz"
+  variables: { "number": "15" }
+
+fizzbuzz_clean_15:
+  _fixture: fizzbuzz_clean_15
+  model_class: RubyLLM::Evals::Sample
+  prompt_slug: "fizzbuzz-clean"
+  eval_type: "regex"
+  expected_output: "(?i)fizzbuzz"
+  variables: { "number": "15" }
