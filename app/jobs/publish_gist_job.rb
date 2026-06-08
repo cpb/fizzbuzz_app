@@ -14,9 +14,9 @@ class PublishGistJob < ApplicationJob
     else
       result = publisher.create_gist(description: "Links", links: Link.all)
       gist = Gist.create!(url: result[:html_url], published_at: Time.current)
-      Turbo::StreamsChannel.broadcast_replace_to(
+      Turbo::StreamsChannel.broadcast_append_to(
         :links,
-        target: "qr_code",
+        target: "qr_code_container",
         partial: "links/qr_code",
         locals: { gist: gist }
       )
