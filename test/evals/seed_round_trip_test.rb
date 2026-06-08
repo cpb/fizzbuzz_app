@@ -1,7 +1,10 @@
 require "test_helper"
 
 class SeedRoundTripTest < ActiveSupport::TestCase
-  EVAL_FIXTURES = %w[fizzbuzz/prompts fizzbuzz/samples fizzbuzz/runs fizzbuzz/executions].freeze
+  EVAL_FIXTURES = %w[
+    fizzbuzz/prompts fizzbuzz/samples fizzbuzz/runs fizzbuzz/executions
+    workbook/prompts workbook/samples workbook/runs workbook/executions
+  ].freeze
   EVAL_BASE = Rails.root.join("evals")
 
   self.use_transactional_tests = false

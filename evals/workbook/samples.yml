@@ -1,0 +1,172 @@
+_fixture:
+  model_class: RubyLLM::Evals::Sample
+
+# --- Catastrophizing ---
+catastrophizing_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "A deploy I pushed caused a 5-minute outage. This is a catastrophe — the whole company will lose trust in engineering and we'll definitely lose our biggest customer."
+    trap: "Catastrophizing"
+
+catastrophizing_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "A deploy I pushed caused a 5-minute outage. This is a catastrophe — the whole company will lose trust in engineering and we'll definitely lose our biggest customer."
+    trap: "Mind Reading"
+
+# --- Personalizing ---
+personalizing_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "Our sprint retrospective flagged slow test runs as a team problem. I wrote most of the tests this quarter, so this is entirely my fault and I've let the whole team down."
+    trap: "Personalizing"
+
+personalizing_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "Our sprint retrospective flagged slow test runs as a team problem. I wrote most of the tests this quarter, so this is entirely my fault and I've let the whole team down."
+    trap: "All-or-Nothing"
+
+# --- Mind Reading ---
+mind_reading_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "I submitted a PR and my senior engineer has been online all afternoon but hasn't reviewed it yet. They must think my code is so bad it's not worth their time."
+    trap: "Mind Reading"
+
+mind_reading_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "I submitted a PR and my senior engineer has been online all afternoon but hasn't reviewed it yet. They must think my code is so bad it's not worth their time."
+    trap: "Catastrophizing"
+
+# --- All-or-Nothing ---
+all_or_nothing_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "I got a comment asking me to rename a variable in my PR. Either my code is perfect or it's garbage, and receiving any feedback means I completely failed."
+    trap: "All-or-Nothing"
+
+all_or_nothing_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "I got a comment asking me to rename a variable in my PR. Either my code is perfect or it's garbage, and receiving any feedback means I completely failed."
+    trap: "Labeling"
+
+# --- Fortune Telling ---
+fortune_telling_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "I've been asked to lead the architecture review next week. I know I'm going to freeze up and everyone will realize I have no idea what I'm talking about."
+    trap: "Fortune Telling"
+
+fortune_telling_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "I've been asked to lead the architecture review next week. I know I'm going to freeze up and everyone will realize I have no idea what I'm talking about."
+    trap: "Emotional Reasoning"
+
+# --- Emotional Reasoning ---
+emotional_reasoning_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "Looking at this codebase makes me feel stupid and confused. That feeling proves I'm definitely not skilled enough to work on it."
+    trap: "Emotional Reasoning"
+
+emotional_reasoning_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "Looking at this codebase makes me feel stupid and confused. That feeling proves I'm definitely not skilled enough to work on it."
+    trap: "Overgeneralizing"
+
+# --- Should Statements ---
+should_statements_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "I sent a pull request with a bug in it. I should always write perfect code the first time — a real senior engineer never ships something broken."
+    trap: "Should Statements"
+
+should_statements_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "I sent a pull request with a bug in it. I should always write perfect code the first time — a real senior engineer never ships something broken."
+    trap: "Personalizing"
+
+# --- Labeling ---
+labeling_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "I introduced a regression in the payment flow. I'm a careless developer who can't be trusted with anything important."
+    trap: "Labeling"
+
+labeling_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "I introduced a regression in the payment flow. I'm a careless developer who can't be trusted with anything important."
+    trap: "Fortune Telling"
+
+# --- Mental Filter ---
+mental_filter_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "My performance review said I'm excelling in collaboration, delivery, and code quality — but there was one note about improving documentation. I spent the whole week fixated on that single criticism."
+    trap: "Mental Filter"
+
+mental_filter_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "My performance review said I'm excelling in collaboration, delivery, and code quality — but there was one note about improving documentation. I spent the whole week fixated on that single criticism."
+    trap: "Overgeneralizing"
+
+# --- Overgeneralizing ---
+overgeneralizing_positive:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  variables:
+    situation: "I missed an edge case in today's code review. I always miss things like this — I'll never be a thorough developer no matter how hard I try."
+    trap: "Overgeneralizing"
+
+overgeneralizing_negative:
+  prompt: thinking_trap_identification
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  variables:
+    situation: "I missed an edge case in today's code review. I always miss things like this — I'll never be a thorough developer no matter how hard I try."
+    trap: "Mental Filter"
