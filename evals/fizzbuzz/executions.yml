@@ -1,0 +1,515 @@
+---
+_fixture:
+  model_class: RubyLLM::Evals::PromptExecution
+executions_cd585e50:
+  active_job_id: 650c7368-ee60-42a7-8834-65e8840446af
+  ruby_llm_evals_run_id: 1
+  ruby_llm_evals_sample_id: 267676917
+  message: No.
+  input: 64
+  output: 3
+  passed: false
+executions_95e6343e:
+  active_job_id: e8dd660d-b8ae-4346-a852-8bb8a27a461c
+  ruby_llm_evals_run_id: 2
+  ruby_llm_evals_sample_id: 647481795
+  message: 'Yes'
+  input: 64
+  output: 2
+  passed: false
+executions_c8cf1d58:
+  active_job_id: ad55ecf2-4966-450a-aa72-59a7edd1b95f
+  ruby_llm_evals_run_id: 3
+  ruby_llm_evals_sample_id: 440544452
+  message: No.
+  input: 64
+  output: 3
+  passed: false
+executions_017f0a30:
+  active_job_id: 51358c56-12f6-467a-b916-3e51bec23b77
+  ruby_llm_evals_run_id: 4
+  ruby_llm_evals_sample_id: 267676917
+  message: Buzz.
+  input: 68
+  output: 3
+  passed: true
+executions_03a67816:
+  active_job_id: f08486da-0720-449d-b36c-e4339f8d0845
+  ruby_llm_evals_run_id: 5
+  ruby_llm_evals_sample_id: 440544452
+  message: Fizz buzz.
+  input: 68
+  output: 4
+  passed: false
+executions_f45f7054:
+  active_job_id: 21071320-a92b-4be2-a807-a057587baca7
+  ruby_llm_evals_run_id: 6
+  ruby_llm_evals_sample_id: 647481795
+  message: Fizz
+  input: 68
+  output: 2
+  passed: true
+executions_795745a6:
+  active_job_id: 1196d2c1-94fc-4395-8432-0c2637ab50f3
+  ruby_llm_evals_run_id: 7
+  ruby_llm_evals_sample_id: 440544452
+  message: Fizz buzz.
+  input: 68
+  output: 4
+  passed: true
+executions_3ee5713b:
+  active_job_id: 0db96cec-2d5c-4bfb-b1d9-a08281aad957
+  ruby_llm_evals_run_id: 8
+  ruby_llm_evals_sample_id: 267676917
+  message: Buzz.
+  input: 68
+  output: 3
+  passed: true
+executions_6102e838:
+  active_job_id: e10f69b6-f931-4723-be6d-9b966b1b2ea0
+  ruby_llm_evals_run_id: 9
+  ruby_llm_evals_sample_id: 647481795
+  message: Fizz
+  input: 68
+  output: 2
+  passed: true
+executions_7a9391a4:
+  active_job_id: 4b8d539e-f67c-4500-80d4-07afe089aca0
+  ruby_llm_evals_run_id: 10
+  ruby_llm_evals_sample_id: 795938389
+  message: Since 15 is divisible by both 3 and 5, the output should be "FizzBuzz".
+  input: 66
+  output: 22
+  passed: true
+executions_3a36833a:
+  active_job_id: ebb259f3-63ef-4c6c-bd72-6cd3898533cd
+  ruby_llm_evals_run_id: 11
+  ruby_llm_evals_sample_id: 159252959
+  message: "'Buzz'"
+  input: 66
+  output: 4
+  passed: true
+executions_bb049192:
+  active_job_id: fb6b67d4-04d3-4573-9649-72ee4a529ba2
+  ruby_llm_evals_run_id: 12
+  ruby_llm_evals_sample_id: 538813673
+  message: Only 3
+  input: 66
+  output: 4
+  passed: false
+executions_57b77258:
+  active_job_id: 92492825-4f57-4a6d-ad47-c9a845d4072c
+  ruby_llm_evals_run_id: 13
+  ruby_llm_evals_sample_id: 159252959
+  message: Buzz
+  input: 80
+  output: 2
+  passed: true
+executions_f5e8e939:
+  active_job_id: de9556c9-f080-487d-ba54-e68bb9df3f38
+  ruby_llm_evals_run_id: 14
+  ruby_llm_evals_sample_id: 538813673
+  message: Fizz
+  input: 80
+  output: 2
+  passed: true
+executions_68679188:
+  active_job_id: 87080784-43f2-4f1d-be02-00429ac1883d
+  ruby_llm_evals_run_id: 15
+  ruby_llm_evals_sample_id: 795938389
+  message: FizzBuzz
+  input: 80
+  output: 3
+  passed: true
+executions_02cb7d5b:
+  active_job_id: 76202454-5735-44cd-a144-a11add29a62d
+  ruby_llm_evals_run_id: 16
+  ruby_llm_evals_sample_id: 434585950
+  message: Normal
+  input: 56
+  output: 2
+  passed: false
+executions_a8e9fb17:
+  active_job_id: a3407b66-d10c-4639-a757-a63199171eb5
+  ruby_llm_evals_run_id: 17
+  ruby_llm_evals_sample_id: 814015598
+  message: Normal.
+  input: 56
+  output: 3
+  passed: false
+executions_6fe2e572:
+  active_job_id: 814ca0fd-a981-4ddd-9b41-cac4b0513fe6
+  ruby_llm_evals_run_id: 18
+  ruby_llm_evals_sample_id: 938025077
+  message: Normal.
+  input: 56
+  output: 3
+  passed: false
+executions_31ac74ef:
+  active_job_id: 4ccc3a5a-3865-4e49-bdb0-e017b5b2939b
+  ruby_llm_evals_run_id: 19
+  ruby_llm_evals_sample_id: 978178718
+  message: Normal
+  input: 56
+  output: 2
+  passed: false
+executions_27ca5df7:
+  active_job_id: 2a9f6b71-8d27-4f95-8c0f-44b7b493b4ca
+  ruby_llm_evals_run_id: 20
+  ruby_llm_evals_sample_id: 814015598
+  message: Fizz
+  input: 86
+  output: 2
+  passed: false
+executions_d0621409:
+  active_job_id: a5e2832d-d51d-459c-91eb-6b4cc8088100
+  ruby_llm_evals_run_id: 21
+  ruby_llm_evals_sample_id: 938025077
+  message: '"One"'
+  input: 86
+  output: 3
+  passed: false
+executions_dc715f33:
+  active_job_id: 0fe52734-fd69-4b6f-aeee-e678947de159
+  ruby_llm_evals_run_id: 22
+  ruby_llm_evals_sample_id: 978178718
+  message: FizzBuzz.
+  input: 86
+  output: 4
+  passed: true
+executions_712b9213:
+  active_job_id: 52e16678-b073-42f0-ab79-d49305c91cd5
+  ruby_llm_evals_run_id: 23
+  ruby_llm_evals_sample_id: 434585950
+  message: Fizz
+  input: 86
+  output: 2
+  passed: true
+executions_2f5d213a:
+  active_job_id: 065a0ad5-4597-49c6-95c2-f615672b9b1a
+  ruby_llm_evals_run_id: 24
+  ruby_llm_evals_sample_id: 434585950
+  message: Fizz
+  input: 86
+  output: 2
+  passed: true
+executions_5109fb8e:
+  active_job_id: 5b5b272f-09cb-4742-8ec2-67ca411b17e8
+  ruby_llm_evals_run_id: 25
+  ruby_llm_evals_sample_id: 978178718
+  message: FizzBuzz.
+  input: 86
+  output: 4
+  passed: true
+executions_adf8e07b:
+  active_job_id: 380c13d3-5ea1-4a6b-add7-89c2b977648f
+  ruby_llm_evals_run_id: 26
+  ruby_llm_evals_sample_id: 938025077
+  message: One
+  input: 95
+  output: 2
+  passed: true
+executions_acd4fd85:
+  active_job_id: 94262f17-4436-476f-95ce-9253e46ce3a5
+  ruby_llm_evals_run_id: 27
+  ruby_llm_evals_sample_id: 814015598
+  message: FizzBuzz
+  input: 95
+  output: 3
+  passed: false
+executions_c48828ea:
+  active_job_id: c5c95e28-3374-4bef-a428-c5116ccf27ac
+  ruby_llm_evals_run_id: 28
+  ruby_llm_evals_sample_id: 814015598
+  message: Fizz
+  input: 95
+  output: 2
+  passed: false
+executions_f618e160:
+  active_job_id: d704a6fe-967e-46b7-ba90-22dc21a92fd3
+  ruby_llm_evals_run_id: 29
+  ruby_llm_evals_sample_id: 434585950
+  message: Fizz
+  input: 86
+  output: 2
+  passed: true
+executions_0f4528c9:
+  active_job_id: 8496adc8-5ec0-4c13-ae91-29bd1228bb14
+  ruby_llm_evals_run_id: 30
+  ruby_llm_evals_sample_id: 938025077
+  message: One
+  input: 95
+  output: 2
+  passed: true
+executions_8de728ad:
+  active_job_id: 40213827-fdad-4203-9403-6f5198187eb8
+  ruby_llm_evals_run_id: 31
+  ruby_llm_evals_sample_id: 978178718
+  message: FizzBuzz.
+  input: 86
+  output: 4
+  passed: true
+executions_25bde461:
+  active_job_id: f3481479-26e6-4c63-9869-c622ed5323e8
+  ruby_llm_evals_run_id: 32
+  ruby_llm_evals_sample_id: 936488193
+  message: '{"result": "Buzz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_1bb78ec8:
+  active_job_id: c717be95-d79b-42dd-b200-7bf2cdf5f45b
+  ruby_llm_evals_run_id: 33
+  ruby_llm_evals_sample_id: 514983991
+  message: '{"result": "Fizz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_eb412b82:
+  active_job_id: fab45d66-df95-4023-9428-1df2d53251a2
+  ruby_llm_evals_run_id: 34
+  ruby_llm_evals_sample_id: 548028170
+  message: '{"result": "FizzBuzz"}'
+  input: 72
+  output: 8
+  passed: true
+executions_99e900d2:
+  active_job_id: eae4e572-3c2b-46af-8e7c-ccc5d276e878
+  ruby_llm_evals_run_id: 35
+  ruby_llm_evals_sample_id: 938025077
+  message: One
+  input: 95
+  output: 2
+  passed: true
+executions_8efd5e70:
+  active_job_id: f3909626-660b-41c1-95b6-74d49171444c
+  ruby_llm_evals_run_id: 36
+  ruby_llm_evals_sample_id: 978178718
+  message: FizzBuzz.
+  input: 86
+  output: 4
+  passed: true
+executions_f979ae0f:
+  active_job_id: 941a403a-259c-427d-b257-cff330c3c60a
+  ruby_llm_evals_run_id: 37
+  ruby_llm_evals_sample_id: 434585950
+  message: Fizz
+  input: 86
+  output: 2
+  passed: true
+executions_12e418ea:
+  active_job_id: 8812620c-eb91-49f7-b46f-8a2c8fda44bf
+  ruby_llm_evals_run_id: 38
+  ruby_llm_evals_sample_id: 538813673
+  message: Fizz
+  input: 80
+  output: 2
+  passed: true
+executions_dd387afd:
+  active_job_id: 04e75923-916e-4f70-af94-27aea03c0767
+  ruby_llm_evals_run_id: 39
+  ruby_llm_evals_sample_id: 795938389
+  message: FizzBuzz
+  input: 80
+  output: 3
+  passed: true
+executions_09d72455:
+  active_job_id: e29b5383-6431-43f9-bb82-55b3c6c0539c
+  ruby_llm_evals_run_id: 40
+  ruby_llm_evals_sample_id: 159252959
+  message: Buzz
+  input: 80
+  output: 2
+  passed: true
+executions_62b1959d:
+  active_job_id: 61ff177d-4039-4104-87fa-911808f86a74
+  ruby_llm_evals_run_id: 41
+  ruby_llm_evals_sample_id: 514983991
+  message: '{"result": "Fizz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_81e01519:
+  active_job_id: 4f0025ea-b7b0-4782-bc05-15ee65bfd391
+  ruby_llm_evals_run_id: 42
+  ruby_llm_evals_sample_id: 548028170
+  message: '{"result": "FizzBuzz"}'
+  input: 72
+  output: 8
+  passed: true
+executions_ca0b548c:
+  active_job_id: ea2de13a-768b-4f0e-be59-66250d9d9a2e
+  ruby_llm_evals_run_id: 43
+  ruby_llm_evals_sample_id: 936488193
+  message: '{"result": "Buzz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_08a47ff4:
+  active_job_id: 3d981b09-2160-4375-9784-0af72b308773
+  ruby_llm_evals_run_id: 44
+  ruby_llm_evals_sample_id: 647481795
+  message: Fizz
+  input: 68
+  output: 2
+  passed: true
+executions_769353d1:
+  active_job_id: dfe04f0a-8eaa-49b8-a09a-309281c48e0a
+  ruby_llm_evals_run_id: 45
+  ruby_llm_evals_sample_id: 440544452
+  message: Fizz buzz.
+  input: 68
+  output: 4
+  passed: true
+executions_dec0efa9:
+  active_job_id: 5c0a9234-aae4-4f87-9964-ae0383d10c81
+  ruby_llm_evals_run_id: 46
+  ruby_llm_evals_sample_id: 267676917
+  message: Buzz.
+  input: 68
+  output: 3
+  passed: true
+executions_cac5c37f:
+  active_job_id: b6115d5f-4033-4d7c-bdf0-cb20d5db21ee
+  ruby_llm_evals_run_id: 980190963
+  ruby_llm_evals_sample_id: 267676917
+  message:
+  input:
+  output:
+  passed:
+executions_6c0fb8f3:
+  active_job_id: 2c7c6df3-6055-4b4e-89ee-f223c9bb6e94
+  ruby_llm_evals_run_id: 980190964
+  ruby_llm_evals_sample_id: 440544452
+  message:
+  input:
+  output:
+  passed:
+executions_c6554c37:
+  active_job_id: e22d9f3f-5574-4bed-a138-05c975e0bc7d
+  ruby_llm_evals_run_id: 980190965
+  ruby_llm_evals_sample_id: 647481795
+  message:
+  input:
+  output:
+  passed:
+executions_98bd1b74:
+  active_job_id: fa342f96-d189-4c06-8739-a30575c7345b
+  ruby_llm_evals_run_id: 980190966
+  ruby_llm_evals_sample_id: 647481795
+  message: Fizz
+  input: 68
+  output: 2
+  passed: true
+executions_8d579fed:
+  active_job_id: beeb8cd6-3543-40e3-9ec9-3a382230d719
+  ruby_llm_evals_run_id: 980190967
+  ruby_llm_evals_sample_id: 267676917
+  message: Buzz
+  input: 68
+  output: 2
+  passed: true
+executions_7efb63cd:
+  active_job_id: b19959cd-2d65-48a2-908b-161c8d69c536
+  ruby_llm_evals_run_id: 980190968
+  ruby_llm_evals_sample_id: 440544452
+  message: FizzBuzz.
+  input: 68
+  output: 4
+  passed: true
+executions_f3bc8d8d:
+  active_job_id: 1e3189da-76c7-42fb-8c10-46c9503013ae
+  ruby_llm_evals_run_id: 980190969
+  ruby_llm_evals_sample_id: 938025077
+  message: One
+  input: 95
+  output: 2
+  passed: true
+executions_e7c990af:
+  active_job_id: 9ca13049-9f77-487c-a1aa-7014a08b07f2
+  ruby_llm_evals_run_id: 980190970
+  ruby_llm_evals_sample_id: 978178718
+  message: FizzBuzz.
+  input: 86
+  output: 4
+  passed: true
+executions_65c24625:
+  active_job_id: bc0703cf-4c5e-4321-8e11-3ea77e2802f4
+  ruby_llm_evals_run_id: 980190971
+  ruby_llm_evals_sample_id: 434585950
+  message: Fizz
+  input: 86
+  output: 2
+  passed: true
+executions_b7226ecd:
+  active_job_id: d95e3cc9-de0b-421f-9c6c-057bff803103
+  ruby_llm_evals_run_id: 980190972
+  ruby_llm_evals_sample_id: 647481795
+  message: Fizz
+  input: 68
+  output: 2
+  passed: true
+executions_3065f1e8:
+  active_job_id: 2cb8d185-69c6-4fa6-b323-1bf5a663a635
+  ruby_llm_evals_run_id: 980190973
+  ruby_llm_evals_sample_id: 440544452
+  message: Fizz buzz.
+  input: 68
+  output: 4
+  passed: true
+executions_3fa74fa0:
+  active_job_id: 52c1bcc3-59b5-4a89-8e13-0e053cc319a8
+  ruby_llm_evals_run_id: 980190974
+  ruby_llm_evals_sample_id: 267676917
+  message: Buzz.
+  input: 68
+  output: 3
+  passed: true
+executions_9946f6ed:
+  active_job_id: 7809665c-9d3e-4032-8cb1-2482fa6d9c7d
+  ruby_llm_evals_run_id: 980190975
+  ruby_llm_evals_sample_id: 538813673
+  message: Fizz
+  input: 80
+  output: 2
+  passed: true
+executions_7f3ca66f:
+  active_job_id: 113e7289-01ef-49d1-a8bb-0cb76dc2dda3
+  ruby_llm_evals_run_id: 980190976
+  ruby_llm_evals_sample_id: 795938389
+  message: FizzBuzz
+  input: 80
+  output: 3
+  passed: true
+executions_e5fd0915:
+  active_job_id: c95bbcce-37e4-4aae-8cb2-45a1b6826bc4
+  ruby_llm_evals_run_id: 980190977
+  ruby_llm_evals_sample_id: 159252959
+  message: Buzz
+  input: 80
+  output: 2
+  passed: true
+executions_723ec4fe:
+  active_job_id: af44f553-7e2e-4641-a4f1-c2a0ac1ee766
+  ruby_llm_evals_run_id: 980190978
+  ruby_llm_evals_sample_id: 514983991
+  message: '{"result": "Fizz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_b8b81e6a:
+  active_job_id: 9900fe31-43e0-4b2e-8bd7-1a1b3dc3fcb5
+  ruby_llm_evals_run_id: 980190979
+  ruby_llm_evals_sample_id: 548028170
+  message: '{"result": "FizzBuzz"}'
+  input: 72
+  output: 8
+  passed: true
+executions_1fd591fe:
+  active_job_id: 50b6fb8a-417d-47c3-a227-636ae14d86e8
+  ruby_llm_evals_run_id: 980190980
+  ruby_llm_evals_sample_id: 936488193
+  message: '{"result": "Buzz"}'
+  input: 72
+  output: 7
+  passed: true
