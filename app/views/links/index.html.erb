@@ -7,9 +7,11 @@
 
 <%= button_to "Publish", links_publish_path, method: :post %>
 
-<% if (gist = Gist.latest) %>
-  <%= render partial: "links/qr_code", locals: { gist: gist } %>
-<% end %>
+<div id="qr_code_container">
+  <% if (gist = Gist.latest) %>
+    <%= render partial: "links/qr_code", locals: { gist: gist } %>
+  <% end %>
+</div>
 
 <ul id="links">
   <% @links.each do |link| %>
