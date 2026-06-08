@@ -7,6 +7,9 @@ class GistPublisher
   end
 
   def create_gist(description:, content: nil, links: nil)
+    if links
+      content = links.map { |link| "- [#{link.title}](#{link.url})" }.join("\n")
+    end
     uri = URI("https://api.github.com/gists")
     request = Net::HTTP::Post.new(uri)
     request["Authorization"] = "token #{@token}"
