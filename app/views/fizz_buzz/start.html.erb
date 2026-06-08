@@ -11,6 +11,8 @@
   <%= link_to "Links →", links_path, class: "btn" %>
 <% end %>
 
+<h1>FizzBuzz</h1>
+
 <% if params[:tab_token].present? %>
   <%= turbo_stream_from "fizz_buzz_channel:#{params[:tab_token]}" %>
 <% end %>
