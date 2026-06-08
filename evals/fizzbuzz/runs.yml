@@ -1,0 +1,105 @@
+---
+run_11cc8d36:
+  _fixture: run_11cc8d36
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-c557d76a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &1 2026-06-08 05:47:42.323559000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *1
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190966
+run_1ec89fa6:
+  _fixture: run_1ec89fa6
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-9c807c5a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &2 2026-06-08 05:48:03.724895000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *2
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190967
+run_141d587c:
+  _fixture: run_141d587c
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-6a7645b9
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &3 2026-06-08 05:48:17.684625000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *3
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190972
+run_3a70e8b1:
+  _fixture: run_3a70e8b1
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-a2fdc6fe
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &4 2026-06-08 05:48:34.198406000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *4
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190977
+run_fe15c1da:
+  _fixture: run_fe15c1da
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-d2ea7991
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &5 2026-06-08 05:51:42.237653000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *5
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190981
+run_59593114:
+  _fixture: run_59593114
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-71202125
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &6 2026-06-08 05:51:42.456600000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *6
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190984
+run_a00cef28:
+  _fixture: run_a00cef28
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-608a3434
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &7 2026-06-08 05:51:42.505622000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *7
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190987
+run_7664214a:
+  _fixture: run_7664214a
+  model_class: RubyLLM::Evals::Run
+  active_job_id: test-c7c23626
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &8 2026-06-08 05:51:42.555851000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *8
+  ended_at:
+  ruby_llm_evals_prompt_id: 980190994

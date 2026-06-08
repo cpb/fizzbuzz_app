@@ -1,0 +1,81 @@
+---
+execution_cb7a4eb6:
+  _fixture: execution_cb7a4eb6
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: e418bd62-773c-4761-a72d-e15b5731f802
+  ruby_llm_evals_run_id: 980190963
+  ruby_llm_evals_sample_id: 1018350799
+  message: '{"result": "FizzBuzz"}'
+  input: 60
+  output: 8
+  passed: true
+execution_0f15d213:
+  _fixture: execution_0f15d213
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: b03b8b50-f587-41f0-86f5-711e4e9924c7
+  ruby_llm_evals_run_id: 980190964
+  ruby_llm_evals_sample_id: 1018350800
+  message: No.
+  input: 64
+  output: 3
+  passed: false
+execution_dd6c145c:
+  _fixture: execution_dd6c145c
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: fae14f9f-4e56-408a-974c-dffc63ac66db
+  ruby_llm_evals_run_id: 980190965
+  ruby_llm_evals_sample_id: 1018350805
+  message: Normal, this one is. Unlikely a Fizz or Buzz, it will not be found
+  input: 51
+  output: 20
+  passed: false
+execution_fb0d1e35:
+  _fixture: execution_fb0d1e35
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: '0778541d-521e-4279-8afb-0f3721807684'
+  ruby_llm_evals_run_id: 980190966
+  ruby_llm_evals_sample_id: 1018350810
+  message: Since 15 is divisible by both 3 and 5, the output should be "FizzBuzz".
+  input: 65
+  output: 22
+  passed: true
+execution_95a97e84:
+  _fixture: execution_95a97e84
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: e822bbf0-f312-4afe-8a48-1f19147c46c0
+  ruby_llm_evals_run_id: 980190967
+  ruby_llm_evals_sample_id: 1018350814
+  message: Since 15 is divisible by both 3 and 5, the output should be "FizzBuzz".
+  input: 65
+  output: 22
+  passed: true
+execution_01c36d01:
+  _fixture: execution_01c36d01
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: f5f2966f-6553-4eab-9735-db3493a14107
+  ruby_llm_evals_run_id: 980190968
+  ruby_llm_evals_sample_id: 1018350817
+  message: Normal, this one is. Unlikely a Fizz or Buzz, it will not be found
+  input: 51
+  output: 20
+  passed: true
+execution_737a4a58:
+  _fixture: execution_737a4a58
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: '0287d4d6-3b98-4c9f-bbff-d311233b812f'
+  ruby_llm_evals_run_id: 980190969
+  ruby_llm_evals_sample_id: 1018350820
+  message: No.
+  input: 64
+  output: 3
+  passed: true
+execution_fdea910c:
+  _fixture: execution_fdea910c
+  model_class: RubyLLM::Evals::PromptExecution
+  active_job_id: 108c30e7-06b0-4e0b-8a69-1e97f57b6f51
+  ruby_llm_evals_run_id: 980190970
+  ruby_llm_evals_sample_id: 1018350827
+  message: '{"result": "FizzBuzz"}'
+  input: 60
+  output: 8
+  passed: true
