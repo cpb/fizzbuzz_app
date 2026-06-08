@@ -5,9 +5,14 @@
 
 <%= turbo_stream_from :links %>
 
+<%= button_to "Publish", links_publish_path, method: :post %>
+
+<% if (gist = Gist.latest) %>
+  <%= render partial: "links/qr_code", locals: { gist: gist } %>
+<% end %>
+
 <ul id="links">
   <% @links.each do |link| %>
-    <%= turbo_stream_from [link, session.id.to_s] %>
     <%= render partial: "links/link", locals: { link: link } %>
   <% end %>
 </ul>

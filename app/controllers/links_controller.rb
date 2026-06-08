@@ -17,8 +17,7 @@ class LinksController < ApplicationController
   end
 
   def publish
-    link = Link.find(params[:id])
-    PublishGistJob.perform_later(link_id: link.id, session_id: session.id.to_s)
+    PublishGistJob.perform_later({})
     head :no_content
   end
 end
