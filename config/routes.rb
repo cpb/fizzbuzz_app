@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   post "/links/publish", to: "links#publish", as: :links_publish
   resources :links
-  resources :workbook_sessions, only: [ :new, :create, :show, :update ] do
+  resources :workbook_sessions do
     resources :thinking_traps, only: [ :create ]
   end
 
