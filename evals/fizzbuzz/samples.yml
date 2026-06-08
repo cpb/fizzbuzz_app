@@ -1,0 +1,15 @@
+fizzbuzz_basic_15:
+  _fixture: fizzbuzz_basic_15
+  model_class: RubyLLM::Evals::Sample
+  prompt_slug: "fizzbuzz-basic"
+  eval_type: "regex"
+  expected_output: "(?i)fizzbuzz|3"
+  variables: { "number": "15" }
+
+yoda_fizzbuzz_1:
+  _fixture: yoda_fizzbuzz_1
+  model_class: RubyLLM::Evals::Sample
+  prompt_slug: "yoda-fizzbuzz"
+  eval_type: "regex"
+  expected_output: "(?i)1"
+  variables: { "number": "1" }

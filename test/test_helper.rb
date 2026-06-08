@@ -10,8 +10,9 @@ VCR.configure do |config|
   config.cassette_library_dir = "test/cassettes"
   config.hook_into :webmock
   config.filter_sensitive_data("<OLLAMA_API_BASE>") { RubyLLM.config.ollama_api_base }
-  config.filter_sensitive_data("<GITHUB_TOKEN>") { Rails.application.credentials.dig(:github, :token) }
-  config.ignore_request { |request| URI(request.uri).host == "127.0.0.1" }
+  config.ignore_request do |request|
+    [ "127.0.0.1", "localhost" ].include?(URI(request.uri).host)
+  end
 end
 
 module ActiveSupport
