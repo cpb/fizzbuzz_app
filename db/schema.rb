@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_08_003934) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_08_100001) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -128,10 +128,41 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_08_003934) do
     t.index [ "ruby_llm_evals_prompt_id" ], name: "index_ruby_llm_evals_samples_on_ruby_llm_evals_prompt_id"
   end
 
+  create_table "thinking_trap_evaluations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "feedback_text"
+    t.string "outcome"
+    t.text "submitted_traps"
+    t.datetime "updated_at", null: false
+    t.integer "workbook_session_id", null: false
+    t.index [ "workbook_session_id" ], name: "index_thinking_trap_evaluations_on_workbook_session_id"
+  end
+
+  create_table "workbook_sessions", force: :cascade do |t|
+    t.text "biased_thoughts"
+    t.datetime "created_at", null: false
+    t.string "current_step"
+    t.text "dear_plan"
+    t.text "evidence_against"
+    t.text "evidence_for"
+    t.text "give_plan"
+    t.integer "post_believability"
+    t.integer "pre_believability"
+    t.integer "rational_believability"
+    t.text "rational_response"
+    t.text "selected_thinking_traps"
+    t.text "situation_description"
+    t.integer "suds_initial"
+    t.integer "suds_post_restructuring"
+    t.integer "suds_post_tipp"
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ruby_llm_evals_prompt_executions", "ruby_llm_evals_runs"
   add_foreign_key "ruby_llm_evals_prompt_executions", "ruby_llm_evals_samples"
   add_foreign_key "ruby_llm_evals_runs", "ruby_llm_evals_prompts"
   add_foreign_key "ruby_llm_evals_samples", "ruby_llm_evals_prompts"
+  add_foreign_key "thinking_trap_evaluations", "workbook_sessions"
 end

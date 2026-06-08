@@ -1,0 +1,2 @@
+class WorkbookSession < ApplicationRecord
+end
