@@ -33,4 +33,10 @@ class WorkbookSessionReplaysControllerTest < ActionDispatch::IntegrationTest
       assert_select "[data-word-by-word-target='word']"
     end
   end
+
+  test "GET replay is accessible without authentication" do
+    workbook_session = WorkbookSession.create!(current_step: "suds_initial")
+    get workbook_session_replay_path(workbook_session)
+    assert_response :success
+  end
 end
