@@ -19,8 +19,7 @@ model predicted instead.
 
 **Message** (no system instructions)
 ```
-Divisible by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise the
-number. What is the FizzBuzz output for {{number}}? Answer with one word only.
+Is {{number}} a FizzBuzz number? Answer with FizzBuzz, Fizz, Buzz or the number if not.
 ```
 
 | number | expected |
