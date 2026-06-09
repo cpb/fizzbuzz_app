@@ -16,7 +16,9 @@ Rails.application.routes.draw do
   resources :links
   resources :workbook_sessions do
     resources :thinking_traps, only: [ :create ]
-    get "replay", to: "workbook_session_replays#show", as: :replay
+    resource :replay, only: [ :show ], module: :workbook_sessions do
+      post :advance
+    end
   end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
