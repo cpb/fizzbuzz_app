@@ -1,31 +1,146 @@
 <p class="results-meta"><%= pluralize(stats[:total], "response") %> so far</p>
 
-<h3>Roles</h3>
-<ul class="results-bar-list">
-  <% stats[:role].each do |role, count| %>
-    <li class="results-bar-item">
-      <div class="results-bar-label">
-        <span><%= role.humanize %></span>
-        <span><%= count %></span>
-      </div>
-      <div class="results-bar-track">
-        <div class="results-bar-fill" style="width: <%= (stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0) %>%"></div>
-      </div>
-    </li>
-  <% end %>
-</ul>
+<div class="results-grid">
+  <div class="results-section">
+    <h3>Roles</h3>
+    <ul class="results-bar-list">
+      <% stats[:role].each do |role, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= role.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
-<h3>AI Tools Used</h3>
-<ul class="results-bar-list">
-  <% stats[:ai_tools].each do |tool, count| %>
-    <li class="results-bar-item">
-      <div class="results-bar-label">
-        <span><%= tool.humanize %></span>
-        <span><%= count %></span>
+  <div class="results-section">
+    <h3>Writes Ruby</h3>
+    <ul class="results-bar-list">
+      <% stats[:writes_ruby].each do |val, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= val ? "Yes" : "No" %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h3>Paid to Write Ruby</h3>
+    <ul class="results-bar-list">
+      <% stats[:paid_to_write_ruby].each do |val, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= val.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h3>Years of Ruby Experience</h3>
+    <ul class="results-bar-list">
+      <% stats[:years_of_experience].each do |exp, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= exp.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h3>Prior Programming Experience</h3>
+    <ul class="results-bar-list">
+      <% stats[:prior_experience].each do |exp, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= exp.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h3>Team AI Adoption</h3>
+    <ul class="results-bar-list">
+      <% stats[:team_ai_adoption].each do |stage, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= stage.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h3>AI Tools Used</h3>
+    <ul class="results-bar-list">
+      <% stats[:ai_tools].each do |tool, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= tool.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<% if stats[:likert].any? { |_, v| v } %>
+  <h3>Attitudes Toward AI <span class="results-likert-scale">(avg, 1–5)</span></h3>
+  <div class="results-likert">
+    <% {
+      likert_overhyped: "AI is overhyped",
+      likert_frustrated: "AI tools frustrate me",
+      likert_limit_to_boilerplate: "AI is limited to boilerplate",
+      likert_anxious: "AI makes me anxious",
+      likert_made_peace: "I have made peace with AI",
+      likert_more_capable: "AI makes me more capable"
+    }.each do |key, label| %>
+      <% avg = stats[:likert][key] %>
+      <% next unless avg %>
+      <div class="results-likert-row">
+        <span class="results-likert-label"><%= label %></span>
+        <div class="results-likert-track">
+          <div class="results-likert-fill" style="width: <%= (avg / 5.0 * 100).round %>%"></div>
+        </div>
+        <span class="results-likert-avg"><%= avg %></span>
       </div>
-      <div class="results-bar-track">
-        <div class="results-bar-fill" style="width: <%= (stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0) %>%"></div>
-      </div>
-    </li>
-  <% end %>
-</ul>
+    <% end %>
+  </div>
+<% end %>
