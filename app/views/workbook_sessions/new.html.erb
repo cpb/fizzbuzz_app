@@ -1,10 +1,10 @@
 <% content_for :drawer do %>
-  <div id="workbook-drawer-nav">
-    <%= form_with url: workbook_sessions_path, method: :post, class: "btn-form" do |f| %>
-      <%= f.submit "Get Started", class: "btn" %>
-    <% end %>
-    <%= link_to "← FizzBuzz", root_path, class: "btn" %>
-  </div>
+  <%= form_with url: workbook_sessions_path, method: :post, class: "btn-form" do |f| %>
+    <%= f.submit "Get Started", class: "btn" %>
+  <% end %>
+  <div class="drawer-break"></div>
+  <%= link_to "← FizzBuzz", root_path, class: "btn" %>
+  <%= link_to "Links →", links_path, class: "btn" %>
 <% end %>
 
 <div id="workbook-intro">
