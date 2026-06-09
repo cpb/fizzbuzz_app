@@ -980,3 +980,223 @@ runs_7ef708f0:
     time: *89
   ended_at:
   prompt: thinking_trap_identification
+runs_416f4bc3:
+  active_job_id: test-8692a213
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &90 2026-06-09 00:05:56.268545000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *90
+  ended_at:
+  prompt: thinking_trap_identification
+runs_b67532d7:
+  active_job_id: test-21236bd7
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &91 2026-06-09 00:05:56.452168000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *91
+  ended_at:
+  prompt: thinking_trap_identification
+runs_26b73251:
+  active_job_id: test-c39e2f7d
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &92 2026-06-09 00:05:56.510491000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *92
+  ended_at:
+  prompt: thinking_trap_identification
+runs_16b9c23f:
+  active_job_id: test-ad8745b3
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &93 2026-06-09 00:05:56.585231000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *93
+  ended_at:
+  prompt: thinking_trap_identification
+runs_3219d251:
+  active_job_id: test-20252e56
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &94 2026-06-09 00:05:56.640290000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *94
+  ended_at:
+  prompt: thinking_trap_identification
+runs_fb991678:
+  active_job_id: test-cac89d0d
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &95 2026-06-09 00:05:56.704069000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *95
+  ended_at:
+  prompt: thinking_trap_identification
+runs_2309874e:
+  active_job_id: test-233d10f8
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &96 2026-06-09 00:05:56.761362000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *96
+  ended_at:
+  prompt: thinking_trap_identification
+runs_9b25c8e2:
+  active_job_id: test-3405b2ce
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &97 2026-06-09 00:05:56.820105000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *97
+  ended_at:
+  prompt: thinking_trap_identification
+runs_c86d0b2e:
+  active_job_id: test-e434b099
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &98 2026-06-09 00:05:56.883397000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *98
+  ended_at:
+  prompt: thinking_trap_identification
+runs_6af30758:
+  active_job_id: test-6146a992
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &99 2026-06-09 00:05:56.938931000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *99
+  ended_at:
+  prompt: thinking_trap_identification
+runs_fa405c52:
+  active_job_id: test-d0b35db1
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &100 2026-06-09 00:05:56.998283000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *100
+  ended_at:
+  prompt: thinking_trap_identification
+runs_9e450d43:
+  active_job_id: test-f28a0162
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &101 2026-06-09 00:05:57.056532000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *101
+  ended_at:
+  prompt: thinking_trap_identification
+runs_5c4baeab:
+  active_job_id: test-091104a2
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &102 2026-06-09 00:05:57.112468000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *102
+  ended_at:
+  prompt: thinking_trap_identification
+runs_b087ce16:
+  active_job_id: test-7fe44850
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &103 2026-06-09 00:05:57.169758000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *103
+  ended_at:
+  prompt: thinking_trap_identification
+runs_87049181:
+  active_job_id: test-7d83f1c5
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &104 2026-06-09 00:05:57.224892000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *104
+  ended_at:
+  prompt: thinking_trap_identification
+runs_d1beb240:
+  active_job_id: test-64cf5b7d
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &105 2026-06-09 00:05:57.283881000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *105
+  ended_at:
+  prompt: thinking_trap_identification
+runs_a5c2fabd:
+  active_job_id: test-8fd8a3c2
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &106 2026-06-09 00:05:57.352108000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *106
+  ended_at:
+  prompt: thinking_trap_identification
+runs_14a2238d:
+  active_job_id: test-cdd61f57
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &107 2026-06-09 00:05:57.418887000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *107
+  ended_at:
+  prompt: thinking_trap_identification
+runs_69ef8dd9:
+  active_job_id: test-b8059945
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &108 2026-06-09 00:05:57.479375000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *108
+  ended_at:
+  prompt: thinking_trap_identification
+runs_077f4cc7:
+  active_job_id: test-7e5d5a75
+  provider: ollama
+  model: llama3.1
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &109 2026-06-09 00:05:57.537994000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *109
+  ended_at:
+  prompt: thinking_trap_identification
