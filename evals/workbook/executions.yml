@@ -1,0 +1,1383 @@
+---
+_fixture:
+  model_class: RubyLLM::Evals::PromptExecution
+executions_b96c0e06:
+  active_job_id: 62cb73f8-4df7-4d35-bcca-d6c896179d67
+  run: runs_fde1ee8a
+  sample: labeling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "affirm \nThe submitted thinking trap of \"Fortune Telling\" is present
+    in the thought, specifically manifesting as assuming a predicted negative future
+    outcome (i.e., being a \"careless programmer\") based on a single past incident."
+  input: 422
+  output: 49
+  passed: false
+executions_2a725d88:
+  active_job_id: 14313984-557d-46ab-a9ec-1878225b04d2
+  run: runs_1c0466a9
+  sample: emotional_reasoning_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: "affirm \n\nBecause the developer has directly equated their feeling of
+    anxiety with the objective truth about the quality of their code, and is using
+    that emotional state as \"proof\" that they made a mistake. They're essentially
+    saying \"I feel incompetent, so I must be incompetent.\" This type of thinking
+    trap relies on emotions being seen as direct evidence rather than simply a personal
+    experience."
+  input: 459
+  output: 77
+  passed: true
+executions_d74c1ee1:
+  active_job_id: c8e58202-5605-4551-ade6-65f0693f07ba
+  run: runs_7f7eda27
+  sample: mind_reading_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: "Challenge \nYou haven't directly observed or been told that your tech
+    lead was thinking you were naive, only assuming it. The actual thought likely
+    remains private to them."
+  input: 462
+  output: 34
+  passed: false
+executions_abeb35ff:
+  active_job_id: 9bebf8f4-9e25-4d75-a28c-9346352b2c90
+  run: runs_6f4af16c
+  sample: mind_reading_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    Your thought assumes your tech lead had a specific negative opinion about your suggestion ("he thinks it's naive and not worth considering"), but there's no direct evidence for that. You're jumping to conclusions without considering alternative, more benign possibilities (e.g., he was simply taking note of the idea to discuss further).
+  input: 462
+  output: 65
+  passed: true
+executions_91310286:
+  active_job_id: 16125910-6bf9-4293-a9da-02548525176f
+  run: runs_547308a9
+  sample: overgeneralizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    The developer is assuming that they "always" make the same mistake (forgetting discussion outcomes) in every sprint, which is a classic example of overgeneralizing.
+  input: 470
+  output: 37
+  passed: true
+executions_b21e7996:
+  active_job_id: 1c29dba5-292d-4dfb-b988-07ea70f097aa
+  run: runs_f1616f36
+  sample: all_or_nothing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The thought does not involve assuming what someone else (in this case, others) is thinking without direct evidence, which is the core of mind reading. Instead, it's the developer's internal mental filter that focuses on one negative aspect (one incorrect assertion) and amplifies it to conclude a blanket statement about their tests being "completely worthless".
+  input: 446
+  output: 72
+  passed: true
+executions_740e1658:
+  active_job_id: 61d70132-4e6a-468f-9a88-de9d0f1b51ee
+  run: runs_5f529035
+  sample: mental_filter_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: Affirm. The thought pattern of "thinking only about the one delay and immediately
+    saying 'it was not a good quarter' implies a prediction of negative consequences
+    (the entire quarter being bad) based on a single setback, which is characteristic
+    of fortune telling."
+  input: 485
+  output: 52
+  passed: false
+executions_84cc1e7e:
+  active_job_id: f885024d-645c-4f84-b2af-00af1f2d5107
+  run: runs_9c4aad5c
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    affirm
+    The identified thinking pattern of catastrophizing is present in your thought, as you've inflated a minor setback (version conflict) caused by external factors (third-party dependency update and vacation absence) into a major personal failure.
+  input: 463
+  output: 48
+  passed: false
+executions_7e1518ec:
+  active_job_id: 8ecab4ae-c698-4928-bb21-6ca8480c2041
+  run: runs_fb5c45a0
+  sample: labeling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. This identification is correct because the thought has assigned
+    a fixed global identity ("I am a careless programmer") based on a single event
+    (the typo), demonstrating labeling, whereas other traps such as personalizing
+    or overgeneralizing could also be present but aren't required by the text's claim.
+  input: 421
+  output: 61
+  passed: true
+executions_bc9104fc:
+  active_job_id: f23945ca-f2f3-4299-a4e0-f3951eb6603d
+  run: runs_dce72a74
+  sample: catastrophizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm. The thought "this means the entire codebase has quality issues,
+    the team will lose all faith in my work, and I'll be asked off the project" involves
+    inflating a small setback (an unused variable) into a major disaster, which aligns
+    with the characteristic of catastrophizing.
+  input: 442
+  output: 63
+  passed: true
+executions_0a3dc9d6:
+  active_job_id: dedbb03a-282f-479c-801b-a36953ca0479
+  run: runs_f1cda8e2
+  sample: fortune_telling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    Challenge
+    The thought does indeed predict a specific negative outcome, but it's more characteristic of catastrophizing - the certainty conveyed ("I know for certain") implies an absolute inevitability that inflates the potential issue into a major disaster. The prediction seems to fill in missing details (her questions and reactions) to create a narrative of impending doom, whereas fortune telling typically involves predicting specific future events as if they were already set in stone without considering alternative outcomes or scenarios.
+  input: 439
+  output: 95
+  passed: false
+executions_83ac525d:
+  active_job_id: 4b66087e-2607-48a2-927e-2b7ef5e58f04
+  run: runs_fb23a699
+  sample: catastrophizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This is not a classic example of Should Statements, which typically involves imposing rigid rules on oneself using "should", "must", or "ought to" (e.g., "I should have written cleaner code"), but rather Catastrophizing, where one small issue is inflated into a major disaster and predicted negative outcomes are assumed as certain.
+  input: 440
+  output: 71
+  passed: true
+executions_f5372bc9:
+  active_job_id: 931699aa-aad9-4e52-99a3-5a85e7a98249
+  run: runs_1316c752
+  sample: emotional_reasoning_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The anxious feeling is being used as "proof" of the quality of one's code, which suggests Emotional Reasoning (using a feeling as proof), rather than a rigid rule or expectation that is typical of a Should Statement.
+  input: 458
+  output: 48
+  passed: true
+executions_11861226:
+  active_job_id: 03f11a25-a81a-47ae-8676-f03541dd9b12
+  run: runs_e0d285c3
+  sample: overgeneralizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    The developer is not assuming they know what someone else (e.g., their colleagues or customers) is thinking; rather, the thoughts involve self-assessments and predictions about future outcomes that reflect a pattern of null-pointer bugs in past feature releases.
+  input: 462
+  output: 52
+  passed: true
+executions_4d72a7c2:
+  active_job_id: 0e1744e3-2882-47d4-b5ff-3cfb38004b1b
+  run: runs_36c43967
+  sample: mental_filter_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm The developer's response indicates a clear mental filter at play,
+    where they zeroed in on the one negative detail (the documentation note) while
+    largely dismissing the four positives from their review.
+  input: 459
+  output: 40
+  passed: true
+executions_c5eef5bd:
+  active_job_id: 1dd0fa70-5372-460a-9b23-4bfe87f9ec5b
+  run: runs_af2cd404
+  sample: should_statements_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm You are imposing rigid rules on yourself using "should", stating
+    that you should always know Ruby methods by heart, and implying that forgetting
+    one is a sign of failure.
+  input: 456
+  output: 36
+  passed: true
+executions_b6bed1b6:
+  active_job_id: fb53e54b-19c1-4392-8a96-50a8bd88689f
+  run: runs_672f45ff
+  sample: should_statements_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge. The thought implies a rule or expectation should be followed,
+    and not being able to follow it leads to failure according to some undefined external
+    expectation, but there's no clear prediction of a negative future outcome as would
+    be indicative of fortune telling. \n\nHowever, the thinking trap of \"Should Statements\"
+    seems more apparent in this situation, where the developer is imposing on themselves
+    a rigid set of rules and expecting to meet certain standards that may not even
+    apply given the urgency of the hotfix."
+  input: 452
+  output: 99
+  passed: true
+executions_1b552aed:
+  active_job_id: dc2bb94d-f4ee-4949-bc87-ee41f65f26f0
+  run: runs_5d172154
+  sample: fortune_telling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge \nThe thought is dominated by a prediction of specific negative
+    outcomes (Fortune Telling), which is not accurately captured by the Should Statements
+    label. The primary cognitive distortion appears to be predicting certain disastrous
+    outcomes rather than imposing a rigid rule on oneself."
+  input: 438
+  output: 51
+  passed: true
+executions_ee73b54d:
+  active_job_id: 9e530bbb-fe46-48d5-9cca-f0e77b71d4d3
+  run: runs_3afe6f24
+  sample: personalizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+
+    The developer takes ownership and blame for the downtime despite external factors being outside their control, fitting the definition of personalizing.
+  input: 449
+  output: 28
+  passed: true
+executions_c90e0cc8:
+  active_job_id: 50ab0126-0059-4537-ac04-c3efea64864c
+  run: runs_8dd222ed
+  sample: all_or_nothing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm Because the thought emphasizes a strict binary perspective ("either
+    completely reliable or completely worthless") with no middle ground, and the incorrect
+    assertion is being used to invalidate the entire set of tests.
+  input: 448
+  output: 39
+  passed: true
+executions_34f19ef9:
+  active_job_id: d9e80199-ae93-4ce7-b7e4-bb7d034b2563
+  run: runs_f6cac185
+  sample: mental_filter_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    affirm
+
+    The submitted thought pattern focuses on assigning a single negative identity ("not a good quarter") to a complex outcome, despite the numerous positive accomplishments and measures of success, reinforcing the idea that labeling has occurred.
+  input: 484
+  output: 44
+  passed: false
+executions_e9e1f4b3:
+  active_job_id: 275fb15c-e022-4c4b-8ea4-2f76e4dd6c71
+  run: runs_667bbe9e
+  sample: labeling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This thought does not manifestly predict a specific negative future outcome, but rather assigns a fixed global identity based on a single past event, which aligns with the Labeling thinking trap.
+  input: 422
+  output: 40
+  passed: true
+executions_3265a065:
+  active_job_id: ddaf3f4c-57e7-413a-b427-73998ceafbe4
+  run: runs_dcbe26bd
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    affirm
+
+    You're applying the label "Overgeneralizing" (thinking one incident leads to a permanent pattern) accurately because you feeling responsible for the disruption, despite being completely unavailable and having no connection to its cause, suggests that you're generalizing from one event ("the CI pipeline failed") to an overarching sense of personal failure, which is indeed overgeneralizing.
+  input: 462
+  output: 75
+  passed: false
+executions_2c3746fd:
+  active_job_id: 3a98b17d-9731-4e01-9dbc-f45cf6a1bb39
+  run: runs_ce51c29a
+  sample: mind_reading_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    I affirm that Mind Reading is present in your thought, as you're assuming you know your tech lead's thoughts without direct evidence or explicit communication. Your inference about what he might be thinking is based solely on his nonverbal cues, which may not accurately reflect his actual thought process.
+  input: 462
+  output: 61
+  passed: true
+executions_20c1685e:
+  active_job_id: aabff14a-f0c6-43d4-b9c8-2859cfc9d4ec
+  run: runs_b5cbe0ed
+  sample: fortune_telling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. The developer is predicting a specific negative future outcome
+    as if it were certain ("I know for certain" that the meeting will be awkward),
+    which matches the cognitive distortion pattern of Fortune Telling.
+  input: 439
+  output: 42
+  passed: true
+executions_b5bce60d:
+  active_job_id: 0ad68996-93a4-4c23-aaf1-17d0eed95b82
+  run: runs_1d3b5f94
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    affirm
+
+    You implied a sense of obligation or responsibility to prevent the issue on your own, even though you were unavailable. This is evident in the phrase "I feel entirely responsible for the disruption...as my personal failure", suggesting that something inside you was whispering that it should have been addressed differently (likely by yourself) and now everything isn't perfect.
+  input: 461
+  output: 73
+  passed: false
+executions_37b153dc:
+  active_job_id: b215ed06-8b00-4237-8d93-97f6a4df27b9
+  run: runs_a5588ea1
+  sample: mental_filter_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: challengethe thought does not accurately capture any form of mind reading,
+    as there is no indication that the speaker believes they know what others are
+    thinking (e.g., an inference about the director's thoughts or another team member's
+    perspective). However, I would re-categorize this thought as an example of Catastrophizing
+    or Fortunetelling (Fortune Telling), since the speaker's focus on a single negative
+    aspect overshadows numerous positive outcomes.
+  input: 484
+  output: 94
+  passed: true
+executions_9f5be586:
+  active_job_id: 64e2f5c0-d97b-45ae-a7d2-df6e16403b07
+  run: runs_72ac11d4
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: Challenge. The primary cognitive distortion here is personalizing, as the
+    developer feels entirely responsible for a situation caused by factors outside
+    their control (the automatic update and CI pipeline failure), rather than should
+    statements, which would involve imposing external expectations on self behavior
+    ("I should handle all updates").
+  input: 461
+  output: 57
+  passed: true
+executions_83696cda:
+  active_job_id: e5b67c32-3f73-442a-93c8-12475811091e
+  run: runs_f15703d7
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: Challenge. The primary cognitive distortion here is personalizing, as the
+    developer feels entirely responsible for a situation caused by factors outside
+    their control (the automatic update and CI pipeline failure), rather than should
+    statements, which would involve imposing external expectations on self behavior
+    ("I should handle all updates").
+  input: 461
+  output: 57
+  passed: true
+executions_499adb3b:
+  active_job_id: a630af38-3bcf-4360-9c12-e59605823051
+  run: runs_f0caaffd
+  sample: all_or_nothing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The thought does not involve assuming what someone else (in this case, others) is thinking without direct evidence, which is the core of mind reading. Instead, it's the developer's internal mental filter that focuses on one negative aspect (one incorrect assertion) and amplifies it to conclude a blanket statement about their tests being "completely worthless".
+  input: 446
+  output: 72
+  passed: true
+executions_d90abad7:
+  active_job_id: 655d56d6-26fa-4791-9d10-78bb863e7e0f
+  run: runs_d90081df
+  sample: emotional_reasoning_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The anxious feeling is being used as "proof" of the quality of one's code, which suggests Emotional Reasoning (using a feeling as proof), rather than a rigid rule or expectation that is typical of a Should Statement.
+  input: 458
+  output: 48
+  passed: true
+executions_c06c4d7c:
+  active_job_id: d9475b01-fac6-4da3-b323-675969877d10
+  run: runs_6769f5b1
+  sample: emotional_reasoning_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: "affirm \n\nBecause the developer has directly equated their feeling of
+    anxiety with the objective truth about the quality of their code, and is using
+    that emotional state as \"proof\" that they made a mistake. They're essentially
+    saying \"I feel incompetent, so I must be incompetent.\" This type of thinking
+    trap relies on emotions being seen as direct evidence rather than simply a personal
+    experience."
+  input: 459
+  output: 77
+  passed: true
+executions_1e6712c6:
+  active_job_id: 4dded8f9-0e08-4c6c-922b-c423f5c1a1ef
+  run: runs_23f35094
+  sample: labeling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. This identification is correct because the thought has assigned
+    a fixed global identity ("I am a careless programmer") based on a single event
+    (the typo), demonstrating labeling, whereas other traps such as personalizing
+    or overgeneralizing could also be present but aren't required by the text's claim.
+  input: 421
+  output: 61
+  passed: true
+executions_6042b558:
+  active_job_id: 9b55ba6f-70e5-48ae-a8d3-a933c9fe7e6f
+  run: runs_3b94a63b
+  sample: should_statements_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm You are imposing rigid rules on yourself using "should", stating
+    that you should always know Ruby methods by heart, and implying that forgetting
+    one is a sign of failure.
+  input: 456
+  output: 36
+  passed: true
+executions_4db717a9:
+  active_job_id: fa3b216e-8d73-44e7-873c-a1d77a4995da
+  run: runs_98d16f42
+  sample: personalizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+
+    The developer takes ownership and blame for the downtime despite external factors being outside their control, fitting the definition of personalizing.
+  input: 449
+  output: 28
+  passed: true
+executions_87ce1071:
+  active_job_id: e8d43a49-0ea5-4ebc-8c8f-a8d74d608193
+  run: runs_a5e82d98
+  sample: overgeneralizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    The developer is not assuming they know what someone else (e.g., their colleagues or customers) is thinking; rather, the thoughts involve self-assessments and predictions about future outcomes that reflect a pattern of null-pointer bugs in past feature releases.
+  input: 462
+  output: 52
+  passed: true
+executions_b7d2afcc:
+  active_job_id: 8a4ad934-9427-41e3-84d1-fad32342ba7c
+  run: runs_804e6366
+  sample: fortune_telling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge \nThe thought is dominated by a prediction of specific negative
+    outcomes (Fortune Telling), which is not accurately captured by the Should Statements
+    label. The primary cognitive distortion appears to be predicting certain disastrous
+    outcomes rather than imposing a rigid rule on oneself."
+  input: 438
+  output: 51
+  passed: true
+executions_f08d9970:
+  active_job_id: 8b03ee60-813b-4ee5-bfaa-4d6d458a7579
+  run: runs_a08b7113
+  sample: catastrophizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This is not a classic example of Should Statements, which typically involves imposing rigid rules on oneself using "should", "must", or "ought to" (e.g., "I should have written cleaner code"), but rather Catastrophizing, where one small issue is inflated into a major disaster and predicted negative outcomes are assumed as certain.
+  input: 440
+  output: 71
+  passed: true
+executions_b50e3aad:
+  active_job_id: 8a8e06f1-e538-4e67-a02c-c36fcb5635a0
+  run: runs_d3bf16a4
+  sample: all_or_nothing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm Because the thought emphasizes a strict binary perspective ("either
+    completely reliable or completely worthless") with no middle ground, and the incorrect
+    assertion is being used to invalidate the entire set of tests.
+  input: 448
+  output: 39
+  passed: true
+executions_2d7104d5:
+  active_job_id: 56e382dc-0a66-4ff9-b983-d469fb1915b5
+  run: runs_ba9392ff
+  sample: mental_filter_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm The developer's response indicates a clear mental filter at play,
+    where they zeroed in on the one negative detail (the documentation note) while
+    largely dismissing the four positives from their review.
+  input: 459
+  output: 40
+  passed: true
+executions_165cbb43:
+  active_job_id: 968aede7-fb55-4228-a1dc-896ec32f5316
+  run: runs_ef6d24d6
+  sample: mental_filter_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: challengethe thought does not accurately capture any form of mind reading,
+    as there is no indication that the speaker believes they know what others are
+    thinking (e.g., an inference about the director's thoughts or another team member's
+    perspective). However, I would re-categorize this thought as an example of Catastrophizing
+    or Fortunetelling (Fortune Telling), since the speaker's focus on a single negative
+    aspect overshadows numerous positive outcomes.
+  input: 484
+  output: 94
+  passed: true
+executions_b1b061eb:
+  active_job_id: b81b33bd-593e-4662-839d-fe68799038f2
+  run: runs_2b750241
+  sample: should_statements_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge. The thought implies a rule or expectation should be followed,
+    and not being able to follow it leads to failure according to some undefined external
+    expectation, but there's no clear prediction of a negative future outcome as would
+    be indicative of fortune telling. \n\nHowever, the thinking trap of \"Should Statements\"
+    seems more apparent in this situation, where the developer is imposing on themselves
+    a rigid set of rules and expecting to meet certain standards that may not even
+    apply given the urgency of the hotfix."
+  input: 452
+  output: 99
+  passed: true
+executions_f5a2701c:
+  active_job_id: e81b5f14-1bee-43e6-8108-303d2d13d572
+  run: runs_9e0a4201
+  sample: fortune_telling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. The developer is predicting a specific negative future outcome
+    as if it were certain ("I know for certain" that the meeting will be awkward),
+    which matches the cognitive distortion pattern of Fortune Telling.
+  input: 439
+  output: 42
+  passed: true
+executions_0c554f28:
+  active_job_id: adfca5e7-1c55-46a0-96d7-4c8b1103a2a6
+  run: runs_d7ff5f7c
+  sample: catastrophizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm. The thought "this means the entire codebase has quality issues,
+    the team will lose all faith in my work, and I'll be asked off the project" involves
+    inflating a small setback (an unused variable) into a major disaster, which aligns
+    with the characteristic of catastrophizing.
+  input: 442
+  output: 63
+  passed: true
+executions_e646f882:
+  active_job_id: 053db383-23df-4f2c-bbe3-b5bd78a757d0
+  run: runs_dd8886d5
+  sample: labeling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This thought does not manifestly predict a specific negative future outcome, but rather assigns a fixed global identity based on a single past event, which aligns with the Labeling thinking trap.
+  input: 422
+  output: 40
+  passed: true
+executions_81299b75:
+  active_job_id: 9ea30965-31e7-4175-a703-3f01d956bd2d
+  run: runs_0f0ee05c
+  sample: overgeneralizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    The developer is assuming that they "always" make the same mistake (forgetting discussion outcomes) in every sprint, which is a classic example of overgeneralizing.
+  input: 470
+  output: 37
+  passed: true
+executions_84de364b:
+  active_job_id: 4db70422-87f7-4045-9c3c-55e2d319a917
+  run: runs_0475fcde
+  sample: mind_reading_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    I affirm that Mind Reading is present in your thought, as you're assuming you know your tech lead's thoughts without direct evidence or explicit communication. Your inference about what he might be thinking is based solely on his nonverbal cues, which may not accurately reflect his actual thought process.
+  input: 462
+  output: 61
+  passed: true
+executions_7f015b75:
+  active_job_id: 7900a4c0-2ac6-491d-884b-6962c2874102
+  run: runs_234676cf
+  sample: mind_reading_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    Your thought assumes your tech lead had a specific negative opinion about your suggestion ("he thinks it's naive and not worth considering"), but there's no direct evidence for that. You're jumping to conclusions without considering alternative, more benign possibilities (e.g., he was simply taking note of the idea to discuss further).
+  input: 462
+  output: 65
+  passed: true
+executions_7dc1a0ca:
+  active_job_id: 79b22801-b35a-461b-b873-31950d12c1e2
+  run: runs_ad2feee5
+  sample: catastrophizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm. The thought "this means the entire codebase has quality issues,
+    the team will lose all faith in my work, and I'll be asked off the project" involves
+    inflating a small setback (an unused variable) into a major disaster, which aligns
+    with the characteristic of catastrophizing.
+  input: 442
+  output: 63
+  passed: true
+executions_4e0abfae:
+  active_job_id: bf56c0d0-e520-4811-8332-fcd44c08e5c4
+  run: runs_1f518fdd
+  sample: emotional_reasoning_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The anxious feeling is being used as "proof" of the quality of one's code, which suggests Emotional Reasoning (using a feeling as proof), rather than a rigid rule or expectation that is typical of a Should Statement.
+  input: 458
+  output: 48
+  passed: true
+executions_621680f7:
+  active_job_id: c4408aab-17bc-4f6b-b84d-e74b7b7fb1ec
+  run: runs_d9561465
+  sample: fortune_telling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. The developer is predicting a specific negative future outcome
+    as if it were certain ("I know for certain" that the meeting will be awkward),
+    which matches the cognitive distortion pattern of Fortune Telling.
+  input: 439
+  output: 42
+  passed: true
+executions_ee9f5613:
+  active_job_id: a8d9d505-4767-43e2-964e-fb1e58d8bf34
+  run: runs_0a167b49
+  sample: overgeneralizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    The developer is assuming that they "always" make the same mistake (forgetting discussion outcomes) in every sprint, which is a classic example of overgeneralizing.
+  input: 470
+  output: 37
+  passed: true
+executions_8e5f711a:
+  active_job_id: 20e865ee-e019-4ba2-9342-dd4aa96c3c47
+  run: runs_11e8b972
+  sample: mind_reading_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    Your thought assumes your tech lead had a specific negative opinion about your suggestion ("he thinks it's naive and not worth considering"), but there's no direct evidence for that. You're jumping to conclusions without considering alternative, more benign possibilities (e.g., he was simply taking note of the idea to discuss further).
+  input: 462
+  output: 65
+  passed: true
+executions_3f861f57:
+  active_job_id: dc089892-7ca8-4706-a9d0-0bbe7c9e0ffc
+  run: runs_aea47243
+  sample: fortune_telling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge \nThe thought is dominated by a prediction of specific negative
+    outcomes (Fortune Telling), which is not accurately captured by the Should Statements
+    label. The primary cognitive distortion appears to be predicting certain disastrous
+    outcomes rather than imposing a rigid rule on oneself."
+  input: 438
+  output: 51
+  passed: true
+executions_50a679d9:
+  active_job_id: 5f21e8ac-879e-4f4e-854f-5664ddaa8758
+  run: runs_ed120158
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: Challenge. The primary cognitive distortion here is personalizing, as the
+    developer feels entirely responsible for a situation caused by factors outside
+    their control (the automatic update and CI pipeline failure), rather than should
+    statements, which would involve imposing external expectations on self behavior
+    ("I should handle all updates").
+  input: 461
+  output: 57
+  passed: true
+executions_4d41a2bf:
+  active_job_id: 7b209f5b-fb98-47ff-bb82-d811979e60bc
+  run: runs_11257f66
+  sample: labeling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This thought does not manifestly predict a specific negative future outcome, but rather assigns a fixed global identity based on a single past event, which aligns with the Labeling thinking trap.
+  input: 422
+  output: 40
+  passed: true
+executions_249c1f73:
+  active_job_id: c78197d9-b746-43c8-a948-7b17c0f2e19a
+  run: runs_71ddc137
+  sample: overgeneralizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    The developer is not assuming they know what someone else (e.g., their colleagues or customers) is thinking; rather, the thoughts involve self-assessments and predictions about future outcomes that reflect a pattern of null-pointer bugs in past feature releases.
+  input: 462
+  output: 52
+  passed: true
+executions_251d4ac9:
+  active_job_id: 42ef6cc9-940d-45f9-bfaa-846a698d2365
+  run: runs_042c496c
+  sample: all_or_nothing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The thought does not involve assuming what someone else (in this case, others) is thinking without direct evidence, which is the core of mind reading. Instead, it's the developer's internal mental filter that focuses on one negative aspect (one incorrect assertion) and amplifies it to conclude a blanket statement about their tests being "completely worthless".
+  input: 446
+  output: 72
+  passed: true
+executions_cd0fc5a5:
+  active_job_id: 1de10d86-816e-4858-94cf-e46b5fa5a537
+  run: runs_6f4b98d8
+  sample: mental_filter_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: challengethe thought does not accurately capture any form of mind reading,
+    as there is no indication that the speaker believes they know what others are
+    thinking (e.g., an inference about the director's thoughts or another team member's
+    perspective). However, I would re-categorize this thought as an example of Catastrophizing
+    or Fortunetelling (Fortune Telling), since the speaker's focus on a single negative
+    aspect overshadows numerous positive outcomes.
+  input: 484
+  output: 94
+  passed: true
+executions_96308359:
+  active_job_id: ae6f9970-b17c-4a6a-af0c-7c967197ea08
+  run: runs_c8fbe00b
+  sample: should_statements_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm You are imposing rigid rules on yourself using "should", stating
+    that you should always know Ruby methods by heart, and implying that forgetting
+    one is a sign of failure.
+  input: 456
+  output: 36
+  passed: true
+executions_63d5cec0:
+  active_job_id: d194a693-da07-4e3c-9ff3-caad994c1639
+  run: runs_220cb538
+  sample: emotional_reasoning_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: "affirm \n\nBecause the developer has directly equated their feeling of
+    anxiety with the objective truth about the quality of their code, and is using
+    that emotional state as \"proof\" that they made a mistake. They're essentially
+    saying \"I feel incompetent, so I must be incompetent.\" This type of thinking
+    trap relies on emotions being seen as direct evidence rather than simply a personal
+    experience."
+  input: 459
+  output: 77
+  passed: true
+executions_09c2cf68:
+  active_job_id: 73e39343-a5f4-4002-99dc-523b32ebedcf
+  run: runs_02bf4139
+  sample: should_statements_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge. The thought implies a rule or expectation should be followed,
+    and not being able to follow it leads to failure according to some undefined external
+    expectation, but there's no clear prediction of a negative future outcome as would
+    be indicative of fortune telling. \n\nHowever, the thinking trap of \"Should Statements\"
+    seems more apparent in this situation, where the developer is imposing on themselves
+    a rigid set of rules and expecting to meet certain standards that may not even
+    apply given the urgency of the hotfix."
+  input: 452
+  output: 99
+  passed: true
+executions_d43fd1c8:
+  active_job_id: fcfe05a7-353a-472a-a217-95ba70f7607a
+  run: runs_f070f1e7
+  sample: personalizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+
+    The developer takes ownership and blame for the downtime despite external factors being outside their control, fitting the definition of personalizing.
+  input: 449
+  output: 28
+  passed: true
+executions_9d655f31:
+  active_job_id: 90b6c145-f0a8-4eff-8bac-dc9713e7dbfa
+  run: runs_6677f714
+  sample: mind_reading_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    I affirm that Mind Reading is present in your thought, as you're assuming you know your tech lead's thoughts without direct evidence or explicit communication. Your inference about what he might be thinking is based solely on his nonverbal cues, which may not accurately reflect his actual thought process.
+  input: 462
+  output: 61
+  passed: true
+executions_e0d558a6:
+  active_job_id: d73503a2-c22b-4617-b70f-37966293c94d
+  run: runs_4f9f9921
+  sample: all_or_nothing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm Because the thought emphasizes a strict binary perspective ("either
+    completely reliable or completely worthless") with no middle ground, and the incorrect
+    assertion is being used to invalidate the entire set of tests.
+  input: 448
+  output: 39
+  passed: true
+executions_b1e4cade:
+  active_job_id: 06663fd8-0e0e-4c5f-9a24-f4bf9a27a3e0
+  run: runs_cebd3521
+  sample: catastrophizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This is not a classic example of Should Statements, which typically involves imposing rigid rules on oneself using "should", "must", or "ought to" (e.g., "I should have written cleaner code"), but rather Catastrophizing, where one small issue is inflated into a major disaster and predicted negative outcomes are assumed as certain.
+  input: 440
+  output: 71
+  passed: true
+executions_99d28b37:
+  active_job_id: 9f4f3ef4-b3a9-447a-8d68-5287606ccfad
+  run: runs_ef97330b
+  sample: labeling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. This identification is correct because the thought has assigned
+    a fixed global identity ("I am a careless programmer") based on a single event
+    (the typo), demonstrating labeling, whereas other traps such as personalizing
+    or overgeneralizing could also be present but aren't required by the text's claim.
+  input: 421
+  output: 61
+  passed: true
+executions_16fb1f36:
+  active_job_id: 5973cc64-a05c-43b7-9329-3ae734343316
+  run: runs_dd4ed336
+  sample: mental_filter_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm The developer's response indicates a clear mental filter at play,
+    where they zeroed in on the one negative detail (the documentation note) while
+    largely dismissing the four positives from their review.
+  input: 459
+  output: 40
+  passed: true
+executions_2f785c92:
+  active_job_id: bd24677f-ceef-4f18-bc5c-0d904f72efb8
+  run: runs_75665c68
+  sample: emotional_reasoning_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: "affirm \n\nBecause the developer has directly equated their feeling of
+    anxiety with the objective truth about the quality of their code, and is using
+    that emotional state as \"proof\" that they made a mistake. They're essentially
+    saying \"I feel incompetent, so I must be incompetent.\" This type of thinking
+    trap relies on emotions being seen as direct evidence rather than simply a personal
+    experience."
+  input: 459
+  output: 77
+  passed: true
+executions_73068234:
+  active_job_id: d186638a-7357-4e07-a222-6ceedfe72180
+  run: runs_276229e1
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: Challenge. The primary cognitive distortion here is personalizing, as the
+    developer feels entirely responsible for a situation caused by factors outside
+    their control (the automatic update and CI pipeline failure), rather than should
+    statements, which would involve imposing external expectations on self behavior
+    ("I should handle all updates").
+  input: 461
+  output: 57
+  passed: true
+executions_1472bf64:
+  active_job_id: a41157bb-de7a-44d7-b20d-b188244dfb79
+  run: runs_6f429345
+  sample: overgeneralizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    The developer is assuming that they "always" make the same mistake (forgetting discussion outcomes) in every sprint, which is a classic example of overgeneralizing.
+  input: 470
+  output: 37
+  passed: true
+executions_4e9d67c7:
+  active_job_id: a23ab54a-f571-43a9-bbb5-6867e1630598
+  run: runs_d8767bc6
+  sample: personalizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+
+    The developer takes ownership and blame for the downtime despite external factors being outside their control, fitting the definition of personalizing.
+  input: 449
+  output: 28
+  passed: true
+executions_35367822:
+  active_job_id: 74c6b539-a711-49d5-92e0-c3d5c1af5601
+  run: runs_5e770104
+  sample: all_or_nothing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The thought does not involve assuming what someone else (in this case, others) is thinking without direct evidence, which is the core of mind reading. Instead, it's the developer's internal mental filter that focuses on one negative aspect (one incorrect assertion) and amplifies it to conclude a blanket statement about their tests being "completely worthless".
+  input: 446
+  output: 72
+  passed: true
+executions_37b815ac:
+  active_job_id: b50b19d1-d522-49f3-9a16-fff256edb425
+  run: runs_23926061
+  sample: labeling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This thought does not manifestly predict a specific negative future outcome, but rather assigns a fixed global identity based on a single past event, which aligns with the Labeling thinking trap.
+  input: 422
+  output: 40
+  passed: true
+executions_ce7aa38e:
+  active_job_id: 9adfa3da-696d-46dc-ba4e-7ae83ab338fb
+  run: runs_853b5bf9
+  sample: emotional_reasoning_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The anxious feeling is being used as "proof" of the quality of one's code, which suggests Emotional Reasoning (using a feeling as proof), rather than a rigid rule or expectation that is typical of a Should Statement.
+  input: 458
+  output: 48
+  passed: true
+executions_4b510e20:
+  active_job_id: 92506e76-9bbc-4349-8810-e3c7d297b3a1
+  run: runs_dbef335b
+  sample: mind_reading_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    Your thought assumes your tech lead had a specific negative opinion about your suggestion ("he thinks it's naive and not worth considering"), but there's no direct evidence for that. You're jumping to conclusions without considering alternative, more benign possibilities (e.g., he was simply taking note of the idea to discuss further).
+  input: 462
+  output: 65
+  passed: true
+executions_64eb26ed:
+  active_job_id: 77b3c692-6f10-4e3a-aa05-af9f6ddd07f8
+  run: runs_e39d6796
+  sample: should_statements_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge. The thought implies a rule or expectation should be followed,
+    and not being able to follow it leads to failure according to some undefined external
+    expectation, but there's no clear prediction of a negative future outcome as would
+    be indicative of fortune telling. \n\nHowever, the thinking trap of \"Should Statements\"
+    seems more apparent in this situation, where the developer is imposing on themselves
+    a rigid set of rules and expecting to meet certain standards that may not even
+    apply given the urgency of the hotfix."
+  input: 452
+  output: 99
+  passed: true
+executions_3454f979:
+  active_job_id: 29b80fca-452c-4200-b7b8-9284a14e02c7
+  run: runs_58271030
+  sample: fortune_telling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. The developer is predicting a specific negative future outcome
+    as if it were certain ("I know for certain" that the meeting will be awkward),
+    which matches the cognitive distortion pattern of Fortune Telling.
+  input: 439
+  output: 42
+  passed: true
+executions_5aec7f87:
+  active_job_id: 555d5f94-17fa-4b1a-92be-b1f7b9c58bdc
+  run: runs_348c3899
+  sample: catastrophizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This is not a classic example of Should Statements, which typically involves imposing rigid rules on oneself using "should", "must", or "ought to" (e.g., "I should have written cleaner code"), but rather Catastrophizing, where one small issue is inflated into a major disaster and predicted negative outcomes are assumed as certain.
+  input: 440
+  output: 71
+  passed: true
+executions_9faf5cf3:
+  active_job_id: a7f1709c-8ae2-47dd-bb9f-bddbeb4d22b2
+  run: runs_e8b33b29
+  sample: should_statements_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm You are imposing rigid rules on yourself using "should", stating
+    that you should always know Ruby methods by heart, and implying that forgetting
+    one is a sign of failure.
+  input: 456
+  output: 36
+  passed: true
+executions_8b250db0:
+  active_job_id: 34dfcb49-3edf-4da2-836c-7c904a2edec8
+  run: runs_a624a6a9
+  sample: fortune_telling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge \nThe thought is dominated by a prediction of specific negative
+    outcomes (Fortune Telling), which is not accurately captured by the Should Statements
+    label. The primary cognitive distortion appears to be predicting certain disastrous
+    outcomes rather than imposing a rigid rule on oneself."
+  input: 438
+  output: 51
+  passed: true
+executions_d9def55f:
+  active_job_id: 3e096ecd-ba8c-4aeb-a98d-b1b2c8f6a45d
+  run: runs_d429f42c
+  sample: mental_filter_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: challengethe thought does not accurately capture any form of mind reading,
+    as there is no indication that the speaker believes they know what others are
+    thinking (e.g., an inference about the director's thoughts or another team member's
+    perspective). However, I would re-categorize this thought as an example of Catastrophizing
+    or Fortunetelling (Fortune Telling), since the speaker's focus on a single negative
+    aspect overshadows numerous positive outcomes.
+  input: 484
+  output: 94
+  passed: true
+executions_ed93dbc6:
+  active_job_id: 2b000929-d0ba-44bb-89dd-1f21895080ff
+  run: runs_28728a62
+  sample: catastrophizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm. The thought "this means the entire codebase has quality issues,
+    the team will lose all faith in my work, and I'll be asked off the project" involves
+    inflating a small setback (an unused variable) into a major disaster, which aligns
+    with the characteristic of catastrophizing.
+  input: 442
+  output: 63
+  passed: true
+executions_5c5f5119:
+  active_job_id: 6cf752d0-9d83-4bdd-93b3-59eb9b0379ee
+  run: runs_a74ca1d6
+  sample: labeling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. This identification is correct because the thought has assigned
+    a fixed global identity ("I am a careless programmer") based on a single event
+    (the typo), demonstrating labeling, whereas other traps such as personalizing
+    or overgeneralizing could also be present but aren't required by the text's claim.
+  input: 421
+  output: 61
+  passed: true
+executions_94090046:
+  active_job_id: d934b074-23be-478f-a18e-924ccc475dad
+  run: runs_bbc03a87
+  sample: overgeneralizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    The developer is not assuming they know what someone else (e.g., their colleagues or customers) is thinking; rather, the thoughts involve self-assessments and predictions about future outcomes that reflect a pattern of null-pointer bugs in past feature releases.
+  input: 462
+  output: 52
+  passed: true
+executions_ec56ba64:
+  active_job_id: a93285be-98fe-4b78-a93d-11bf4ba21855
+  run: runs_fc9b8140
+  sample: mental_filter_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm The developer's response indicates a clear mental filter at play,
+    where they zeroed in on the one negative detail (the documentation note) while
+    largely dismissing the four positives from their review.
+  input: 459
+  output: 40
+  passed: true
+executions_96d6681e:
+  active_job_id: a0ccd456-32a2-4e58-a858-5c27beaedb6a
+  run: runs_bf71265b
+  sample: mind_reading_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    I affirm that Mind Reading is present in your thought, as you're assuming you know your tech lead's thoughts without direct evidence or explicit communication. Your inference about what he might be thinking is based solely on his nonverbal cues, which may not accurately reflect his actual thought process.
+  input: 462
+  output: 61
+  passed: true
+executions_659b77ab:
+  active_job_id: fed3c5c3-5174-4541-80fa-3e5c63a04045
+  run: runs_7ef708f0
+  sample: all_or_nothing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm Because the thought emphasizes a strict binary perspective ("either
+    completely reliable or completely worthless") with no middle ground, and the incorrect
+    assertion is being used to invalidate the entire set of tests.
+  input: 448
+  output: 39
+  passed: true
+executions_90b96289:
+  active_job_id: 3cfdf5b2-768e-49bf-88e4-c5d19a799517
+  run: runs_416f4bc3
+  sample: all_or_nothing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The thought does not involve assuming what someone else (in this case, others) is thinking without direct evidence, which is the core of mind reading. Instead, it's the developer's internal mental filter that focuses on one negative aspect (one incorrect assertion) and amplifies it to conclude a blanket statement about their tests being "completely worthless".
+  input: 446
+  output: 72
+  passed: true
+executions_d53175ac:
+  active_job_id: 34f48775-8c9d-4f4c-965d-2f5528766c88
+  run: runs_b67532d7
+  sample: labeling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. This identification is correct because the thought has assigned
+    a fixed global identity ("I am a careless programmer") based on a single event
+    (the typo), demonstrating labeling, whereas other traps such as personalizing
+    or overgeneralizing could also be present but aren't required by the text's claim.
+  input: 421
+  output: 61
+  passed: true
+executions_124c4867:
+  active_job_id: e1bcd836-0ea7-41fd-be90-31cdca48ca61
+  run: runs_26b73251
+  sample: mind_reading_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    Your thought assumes your tech lead had a specific negative opinion about your suggestion ("he thinks it's naive and not worth considering"), but there's no direct evidence for that. You're jumping to conclusions without considering alternative, more benign possibilities (e.g., he was simply taking note of the idea to discuss further).
+  input: 462
+  output: 65
+  passed: true
+executions_a7fc549b:
+  active_job_id: e882fbca-0d6a-4fc4-bdc1-3822facea00c
+  run: runs_16b9c23f
+  sample: should_statements_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge. The thought implies a rule or expectation should be followed,
+    and not being able to follow it leads to failure according to some undefined external
+    expectation, but there's no clear prediction of a negative future outcome as would
+    be indicative of fortune telling. \n\nHowever, the thinking trap of \"Should Statements\"
+    seems more apparent in this situation, where the developer is imposing on themselves
+    a rigid set of rules and expecting to meet certain standards that may not even
+    apply given the urgency of the hotfix."
+  input: 452
+  output: 99
+  passed: true
+executions_71536abb:
+  active_job_id: cbc9a7ed-b938-499a-8059-9eed87021eb9
+  run: runs_3219d251
+  sample: overgeneralizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    The developer is not assuming they know what someone else (e.g., their colleagues or customers) is thinking; rather, the thoughts involve self-assessments and predictions about future outcomes that reflect a pattern of null-pointer bugs in past feature releases.
+  input: 462
+  output: 52
+  passed: true
+executions_dbc9f849:
+  active_job_id: e43264b0-f094-426e-9626-9c1070f4dbf5
+  run: runs_fb991678
+  sample: labeling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This thought does not manifestly predict a specific negative future outcome, but rather assigns a fixed global identity based on a single past event, which aligns with the Labeling thinking trap.
+  input: 422
+  output: 40
+  passed: true
+executions_411d1830:
+  active_job_id: 23dd011c-61ba-404a-a31b-632c14a50a32
+  run: runs_2309874e
+  sample: all_or_nothing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm Because the thought emphasizes a strict binary perspective ("either
+    completely reliable or completely worthless") with no middle ground, and the incorrect
+    assertion is being used to invalidate the entire set of tests.
+  input: 448
+  output: 39
+  passed: true
+executions_5908e44f:
+  active_job_id: ff5a1069-5b84-4837-a1f3-2714a17f587b
+  run: runs_9b25c8e2
+  sample: personalizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: Challenge. The primary cognitive distortion here is personalizing, as the
+    developer feels entirely responsible for a situation caused by factors outside
+    their control (the automatic update and CI pipeline failure), rather than should
+    statements, which would involve imposing external expectations on self behavior
+    ("I should handle all updates").
+  input: 461
+  output: 57
+  passed: true
+executions_83b8f6bd:
+  active_job_id: 362afb84-2780-4c36-9784-f8bc2fdb967b
+  run: runs_c86d0b2e
+  sample: fortune_telling_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: Affirm. The developer is predicting a specific negative future outcome
+    as if it were certain ("I know for certain" that the meeting will be awkward),
+    which matches the cognitive distortion pattern of Fortune Telling.
+  input: 439
+  output: 42
+  passed: true
+executions_c6fe9274:
+  active_job_id: 0a3f6365-947b-421c-81d1-ca9bca5a371a
+  run: runs_6af30758
+  sample: catastrophizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm. The thought "this means the entire codebase has quality issues,
+    the team will lose all faith in my work, and I'll be asked off the project" involves
+    inflating a small setback (an unused variable) into a major disaster, which aligns
+    with the characteristic of catastrophizing.
+  input: 442
+  output: 63
+  passed: true
+executions_eb0a1cbc:
+  active_job_id: 301b7d1e-2b48-4bb6-979d-d1e69802a3d8
+  run: runs_fa405c52
+  sample: emotional_reasoning_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: "affirm \n\nBecause the developer has directly equated their feeling of
+    anxiety with the objective truth about the quality of their code, and is using
+    that emotional state as \"proof\" that they made a mistake. They're essentially
+    saying \"I feel incompetent, so I must be incompetent.\" This type of thinking
+    trap relies on emotions being seen as direct evidence rather than simply a personal
+    experience."
+  input: 459
+  output: 77
+  passed: true
+executions_288d2199:
+  active_job_id: c3569532-9be2-452d-91b5-742eba9f8cae
+  run: runs_9e450d43
+  sample: should_statements_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm You are imposing rigid rules on yourself using "should", stating
+    that you should always know Ruby methods by heart, and implying that forgetting
+    one is a sign of failure.
+  input: 456
+  output: 36
+  passed: true
+executions_0efdc543:
+  active_job_id: cfe93ce8-3d27-4b7d-8905-4fcfd6f1c25c
+  run: runs_5c4baeab
+  sample: personalizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+
+    The developer takes ownership and blame for the downtime despite external factors being outside their control, fitting the definition of personalizing.
+  input: 449
+  output: 28
+  passed: true
+executions_ae84ad09:
+  active_job_id: f4c6256e-2a82-4317-bc58-73ffed5ef741
+  run: runs_b087ce16
+  sample: mental_filter_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: affirm The developer's response indicates a clear mental filter at play,
+    where they zeroed in on the one negative detail (the documentation note) while
+    largely dismissing the four positives from their review.
+  input: 459
+  output: 40
+  passed: true
+executions_9a67de88:
+  active_job_id: 43e03867-363a-48ad-aaca-a85c145de535
+  run: runs_87049181
+  sample: mental_filter_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: challengethe thought does not accurately capture any form of mind reading,
+    as there is no indication that the speaker believes they know what others are
+    thinking (e.g., an inference about the director's thoughts or another team member's
+    perspective). However, I would re-categorize this thought as an example of Catastrophizing
+    or Fortunetelling (Fortune Telling), since the speaker's focus on a single negative
+    aspect overshadows numerous positive outcomes.
+  input: 484
+  output: 94
+  passed: true
+executions_e277cdf0:
+  active_job_id: a44b5597-4b69-433d-be51-d634fa75f41e
+  run: runs_d1beb240
+  sample: fortune_telling_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: "Challenge \nThe thought is dominated by a prediction of specific negative
+    outcomes (Fortune Telling), which is not accurately captured by the Should Statements
+    label. The primary cognitive distortion appears to be predicting certain disastrous
+    outcomes rather than imposing a rigid rule on oneself."
+  input: 438
+  output: 51
+  passed: true
+executions_5c7c7768:
+  active_job_id: d9d11963-5cc1-4e36-88e4-fc082f88a25a
+  run: runs_a5c2fabd
+  sample: overgeneralizing_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    The developer is assuming that they "always" make the same mistake (forgetting discussion outcomes) in every sprint, which is a classic example of overgeneralizing.
+  input: 470
+  output: 37
+  passed: true
+executions_f75714b7:
+  active_job_id: '091ac902-ecbe-4205-a609-dd6dd714aaa8'
+  run: runs_14a2238d
+  sample: emotional_reasoning_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    challenge
+    The anxious feeling is being used as "proof" of the quality of one's code, which suggests Emotional Reasoning (using a feeling as proof), rather than a rigid rule or expectation that is typical of a Should Statement.
+  input: 458
+  output: 48
+  passed: true
+executions_dfe94fc7:
+  active_job_id: 99b1ec64-de37-4a37-b9da-c28829f68381
+  run: runs_69ef8dd9
+  sample: catastrophizing_negative
+  eval_type: regex
+  expected_output: "(?i)challenge"
+  message: |-
+    Challenge
+    This is not a classic example of Should Statements, which typically involves imposing rigid rules on oneself using "should", "must", or "ought to" (e.g., "I should have written cleaner code"), but rather Catastrophizing, where one small issue is inflated into a major disaster and predicted negative outcomes are assumed as certain.
+  input: 440
+  output: 71
+  passed: true
+executions_99ec17c4:
+  active_job_id: 36397788-9387-4240-bd0b-5847ab76eb66
+  run: runs_077f4cc7
+  sample: mind_reading_positive
+  eval_type: regex
+  expected_output: "(?i)affirm"
+  message: |-
+    affirm
+    I affirm that Mind Reading is present in your thought, as you're assuming you know your tech lead's thoughts without direct evidence or explicit communication. Your inference about what he might be thinking is based solely on his nonverbal cues, which may not accurately reflect his actual thought process.
+  input: 462
+  output: 61
+  passed: true

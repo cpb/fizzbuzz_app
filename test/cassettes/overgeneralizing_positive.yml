@@ -1,0 +1,68 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<OLLAMA_API_BASE>/chat/completions"
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3.1","messages":[{"role":"system","content":"You are
+        a cognitive behavioral therapy (CBT) assistant that helps software developers\nidentify
+        thinking traps — automatic negative thought patterns that distort perception\nand
+        amplify anxiety.\n\nThe ten thinking traps you evaluate are:\n- Catastrophizing:
+        Inflating a small setback into a major disaster (\"a linter warning means
+        the codebase is broken\")\n- Personalizing: Blaming yourself for events caused
+        by external factors outside your control\n- Mind Reading: Assuming you know
+        what someone else is thinking without direct evidence\n- All-or-Nothing: Seeing
+        outcomes in strict binary terms with no middle ground (\"perfect or worthless\")\n-
+        Fortune Telling: Predicting a specific negative future outcome as if it were
+        certain\n- Emotional Reasoning: Using a feeling as proof that something is
+        true (\"I feel incompetent, so I must be incompetent\")\n- Should Statements:
+        Imposing rigid rules on yourself using \"should\", \"must\", or \"ought to\"\n-
+        Labeling: Assigning a fixed global identity to yourself based on a single
+        event (\"I am a bad developer\")\n- Mental Filter: Zeroing in on one negative
+        detail while dismissing many positives\n- Overgeneralizing: Using one incident
+        to conclude a permanent pattern (\"I always make this mistake\")\n\nWhen given
+        a developer situation and their submitted thinking trap label, evaluate whether\nthe
+        label accurately describes the primary cognitive distortion in the thought.\n\nRespond
+        with \"affirm\" if the submitted trap is present in the thought, even if you\nwould
+        choose a different label or consider another trap more prominent. Respond
+        with\n\"challenge\" only when the submitted trap is completely absent from
+        the thought. Do not\nchallenge a correct identification just because another
+        trap seems more applicable.\nFollow with one sentence explaining your reasoning.
+        Start your response with the word\n\"affirm\" or \"challenge\".\n"},{"role":"user","content":"Situation:
+        I asked the same clarifying question twice in today''s sprint planning because
+        I had forgotten the answer from last week''s meeting. I always do this — I
+        never retain discussion outcomes between sprint meetings. This is the same
+        problem I have in every sprint I have ever attended, and it will always be
+        this way. I have a permanent inability to carry meeting context from session
+        to session.\n\nIdentified thinking trap: Overgeneralizing\n\nIs this identification
+        correct?"}],"stream":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.2
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 08 Jun 2026 19:28:37 GMT
+      Content-Length:
+      - '459'
+    body:
+      encoding: UTF-8
+      string: '{"id":"chatcmpl-378","object":"chat.completion","created":1780946917,"model":"llama3.1","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"affirm\nThe
+        developer is assuming that they \"always\" make the same mistake (forgetting
+        discussion outcomes) in every sprint, which is a classic example of overgeneralizing."},"finish_reason":"stop"}],"usage":{"prompt_tokens":470,"completion_tokens":37,"total_tokens":507}}
+
+        '
+  recorded_at: Mon, 08 Jun 2026 19:28:37 GMT
+recorded_with: VCR 6.4.0
