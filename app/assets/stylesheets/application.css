@@ -380,6 +380,7 @@ main.page-content {
   margin-bottom: 1.25rem;
 }
 .context-box p { margin: 0.25rem 0 0; }
+.context-box ul { margin: 0; padding-left: 1.25rem; }
 
 /* Tables */
 .workbook-table {
