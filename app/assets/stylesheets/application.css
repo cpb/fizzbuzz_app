@@ -457,11 +457,13 @@ main.page-content {
 /* TIPP options */
 .tipp-options { margin-bottom: 1rem; }
 .tipp-option {
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
   padding: 0.4rem 0;
   cursor: pointer;
 }
-.tipp-option input { margin-right: 0.5rem; }
+.tipp-option input { margin-top: 0.2rem; flex-shrink: 0; }
 
 /* Thought options (select_primary, dear_give) */
 .thought-options { margin-bottom: 1rem; }
