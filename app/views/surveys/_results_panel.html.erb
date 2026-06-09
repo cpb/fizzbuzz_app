@@ -1,0 +1,31 @@
+<p class="results-meta"><%= pluralize(stats[:total], "response") %> so far</p>
+
+<h3>Roles</h3>
+<ul class="results-bar-list">
+  <% stats[:role].each do |role, count| %>
+    <li class="results-bar-item">
+      <div class="results-bar-label">
+        <span><%= role.humanize %></span>
+        <span><%= count %></span>
+      </div>
+      <div class="results-bar-track">
+        <div class="results-bar-fill" style="width: <%= (stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0) %>%"></div>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<h3>AI Tools Used</h3>
+<ul class="results-bar-list">
+  <% stats[:ai_tools].each do |tool, count| %>
+    <li class="results-bar-item">
+      <div class="results-bar-label">
+        <span><%= tool.humanize %></span>
+        <span><%= count %></span>
+      </div>
+      <div class="results-bar-track">
+        <div class="results-bar-fill" style="width: <%= (stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0) %>%"></div>
+      </div>
+    </li>
+  <% end %>
+</ul>

@@ -27,8 +27,8 @@
     <main class="page-content">
       <%= yield %>
     </main>
-    <div class="bottom-drawer">
-      <%= yield :drawer %>
-    </div>
+    <% unless content_for?(:no_drawer) %>
+      <div class="bottom-drawer"><%= yield :drawer %></div>
+    <% end %>
   </body>
 </html>
