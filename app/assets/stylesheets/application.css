@@ -120,6 +120,9 @@ main.page-content {
     padding: 0.5rem 1rem;
     gap: 0.5rem;
   }
+  .bottom-drawer .drawer-form {
+    width: 100%;
+  }
 }
 
 /* Square-bordered button — Johari box-button aesthetic */
