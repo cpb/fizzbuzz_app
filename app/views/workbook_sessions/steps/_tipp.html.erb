@@ -62,8 +62,9 @@
             [2,  "Minimal anxiety/distress"],
             [1,  "Alert and awake; concentrating well"],
             [0,  "No distress; total relaxation"]
-          ].each do |score, description| %>
-            <tr>
+          ].each do |score, description|
+            zone = score >= 7 ? "high" : score >= 3 ? "mid" : "low" %>
+            <tr class="suds-zone--<%= zone %>">
               <td><%= f.radio_button :suds_post_tipp, score, id: "suds_post_tipp_#{score}" %></td>
               <td><%= f.label "suds_post_tipp_#{score}", score %></td>
               <td><%= description %></td>
