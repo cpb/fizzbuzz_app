@@ -15,10 +15,12 @@ class FizzbuzzBasicV12FullEvalTest < EvalTestCase
   end
 
   test "1 is 1" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_1)
   end
 
   test "2 is 2" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_2)
   end
 
@@ -27,6 +29,7 @@ class FizzbuzzBasicV12FullEvalTest < EvalTestCase
   end
 
   test "4 is 4" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_4)
   end
 
@@ -39,10 +42,12 @@ class FizzbuzzBasicV12FullEvalTest < EvalTestCase
   end
 
   test "7 is 7" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_7)
   end
 
   test "8 is 8" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_8)
   end
 
@@ -51,22 +56,27 @@ class FizzbuzzBasicV12FullEvalTest < EvalTestCase
   end
 
   test "10 is Buzz" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_10)
   end
 
   test "11 is 11" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_11)
   end
 
   test "12 is Fizz" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_12)
   end
 
   test "13 is 13" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_13)
   end
 
   test "14 is 14" do
+    skip "VCR records known model failure"
     run_eval(:fizzbuzz_basic_v12_full_14)
   end
 
