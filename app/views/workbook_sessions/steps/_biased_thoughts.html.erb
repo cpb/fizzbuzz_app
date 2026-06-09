@@ -21,8 +21,8 @@
         <div data-dynamic-rows-target="container">
           <%= f.fields_for :biased_thoughts do |bt_f| %>
             <div class="thoughts-grid__row" data-row>
-              <div><%= bt_f.text_area :thought, rows: 2, data: { action: "focus->dynamic-rows#addRow" } %></div>
-              <div><%= bt_f.number_field :pre_believability, in: 0..100, data: { action: "focus->dynamic-rows#addRow" } %></div>
+              <div><%= bt_f.text_area :thought, rows: 2, placeholder: "Write down a biased thought...", data: { action: "focus->dynamic-rows#addRow" } %></div>
+              <div><%= bt_f.number_field :pre_believability, in: 0..100, placeholder: "0–100", data: { action: "focus->dynamic-rows#addRow" } %></div>
             </div>
           <% end %>
           <% if workbook_session.biased_thoughts.empty? %>
