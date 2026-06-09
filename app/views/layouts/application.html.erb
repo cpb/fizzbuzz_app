@@ -25,6 +25,9 @@
 
   <body>
     <main class="page-content">
+      <% flash.each do |type, message| %>
+        <div class="flash flash-<%= type %>"><%= message %></div>
+      <% end %>
       <%= yield %>
     </main>
     <% unless content_for?(:no_drawer) %>
