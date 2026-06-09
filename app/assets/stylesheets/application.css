@@ -371,6 +371,23 @@ main.page-content {
   color: var(--teal);
   margin: 0 0 1rem;
 }
+#workbook-wizard h2.h2--high { color: var(--blush); }
+#workbook-wizard h2.h2--mid  { color: var(--peach); }
+#workbook-wizard h2.h2--low  { color: var(--mint); }
+
+/* Workbook intro title — fizzbuzz gradient */
+#workbook-intro h1 {
+  background: linear-gradient(90deg, var(--teal), var(--peach));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+/* SUDS table row zone tints */
+.suds-zone--high { background: rgba(212, 132, 156, 0.18); }
+.suds-zone--mid  { background: rgba(232, 133, 90,  0.14); }
+.suds-zone--low  { background: rgba(122, 196, 182, 0.18); }
 
 /* Context box — shows user's primary thought in context */
 .context-box {
@@ -714,8 +731,8 @@ main.page-content {
 .suds-chart__area {
   display: flex;
   align-items: flex-end;
-  gap: 1.25rem;
-  height: 130px;
+  gap: 1.5rem;
+  height: 132px;
   border-left: 2px solid var(--border);
   border-bottom: 2px solid var(--border);
   padding: 0 0.75rem 0 0.5rem;
@@ -724,24 +741,31 @@ main.page-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-}
-.suds-chart__score {
-  font-size: 0.8rem;
-  font-weight: bold;
-  min-height: 1em;
+  gap: 0.3rem;
 }
 .suds-chart__bar {
-  width: 44px;
-  min-height: 3px;
+  width: 36px;
+  min-height: 6px;
   background: var(--teal);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 3px;
 }
-.suds-chart__bar--tipp      { background: var(--peach); }
-.suds-chart__bar--final     { background: var(--mint); }
+.suds-chart__bar.suds-zone--high { background: var(--blush); }
+.suds-chart__bar.suds-zone--mid  { background: var(--peach); }
+.suds-chart__bar.suds-zone--low  { background: var(--mint); }
+.suds-chart__score {
+  font-size: 0.72rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  line-height: 1;
+}
 .suds-chart__label {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   text-align: center;
-  max-width: 56px;
+  max-width: 52px;
   line-height: 1.2;
   color: rgba(44, 44, 44, 0.7);
 }

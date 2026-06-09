@@ -2,7 +2,7 @@
   <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
     <%= f.hidden_field :current_step, value: "tipp" %>
 
-    <h2 class="workbook-item" style="--wi: 0s">REDUCE PHYSIOLOGICAL AROUSAL</h2>
+    <h2 class="workbook-item h2--high" style="--wi: 0s">REDUCE PHYSIOLOGICAL AROUSAL</h2>
     <p class="workbook-item" style="--wi: 0.04s"><em>Your initial anxiety score was <%= workbook_session.suds_initial %>/10.</em></p>
     <p class="workbook-item" style="--wi: 0.08s">1. Put one of the TIPP skills into practice. Mark which skill you used below:</p>
 
