@@ -280,3 +280,167 @@ main.page-content {
 .form-field input:focus {
   background: rgba(44, 44, 44, 0.05);
 }
+
+/* =====================================================
+   Workbook Wizard
+   ===================================================== */
+
+#workbook-wizard {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+#workbook-wizard h2 {
+  font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
+  font-weight: 900;
+  font-stretch: condensed;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 1.4rem;
+  color: var(--teal);
+  margin: 0 0 1rem;
+}
+
+/* Context box — shows user's primary thought in context */
+.context-box {
+  background: rgba(74, 155, 142, 0.1);
+  border-left: 3px solid var(--teal);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+.context-box p { margin: 0.25rem 0 0; }
+
+/* Tables */
+.workbook-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.workbook-table th,
+.workbook-table td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.6rem;
+  vertical-align: top;
+  text-align: left;
+}
+.workbook-table th {
+  background: rgba(44, 44, 44, 0.06);
+  font-weight: bold;
+}
+.workbook-table td:first-child { width: 2.5rem; text-align: center; }
+
+.trap-table td:first-child { width: 2.5rem; }
+.trap-table td:nth-child(2) { width: 9rem; font-weight: bold; }
+
+.evidence-table td { width: 50%; }
+.evidence-table textarea { width: 100%; min-height: 8rem; }
+
+/* Form fields */
+.field {
+  margin-bottom: 1rem;
+}
+.field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+.field textarea,
+.field input[type="number"] {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.5rem;
+  outline: none;
+  width: 100%;
+}
+.field textarea { min-height: 5rem; }
+.field input[type="number"] { width: 6rem; }
+.field textarea:focus,
+.field input:focus { background: rgba(44, 44, 44, 0.05); }
+
+/* Inline textarea in table cells */
+.workbook-table textarea {
+  width: 100%;
+  min-height: 3rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.3rem;
+  outline: none;
+  resize: vertical;
+}
+.workbook-table input[type="number"] {
+  width: 5rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.3rem;
+}
+
+/* TIPP options */
+.tipp-options { margin-bottom: 1rem; }
+.tipp-option {
+  display: block;
+  padding: 0.4rem 0;
+  cursor: pointer;
+}
+.tipp-option input { margin-right: 0.5rem; }
+
+/* Thought options (select_primary, dear_give) */
+.thought-options { margin-bottom: 1rem; }
+.thought-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.thought-option:hover { background: rgba(44, 44, 44, 0.04); }
+.thought-option input { margin-top: 0.2rem; flex-shrink: 0; }
+.thought-text { font-weight: bold; }
+.thought-score { font-size: 0.8rem; color: rgba(44, 44, 44, 0.6); }
+
+/* Navigation */
+.navigation {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+.navigation--back-only { margin-top: 0.75rem; }
+
+/* Evaluation feedback */
+.evaluating { font-style: italic; color: rgba(44, 44, 44, 0.6); }
+
+.evaluation {
+  padding: 0.75rem 1rem;
+  margin: 0.75rem 0;
+  border-left: 3px solid var(--border);
+}
+.evaluation p { margin: 0 0 0.75rem; }
+.evaluation--challenge {
+  border-color: var(--peach);
+  background: rgba(232, 133, 90, 0.08);
+}
+.evaluation--affirm {
+  border-color: var(--teal);
+  background: rgba(74, 155, 142, 0.08);
+}
+
+/* Button variants */
+.btn--secondary {
+  background: transparent;
+  color: var(--charcoal);
+  border-color: rgba(44, 44, 44, 0.4);
+}
+.btn--secondary:hover {
+  background: rgba(44, 44, 44, 0.06);
+  color: var(--charcoal);
+}
