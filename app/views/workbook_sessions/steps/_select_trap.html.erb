@@ -31,7 +31,7 @@
           ["Personalizing",         "Assuming an action is directed to or because of oneself",                                    "They left a bunch of comments because they think I'm incompetent."],
           ["Should Statements",     "Having a fixed idea of what should happen & overestimating how bad it is that these expectations aren't met", "I have years of development experience. I really shouldn't feel anxious about code reviews."]
         ].each do |trap, definition, example| %>
-          <tr>
+          <tr data-controller="trap-row" data-action="click->trap-row#select">
             <td>
               <%= check_box_tag "thinking_trap[]", trap, false,
                   id: "thinking_trap_#{trap.parameterize.underscore}" %>

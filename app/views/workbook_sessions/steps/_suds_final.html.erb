@@ -30,7 +30,7 @@
           [1,  "Alert and awake; concentrating well"],
           [0,  "No distress; total relaxation"]
         ].each do |score, description| %>
-          <tr class="suds-zone--<%= suds_zone.(score) %>">
+          <tr class="suds-zone--<%= suds_zone.(score) %>" data-controller="suds-row" data-action="click->suds-row#select">
             <td><%= f.radio_button :suds_post_restructuring, score, id: "suds_final_#{score}", data: { action: "change->workbook-form#submit" } %></td>
             <td><%= f.label "suds_final_#{score}", score %></td>
             <td><%= description %></td>

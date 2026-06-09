@@ -388,6 +388,8 @@ main.page-content {
 .suds-zone--high { background: rgba(212, 132, 156, 0.18); }
 .suds-zone--mid  { background: rgba(232, 133, 90,  0.14); }
 .suds-zone--low  { background: rgba(122, 196, 182, 0.18); }
+tr[data-controller="suds-row"]  { cursor: pointer; }
+tr[data-controller="trap-row"]  { cursor: pointer; }
 
 /* Context box — shows user's primary thought in context */
 .context-box {

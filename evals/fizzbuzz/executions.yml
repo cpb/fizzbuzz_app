@@ -961,3 +961,243 @@ executions_68708d2e:
   input: 86
   output: 2
   passed: true
+executions_6407c5ae:
+  active_job_id: 42f89561-7ecc-466b-bcb4-0e30768242be
+  run: runs_a409fb0e
+  sample: fizzbuzz_basic_15
+  eval_type: regex
+  expected_output: fizz\s*buzz
+  message: Fizz buzz.
+  input: 68
+  output: 4
+  passed: true
+executions_91af99b9:
+  active_job_id: decde572-393f-4fe3-b5b4-e7f8abc1dfe2
+  run: runs_e17a62fb
+  sample: fizzbuzz_basic_5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: Buzz.
+  input: 68
+  output: 3
+  passed: true
+executions_eaed0c3e:
+  active_job_id: 4aa91c73-a423-4212-ab6f-3285aab19e9b
+  run: runs_b02eb70e
+  sample: fizzbuzz_basic_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 68
+  output: 2
+  passed: true
+executions_fec8b947:
+  active_job_id: 0c566b8b-46f4-460b-b865-9801e1ea3f08
+  run: runs_9cf6a550
+  sample: fizzbuzz_clean_15
+  eval_type: contains
+  expected_output: '"result": "FizzBuzz"'
+  message: '{"result": "FizzBuzz"}'
+  input: 72
+  output: 8
+  passed: true
+executions_3c452d0a:
+  active_job_id: 3e1b1e0f-6ed6-4d24-bf52-e33c1d392f36
+  run: runs_6cb3e215
+  sample: fizzbuzz_clean_5
+  eval_type: contains
+  expected_output: '"result": "Buzz"'
+  message: '{"result": "Buzz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_98355b7f:
+  active_job_id: ec421290-156d-42d6-9659-f06811db5486
+  run: runs_7ad1c251
+  sample: fizzbuzz_clean_3
+  eval_type: contains
+  expected_output: '"result": "Fizz"'
+  message: '{"result": "Fizz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_0f180ef8:
+  active_job_id: '09e70210-4a30-4e8b-ad38-994a47c62138'
+  run: runs_731411eb
+  sample: fizzbuzz_eval_15
+  eval_type: contains
+  expected_output: FizzBuzz
+  message: FizzBuzz
+  input: 80
+  output: 3
+  passed: true
+executions_6c868075:
+  active_job_id: ce7392e7-8bfa-4675-b605-e46031016cb8
+  run: runs_68209ca6
+  sample: fizzbuzz_eval_5
+  eval_type: contains
+  expected_output: Buzz
+  message: Buzz
+  input: 80
+  output: 2
+  passed: true
+executions_3b00973f:
+  active_job_id: aaddd399-6a30-4912-a78f-abc25b15290a
+  run: runs_e7bf2d2f
+  sample: fizzbuzz_eval_3
+  eval_type: contains
+  expected_output: Fizz
+  message: Fizz
+  input: 80
+  output: 2
+  passed: true
+executions_008c972f:
+  active_job_id: 6c45ec87-6f42-40d3-98fd-cf011a1a4007
+  run: runs_f1a42d1d
+  sample: yoda_fizzbuzz_15
+  eval_type: regex
+  expected_output: fizzbuzz
+  message: FizzBuzz.
+  input: 86
+  output: 4
+  passed: true
+executions_25ed347d:
+  active_job_id: f7d793a7-30e3-404f-a21d-9b5783f230f2
+  run: runs_6fe01db4
+  sample: yoda_fizzbuzz_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 86
+  output: 2
+  passed: true
+executions_36dc28d3:
+  active_job_id: cfbc32dd-e129-4515-9ec4-0f9a569fd13a
+  run: runs_c9bcc1ca
+  sample: yoda_fizzbuzz_1
+  eval_type: regex
+  expected_output: "(\\bone\\b|\\b1\\b)"
+  message: One
+  input: 95
+  output: 2
+  passed: true
+executions_5cc08c9b:
+  active_job_id: e6148420-a217-4d8b-a9b9-b2eb5cc245ab
+  run: runs_5a6cd96d
+  sample: yoda_fizzbuzz_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 86
+  output: 2
+  passed: true
+executions_12fdefd7:
+  active_job_id: a17fd6ed-62b3-486f-82dc-6b604458b74e
+  run: runs_1ed615ba
+  sample: yoda_fizzbuzz_15
+  eval_type: regex
+  expected_output: fizzbuzz
+  message: FizzBuzz.
+  input: 86
+  output: 4
+  passed: true
+executions_48afa3ac:
+  active_job_id: 978f39b1-857f-4d80-80b1-5fc3055d68a9
+  run: runs_9e9ab046
+  sample: yoda_fizzbuzz_1
+  eval_type: regex
+  expected_output: "(\\bone\\b|\\b1\\b)"
+  message: One
+  input: 95
+  output: 2
+  passed: true
+executions_33d2c41c:
+  active_job_id: 3f3b7511-1a3d-4bea-ac7a-686eb9dc1e02
+  run: runs_95bece05
+  sample: fizzbuzz_clean_5
+  eval_type: contains
+  expected_output: '"result": "Buzz"'
+  message: '{"result": "Buzz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_d92d41d0:
+  active_job_id: 5eb7a5db-8358-4572-8711-3e935eda4591
+  run: runs_ed32ef59
+  sample: fizzbuzz_clean_15
+  eval_type: contains
+  expected_output: '"result": "FizzBuzz"'
+  message: '{"result": "FizzBuzz"}'
+  input: 72
+  output: 8
+  passed: true
+executions_07fa084f:
+  active_job_id: 9835fcd6-7915-4f05-8f86-2f76020b449e
+  run: runs_34f06378
+  sample: fizzbuzz_clean_3
+  eval_type: contains
+  expected_output: '"result": "Fizz"'
+  message: '{"result": "Fizz"}'
+  input: 72
+  output: 7
+  passed: true
+executions_58e9c6b5:
+  active_job_id: 2f3ba8a9-0950-4ea8-9b6a-2aa83d9136c3
+  run: runs_e4cc8284
+  sample: fizzbuzz_eval_5
+  eval_type: contains
+  expected_output: Buzz
+  message: Buzz
+  input: 80
+  output: 2
+  passed: true
+executions_75586092:
+  active_job_id: f805aced-f5c9-4139-b77e-54e98915eec6
+  run: runs_3038e5fd
+  sample: fizzbuzz_eval_15
+  eval_type: contains
+  expected_output: FizzBuzz
+  message: FizzBuzz
+  input: 80
+  output: 3
+  passed: true
+executions_fe2992b8:
+  active_job_id: 4199b0d3-0a0f-4bb4-9a45-066c37d51d5a
+  run: runs_d3a55daf
+  sample: fizzbuzz_eval_3
+  eval_type: contains
+  expected_output: Fizz
+  message: Fizz
+  input: 80
+  output: 2
+  passed: true
+executions_af6f26ea:
+  active_job_id: d005f1b7-8be7-4a0d-ab42-e9dd0af418ee
+  run: runs_71dd0d6b
+  sample: fizzbuzz_basic_5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: Buzz.
+  input: 68
+  output: 3
+  passed: true
+executions_0da566bf:
+  active_job_id: effec5da-aa52-4dc8-ab38-c055090a75ce
+  run: runs_c51ab26d
+  sample: fizzbuzz_basic_15
+  eval_type: regex
+  expected_output: fizz\s*buzz
+  message: Fizz buzz.
+  input: 68
+  output: 4
+  passed: true
+executions_bf4b22f3:
+  active_job_id: 067b52a5-f853-45b5-92d6-51c2fef1e419
+  run: runs_002d499b
+  sample: fizzbuzz_basic_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 68
+  output: 2
+  passed: true
