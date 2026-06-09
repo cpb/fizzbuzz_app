@@ -1,4 +1,6 @@
 class LinksController < ApplicationController
+  before_action :ensure_not_production, only: [ :new, :create, :publish ]
+
   def index
     @links = Link.all
   end
