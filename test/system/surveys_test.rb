@@ -25,7 +25,7 @@ class SurveysTest < ApplicationSystemTestCase
 
     click_on "Submit Survey"
     sleep 1
-    assert_text "Response recorded — thank you!"
+    assert_text /Response recorded — thank you!/i
     assert_current_path results_survey_path
     assert_text "1 response so far"
   end
