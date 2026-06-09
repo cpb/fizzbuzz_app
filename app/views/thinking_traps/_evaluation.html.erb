@@ -1,9 +1,7 @@
-<div id="evaluation-result" class="evaluation evaluation--<%= evaluation.outcome %>">
+<div id="evaluation-result" class="evaluation evaluation--<%= evaluation.outcome %>" data-controller="evaluation-scroll">
   <p><%= evaluation.feedback_text %></p>
-  <% if evaluation.outcome == "affirm" %>
-    <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch do |f| %>
-      <%= f.hidden_field :current_step, value: "select_trap" %>
-      <%= f.submit "Continue →", class: "btn" %>
-    <% end %>
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch do |f| %>
+    <%= f.hidden_field :current_step, value: "select_trap" %>
+    <%= f.submit "Continue →", class: "btn" %>
   <% end %>
 </div>

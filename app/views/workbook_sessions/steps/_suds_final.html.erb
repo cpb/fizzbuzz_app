@@ -1,11 +1,17 @@
 <div class="workbook-step">
   <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form", data: { controller: "workbook-form" } do |f| %>
-    <%= f.hidden_field :current_step, value: "suds_initial" %>
+    <%= f.hidden_field :current_step, value: "suds_final" %>
 
-    <h2 class="workbook-item" style="--wi: 0s">CREATE AWARENESS</h2>
-    <p class="workbook-item" style="--wi: 0.06s">1. Rate your anxiety using the SUDS scale (below):</p>
+    <h2 class="workbook-item" style="--wi: 0s">CHECK THE IMPACT</h2>
+    <p class="workbook-item" style="--wi: 0.06s">
+      <em>Your initial anxiety score was <%= workbook_session.suds_initial %>/10.</em>
+      <% if workbook_session.suds_post_tipp.present? %>
+        <em>After TIPP: <%= workbook_session.suds_post_tipp %>/10.</em>
+      <% end %>
+    </p>
+    <p class="workbook-item" style="--wi: 0.12s">Re-rate your anxiety now:</p>
 
-    <table class="workbook-table workbook-item" style="--wi: 0.12s">
+    <table class="workbook-table workbook-item" style="--wi: 0.18s">
       <thead>
         <tr><th>Select</th><th>Score</th><th>Description</th></tr>
       </thead>
@@ -24,8 +30,8 @@
           [0,  "No distress; total relaxation"]
         ].each do |score, description| %>
           <tr>
-            <td><%= f.radio_button :suds_initial, score, id: "suds_initial_#{score}", data: { action: "change->workbook-form#submit" } %></td>
-            <td><%= f.label "suds_initial_#{score}", score %></td>
+            <td><%= f.radio_button :suds_post_restructuring, score, id: "suds_final_#{score}", data: { action: "change->workbook-form#submit" } %></td>
+            <td><%= f.label "suds_final_#{score}", score %></td>
             <td><%= description %></td>
           </tr>
         <% end %>

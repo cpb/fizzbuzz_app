@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["container", "template"]
 
   addRow(event) {
-    const rows = this.containerTarget.querySelectorAll("tr")
+    const rows = this.containerTarget.querySelectorAll("[data-row]")
     const lastRow = rows[rows.length - 1]
     
     // If the event target is within the last row, add a new one

@@ -1,28 +1,23 @@
-<h2>PROACTIVELY ENGAGE</h2>
-<p>Plan ahead: write down how you will ask for a review like a <strong>DEAR</strong>.</p>
+<div class="workbook-step">
+  <h2>PROACTIVELY ENGAGE</h2>
+  <p>Plan ahead: write down how you will ask for a review like a <strong>DEAR</strong>.</p>
 
-<div class="context-box">
-  <ul>
-    <li><strong>D</strong>escribe the request</li>
-    <li><strong>E</strong>xpress how you feel about it</li>
-    <li><strong>A</strong>sk for specific feedback</li>
-    <li><strong>R</strong>einforce with gratitude and responsiveness</li>
-  </ul>
-  <p><em>Example: "Could I get a review? I'm not feeling confident about the way I did XYZ, so could you pay extra attention to that section? Thanks! I appreciate you!"</em></p>
+  <div class="context-box">
+    <ul>
+      <li><strong>D</strong>escribe the request</li>
+      <li><strong>E</strong>xpress how you feel about it</li>
+      <li><strong>A</strong>sk for specific feedback</li>
+      <li><strong>R</strong>einforce with gratitude and responsiveness</li>
+    </ul>
+    <p><em>Example: "Could I get a review? I'm not feeling confident about the way I did XYZ, so could you pay extra attention to that section? Thanks! I appreciate you!"</em></p>
+  </div>
+
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
+    <%= f.hidden_field :current_step, value: "dear_plan" %>
+    <div class="field">
+      <%= f.label :dear_plan, "Your DEAR request:" %>
+      <%= f.text_area :dear_plan, rows: 5,
+          placeholder: "Write your practice review request here..." %>
+    </div>
+  <% end %>
 </div>
-
-<%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch do |f| %>
-  <%= f.hidden_field :current_step, value: "dear_plan" %>
-
-  <div class="field">
-    <%= f.label :dear_plan, "Your DEAR request:" %>
-    <%= f.text_area :dear_plan, rows: 5,
-        placeholder: "Write your practice review request here..." %>
-  </div>
-
-  <div class="navigation">
-    <%= link_to "Back", workbook_session_path(workbook_session, direction: "back"),
-        data: { turbo_method: :patch }, class: "btn btn--secondary" %>
-    <%= f.submit "Finish", class: "btn" %>
-  </div>
-<% end %>

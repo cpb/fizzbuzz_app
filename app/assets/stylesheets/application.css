@@ -28,6 +28,11 @@ body {
   min-height: 100vh;
 }
 
+/* Prevent content from hiding behind fixed drawer */
+body {
+  padding-bottom: var(--drawer-height);
+}
+
 h1 {
   font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
   font-weight: 900;
@@ -161,6 +166,71 @@ main.page-content {
   gap: 0.3rem;
 }
 
+/* Workbook rise animation — no max-height constraint */
+
+@keyframes workbook-rise {
+  from {
+    transform: translateY(2.5rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Single-block step entrance */
+.workbook-step {
+  animation: workbook-rise 0.3s ease-out both;
+}
+
+/* Per-item stagger: set --wi on each element */
+.workbook-item {
+  animation: workbook-rise 0.4s ease-out both;
+  animation-delay: calc(var(--wi, 0) * 1s);
+}
+
+/* Intro container — column-reverse, fixed above drawer, like #results */
+#workbook-intro {
+  position: fixed;
+  bottom: var(--drawer-height);
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  max-height: calc(100vh - var(--drawer-height));
+  overflow-y: auto;
+  pointer-events: none;
+}
+
+#workbook-intro > * {
+  pointer-events: auto;
+}
+
+#workbook-intro h1 {
+  margin-bottom: 0.5rem;
+}
+
+#workbook-intro p {
+  margin: 0.25rem 0;
+}
+
+#workbook-intro ul {
+  margin: 0.25rem 0 0 1.2rem;
+  padding: 0;
+}
+
+#workbook-intro li {
+  margin: 0.15rem 0;
+}
+
+.workbook-intro__bullet::before {
+  content: "– ";
+  opacity: 0.5;
+}
+
 /* Results */
 
 @keyframes float-up {
@@ -288,6 +358,7 @@ main.page-content {
 #workbook-wizard {
   max-width: 860px;
   margin: 0 auto;
+  overflow-x: hidden;
 }
 
 #workbook-wizard h2 {
@@ -332,9 +403,10 @@ main.page-content {
 
 .trap-table td:first-child { width: 2.5rem; }
 .trap-table td:nth-child(2) { width: 9rem; font-weight: bold; }
-
-.evidence-table td { width: 50%; }
-.evidence-table textarea { width: 100%; min-height: 8rem; }
+@media (max-width: 600px) {
+  .trap-table th:nth-child(4),
+  .trap-table td:nth-child(4) { display: none; }
+}
 
 /* Form fields */
 .field {
@@ -407,14 +479,164 @@ main.page-content {
 .thought-text { font-weight: bold; }
 .thought-score { font-size: 0.8rem; color: rgba(44, 44, 44, 0.6); }
 
-/* Navigation */
+/* Navigation — now lives in bottom drawer; keep in-content fallback */
 .navigation {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  margin-top: 1.25rem;
+  display: none;
 }
-.navigation--back-only { margin-top: 0.75rem; }
+
+/* Side-by-side rational response */
+.response-grid {
+  display: grid;
+  grid-template-columns: 1fr 6.5rem;
+  gap: 0;
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.response-grid textarea {
+  width: 100%;
+  min-height: 5rem;
+  border: none;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.5rem;
+  outline: none;
+  resize: vertical;
+}
+.response-grid input[type="number"] {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.4rem;
+  text-align: center;
+  outline: none;
+}
+.response-grid .response-grid__header {
+  background: rgba(44, 44, 44, 0.06);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: bold;
+}
+.response-grid .response-grid__header:last-child {
+  border-left: 1px solid var(--border);
+  text-align: center;
+}
+
+/* Side-by-side evidence (stacks on narrow screens) */
+.evidence-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.evidence-grid__header {
+  background: rgba(44, 44, 44, 0.06);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: bold;
+}
+.evidence-grid__header:last-child { border-left: 1px solid var(--border); }
+.evidence-grid__cell { display: flex; }
+.evidence-grid__cell:last-child { border-left: 1px solid var(--border); }
+.evidence-grid textarea {
+  width: 100%;
+  min-height: 8rem;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.5rem;
+  outline: none;
+  resize: vertical;
+}
+@media (max-width: 600px) {
+  .evidence-grid { grid-template-columns: 1fr; }
+  .evidence-grid__header:last-child { border-left: none; border-top: 1px solid var(--border); }
+  .evidence-grid__cell:last-child { border-left: none; border-top: 1px solid var(--border); }
+}
+
+/* Biased thoughts grid (mirrors response-grid structure, multi-row) */
+.thoughts-grid {
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.thoughts-grid__header {
+  display: grid;
+  grid-template-columns: 1fr 6.5rem;
+  background: rgba(44, 44, 44, 0.06);
+  border-bottom: 1px solid var(--border);
+}
+.thoughts-grid__header > div {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.5rem;
+  font-weight: bold;
+}
+.thoughts-grid__header > div:last-child {
+  border-left: 1px solid var(--border);
+  text-align: center;
+}
+.thoughts-grid__row {
+  display: grid;
+  grid-template-columns: 1fr 6.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.thoughts-grid__row:last-child { border-bottom: none; }
+.thoughts-grid__row > div:last-child {
+  border-left: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thoughts-grid textarea {
+  width: 100%;
+  min-height: 3rem;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.5rem;
+  outline: none;
+  resize: vertical;
+}
+.thoughts-grid input[type="number"] {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  text-align: center;
+  outline: none;
+}
+
+/* Workbook drawer nav slot */
+#workbook-drawer-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Evaluation animation */
+#evaluation-result.evaluation {
+  animation: workbook-rise 0.4s ease-out both;
+}
+
+/* TIPP revealed suds section */
+#suds-rerate {
+  animation: workbook-rise 0.35s ease-out both;
+}
 
 /* Evaluation feedback */
 .evaluating { font-style: italic; color: rgba(44, 44, 44, 0.6); }
