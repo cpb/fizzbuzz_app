@@ -1,15 +1,57 @@
 ---
-record_0:
+code_review_anxiety_workbook:
   id: 1
   created_at: 2026-06-09 09:04:15.910411 Z
   gist_id:
-  title: Test Link 1
+  title: "The Code Review Anxiety Workbook - Carol S. Lee, PhD & Kristen Foster-Marks, MA"
   updated_at: 2026-06-09 09:04:15.910411 Z
-  url: https://example.com/1
-record_1:
+  url: https://developer-success-lab.gitbook.io/code-review-anxiety-workbook-1
+rails_survey_2026:
   id: 2
-  created_at: 2026-06-09 09:04:15.917927 Z
+  created_at: 2026-06-09 09:04:15.911000 Z
   gist_id:
-  title: Test Link 2
-  updated_at: 2026-06-09 09:04:15.917927 Z
-  url: https://example.com/2
+  title: Ruby on Rails Developer Community Survey 2026
+  updated_at: 2026-06-09 09:04:15.911000 Z
+  url: https://planetargon.survey.fm/rails-survey-2026?utm_source=rails-survey&utm_medium=referral&utm_campaign=2026
+design_in_tech_sxsw_2026:
+  id: 3
+  created_at: 2026-06-09 09:04:15.912000 Z
+  gist_id:
+  title: "Design in Tech Report SXSW 2026: UX to AX"
+  updated_at: 2026-06-09 09:04:15.912000 Z
+  url: https://www.youtube.com/watch?v=dry_rIRsDl8
+johari_intro:
+  id: 4
+  created_at: 2026-06-09 09:04:15.913000 Z
+  gist_id:
+  title: Johari Intro
+  updated_at: 2026-06-09 09:04:15.913000 Z
+  url: https://cpb.github.io/johari
+moma_design_exhibition:
+  id: 5
+  created_at: 2026-06-09 09:04:15.914000 Z
+  gist_id:
+  title: "grasp momentous changes in technology, science, and social mores, changes that will demand or reflect major adjustments in human behavior, and convert them into objects and systems that people understand and use."
+  updated_at: 2026-06-09 09:04:15.914000 Z
+  url: https://www.moma.org/calendar/exhibitions/58
+fizzbuzz_tensorflow:
+  id: 6
+  created_at: 2026-06-09 09:04:15.915000 Z
+  gist_id:
+  title: Fizz buzz in tensorflow
+  updated_at: 2026-06-09 09:04:15.915000 Z
+  url: https://www.slideshare.net/slideshow/wrangle-2016-lightning-talk-fizzbuzz-in-tensorflow/65480227
+fizzbuzz_app_repo:
+  id: 7
+  created_at: 2026-06-09 09:04:15.916000 Z
+  gist_id:
+  title: cpb/fizzbuzz_app
+  updated_at: 2026-06-09 09:04:15.916000 Z
+  url: https://github.com/cpb/fizzbuzz_app/
+fizzbuzz_app_site:
+  id: 8
+  created_at: 2026-06-09 09:04:15.917000 Z
+  gist_id:
+  title: fizzbuzz.cpb.ca
+  updated_at: 2026-06-09 09:04:15.917000 Z
+  url: http://fizzbuzz.cpb.ca
