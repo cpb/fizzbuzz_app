@@ -99,6 +99,34 @@ plus invalid). The goal: 16/16.
 | v11 | Examples with `:` separator | **15/16** | 7 → "Fizz" (random noise) |
 | v12 | Minimal one-sentence instruction | 6/16 | Regression — too sparse |
 
+### v5 — pilot grid
+
+![FizzBuzz Basic v5 grid](hill_v5_grid.png)
+
+### v6 — pilot grid
+
+![FizzBuzz Basic v6 grid](hill_v6_grid.png)
+
+### v7 — first full-suite run
+
+![FizzBuzz Basic v7 grid](hill_v7_grid.png)
+
+### v8 — echo regression
+
+![FizzBuzz Basic v8 grid](hill_v8_grid.png)
+
+### v9 — Arabic numeral fix
+
+![FizzBuzz Basic v9 grid](hill_v9_grid.png)
+
+### v10 — arrow examples (leaked into output)
+
+![FizzBuzz Basic v10 grid](hill_v10_grid.png)
+
+### v12 — minimal instruction (regression)
+
+![FizzBuzz Basic v12 grid](hill_v12_grid.png)
+
 ---
 
 ## Best result: FizzBuzz Basic v11 (93.75%)
