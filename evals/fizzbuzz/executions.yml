@@ -1321,3 +1321,33 @@ executions_46323239:
   input: 80
   output: 3
   passed: true
+executions_0790dc24:
+  active_job_id: c0225bfc-39dd-4706-8518-c3ac0a22ae3f
+  run: runs_435dd80b
+  sample: fizzbuzz_basic_5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: FizzBuzz
+  input: 50
+  output: 3
+  passed: false
+executions_9723958b:
+  active_job_id: 0e95c9e2-56cc-4055-bec1-5fd8cec487b9
+  run: runs_2f87899b
+  sample: fizzbuzz_basic_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 50
+  output: 2
+  passed: true
+executions_09abf363:
+  active_job_id: 78868ff1-861c-4161-a36d-855e6d251bd5
+  run: runs_6da1d732
+  sample: fizzbuzz_basic_15
+  eval_type: regex
+  expected_output: fizz\s*buzz
+  message: Neither.
+  input: 50
+  output: 3
+  passed: false

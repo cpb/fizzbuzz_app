@@ -1453,3 +1453,36 @@ runs_214110b0:
     time: *132
   ended_at:
   prompt: fizzbuzz_eval
+runs_435dd80b:
+  active_job_id: test-96083c35
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &133 2026-06-09 19:49:10.183086000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *133
+  ended_at:
+  prompt: fizzbuzz_basic
+runs_2f87899b:
+  active_job_id: test-f491c845
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &134 2026-06-09 19:49:11.382989000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *134
+  ended_at:
+  prompt: fizzbuzz_basic
+runs_6da1d732:
+  active_job_id: test-a4d39aef
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &135 2026-06-09 19:49:16.154668000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *135
+  ended_at:
+  prompt: fizzbuzz_basic
