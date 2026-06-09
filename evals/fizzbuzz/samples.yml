@@ -1,0 +1,80 @@
+_fixture:
+  model_class: RubyLLM::Evals::Sample
+
+fizzbuzz_basic_15:
+  prompt: fizzbuzz_basic
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_3:
+  prompt: fizzbuzz_basic
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_5:
+  prompt: fizzbuzz_basic
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+yoda_fizzbuzz_15:
+  prompt: yoda_fizzbuzz
+  eval_type: regex
+  expected_output: "fizzbuzz"
+  variables: { "number": "15" }
+
+yoda_fizzbuzz_3:
+  prompt: yoda_fizzbuzz
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+yoda_fizzbuzz_5:
+  prompt: yoda_fizzbuzz
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+yoda_fizzbuzz_1:
+  prompt: yoda_fizzbuzz
+  eval_type: regex
+  expected_output: "(\\bone\\b|\\b1\\b)"
+  variables: { "number": "1" }
+
+fizzbuzz_eval_15:
+  prompt: fizzbuzz_eval
+  eval_type: contains
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+
+fizzbuzz_eval_3:
+  prompt: fizzbuzz_eval
+  eval_type: contains
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+
+fizzbuzz_eval_5:
+  prompt: fizzbuzz_eval
+  eval_type: contains
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_clean_15:
+  prompt: fizzbuzz_clean
+  eval_type: contains
+  expected_output: '"result": "FizzBuzz"'
+  variables: { "number": "15" }
+
+fizzbuzz_clean_3:
+  prompt: fizzbuzz_clean
+  eval_type: contains
+  expected_output: '"result": "Fizz"'
+  variables: { "number": "3" }
+
+fizzbuzz_clean_5:
+  prompt: fizzbuzz_clean
+  eval_type: contains
+  expected_output: '"result": "Buzz"'
+  variables: { "number": "5" }

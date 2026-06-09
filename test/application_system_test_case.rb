@@ -14,12 +14,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]
 
   setup do
-    # Use async_job (backed by Falcon's event loop) instead of the global :test
-    # adapter so jobs actually execute and broadcast via Turbo Streams.
+    WebMock.disable!
     ActiveJob::Base.queue_adapter = :async_job
   end
 
   teardown do
+    WebMock.enable!
     ActiveJob::Base.queue_adapter = :test
   end
 end
