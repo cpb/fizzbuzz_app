@@ -23,6 +23,10 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
       Rails.env = ActiveSupport::EnvironmentInquirer.new("production")
       get new_link_url
       assert_response :forbidden
+      post links_url, params: { link: { title: "T", url: "https://example.com" } }
+      assert_response :forbidden
+      post links_publish_url
+      assert_response :forbidden
     ensure
       Rails.env = original_env
     end
