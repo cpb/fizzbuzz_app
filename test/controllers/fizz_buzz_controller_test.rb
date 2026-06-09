@@ -10,13 +10,13 @@ class FizzBuzzControllerTest < ActionDispatch::IntegrationTest
     assert_enqueued_with(job: FizzBuzzJob) do
       post root_url, params: { starting_integer: 5 }
     end
-    assert_equal 4, enqueued_jobs.last[:args][0]
+    assert_equal 5, enqueued_jobs.last[:args][0]
     assert_response :redirect
   end
 
-  test "should not enqueue job when starting at 1" do
+  test "should not enqueue job when starting at 0" do
     assert_no_enqueued_jobs do
-      post root_url, params: { starting_integer: 1 }
+      post root_url, params: { starting_integer: 0 }
     end
     assert_response :redirect
   end

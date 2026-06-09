@@ -3,7 +3,7 @@ class FizzBuzzJob < ApplicationJob
 
   def perform(number, tab_token)
     result = FizzBuzzer.call(number)
-    Turbo::StreamsChannel.broadcast_append_to(
+    Turbo::StreamsChannel.broadcast_prepend_to(
       "fizz_buzz_channel:#{tab_token}",
       target: "results",
       partial: "fizz_buzz/result",
