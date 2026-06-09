@@ -1,0 +1,47 @@
+<div class="workbook-step">
+  <h2 class="h2--mid">CHALLENGE BIASED THINKING</h2>
+  <p>2. Write down your biased thoughts.</p>
+
+  <p>Guiding questions:</p>
+  <ul>
+    <li><em>How am I doubting my abilities as an engineer?</em></li>
+    <li><em>What am I worried will happen?</em></li>
+    <li><em>What do I think are the consequences of that outcome?</em></li>
+    <li><em>What am I afraid it means about me if that happened?</em></li>
+  </ul>
+
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
+    <%= f.hidden_field :current_step, value: "biased_thoughts" %>
+    <div data-controller="dynamic-rows">
+      <div class="thoughts-grid">
+        <div class="thoughts-grid__header">
+          <div>Thought</div>
+          <div>Believability (0–100)</div>
+        </div>
+        <div data-dynamic-rows-target="container">
+          <%= f.fields_for :biased_thoughts do |bt_f| %>
+            <div class="thoughts-grid__row" data-row>
+              <div><%= bt_f.text_area :thought, rows: 2, placeholder: "Write down a biased thought...", data: { action: "focus->dynamic-rows#addRow" } %></div>
+              <div><%= bt_f.number_field :pre_believability, in: 0..100, placeholder: "0–100", data: { action: "focus->dynamic-rows#addRow" } %></div>
+            </div>
+          <% end %>
+          <%= f.fields_for :biased_thoughts, workbook_session.biased_thoughts.build do |bt_f| %>
+            <div class="thoughts-grid__row" data-row>
+              <div><%= bt_f.text_area :thought, rows: 2, placeholder: "Write down a biased thought...", data: { action: "focus->dynamic-rows#addRow" } %></div>
+              <div><%= bt_f.number_field :pre_believability, in: 0..100, placeholder: "0–100", data: { action: "focus->dynamic-rows#addRow" } %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <template data-dynamic-rows-target="template">
+        <%= f.fields_for :biased_thoughts, workbook_session.biased_thoughts.build, child_index: "NEW_RECORD" do |bt_f| %>
+          <div class="thoughts-grid__row" data-row>
+            <div><%= bt_f.text_area :thought, rows: 2, placeholder: "Write down a biased thought...", data: { action: "focus->dynamic-rows#addRow" } %></div>
+            <div><%= bt_f.number_field :pre_believability, in: 0..100, placeholder: "0–100", data: { action: "focus->dynamic-rows#addRow" } %></div>
+          </div>
+        <% end %>
+      </template>
+    </div>
+  <% end %>
+</div>

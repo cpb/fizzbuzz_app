@@ -1,0 +1,16 @@
+<% step = workbook_session.current_step %>
+
+<% unless workbook_session.first_step? || step == "summary" %>
+  <%= link_to "Back", workbook_session_path(workbook_session, direction: "back"),
+      data: { turbo_method: :patch }, class: "btn btn--secondary" %>
+<% end %>
+
+<% if step == "summary" %>
+  <%= link_to "Start Over", new_workbook_session_path, class: "btn" %>
+<% elsif %w[dear_plan give_plan].include?(step) %>
+  <button type="submit" form="step-form" class="btn">Finish</button>
+<% elsif step == "select_trap" %>
+  <button type="submit" form="step-form" class="btn">Evaluate</button>
+<% else %>
+  <button type="submit" form="step-form" class="btn">Next</button>
+<% end %>

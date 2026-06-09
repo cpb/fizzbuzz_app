@@ -1,0 +1,19 @@
+<div class="workbook-step">
+  <h2 class="h2--low">PROACTIVELY ENGAGE</h2>
+  <p>Are you about to ask for a review, or give a review?</p>
+
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form", data: { controller: "workbook-form" } do |f| %>
+    <%= f.hidden_field :current_step, value: "dear_give" %>
+
+    <div class="thought-options">
+      <label class="thought-option">
+        <%= f.radio_button :review_direction, "ask", data: { action: "change->workbook-form#submit" } %>
+        <span class="thought-text">I'm <strong>asking</strong> for a review</span>
+      </label>
+      <label class="thought-option">
+        <%= f.radio_button :review_direction, "give", data: { action: "change->workbook-form#submit" } %>
+        <span class="thought-text">I'm <strong>giving</strong> a review</span>
+      </label>
+    </div>
+  <% end %>
+</div>

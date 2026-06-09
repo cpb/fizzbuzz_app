@@ -1,0 +1,28 @@
+<div class="workbook-step">
+  <h2 class="h2--mid">CHALLENGE BIASED THINKING</h2>
+
+  <div class="context-box">
+    <strong>Your most strongly believed thought:</strong>
+    <p><%= workbook_session.primary_thought_text %></p>
+  </div>
+
+  <p>6. Write down a rational response to your biased thought:</p>
+
+  <p>Guiding Questions:</p>
+  <ul>
+    <li><em>What is a more balanced view of the situation?</em></li>
+    <li><em>What would you say if this were your best friend?</em></li>
+    <li><em>What was the strongest piece of evidence against your thought?</em></li>
+  </ul>
+
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
+    <%= f.hidden_field :current_step, value: "rational_response" %>
+
+    <div class="response-grid">
+      <div class="response-grid__header">Rational Response</div>
+      <div class="response-grid__header">Believability (0–100)</div>
+      <%= f.text_area :rational_response, rows: 4, placeholder: "A more balanced way to think about this situation..." %>
+      <%= f.number_field :rational_believability, in: 0..100, placeholder: "0–100" %>
+    </div>
+  <% end %>
+</div>

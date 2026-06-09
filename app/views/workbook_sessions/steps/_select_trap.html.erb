@@ -1,0 +1,49 @@
+<div class="workbook-step">
+  <h2 class="h2--mid">CHALLENGE BIASED THINKING</h2>
+  <%= turbo_stream_from workbook_session, :thinking_traps %>
+
+  <div class="context-box">
+    <strong>Your most strongly believed thought:</strong>
+    <p><%= workbook_session.primary_thought_text %></p>
+  </div>
+
+  <p>4. Write down any thinking traps you see in the thought above:</p>
+
+  <%= form_with url: workbook_session_thinking_traps_path(workbook_session), method: :post,
+      id: "step-form" do |f| %>
+    <table class="workbook-table trap-table">
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Thinking Trap</th>
+          <th>Definition</th>
+          <th>Example Thought</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% [
+          ["Catastrophizing",       "Predicting something very negative will happen without any evidence",                         "I'm going to introduce a breaking change to production."],
+          ["Dichotomous Thinking",  "Considering only the extremes and nothing in between",                                        "I'm an incompetent software developer."],
+          ["Minimizing",            "Discounting positive experiences, outcomes, or qualities",                                    "They only approved my pull request because they feel bad for me."],
+          ["Mind Reading",          "Believing you know what others are thinking, failing to consider other, more likely, possibilities", "I'm annoying my teammates by asking for a code review."],
+          ["Negative Filter",       "Attending to only the negative aspects of a situation",                                      "I haven't thought of all the possible edge cases."],
+          ["Over-generalizing",     "Generalizing a single instance as being indicative of all others",                           "I introduced a bug to production last time so I'll probably do the same this time."],
+          ["Personalizing",         "Assuming an action is directed to or because of oneself",                                    "They left a bunch of comments because they think I'm incompetent."],
+          ["Should Statements",     "Having a fixed idea of what should happen & overestimating how bad it is that these expectations aren't met", "I have years of development experience. I really shouldn't feel anxious about code reviews."]
+        ].each do |trap, definition, example| %>
+          <tr data-controller="trap-row" data-action="click->trap-row#select">
+            <td>
+              <%= check_box_tag "thinking_trap[]", trap, false,
+                  id: "thinking_trap_#{trap.parameterize.underscore}" %>
+            </td>
+            <td><%= label_tag "thinking_trap_#{trap.parameterize.underscore}", trap %></td>
+            <td><%= definition %></td>
+            <td><%= example %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <div id="evaluation-result"></div>
+</div>

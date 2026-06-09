@@ -1,0 +1,20 @@
+<div class="workbook-step">
+  <h2 class="h2--mid">CHALLENGE BIASED THINKING</h2>
+  <p>3. Which thought do you most strongly believe to be true?</p>
+
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form", data: { controller: "workbook-form" } do |f| %>
+    <%= f.hidden_field :current_step, value: "select_primary" %>
+
+    <div class="thought-options">
+      <% workbook_session.biased_thoughts.each do |bt| %>
+        <label class="thought-option">
+          <%= radio_button_tag "workbook_session[primary_thought_id]", bt.id,
+              workbook_session.primary_thought_id == bt.id,
+              data: { action: "change->workbook-form#submit" } %>
+          <span class="thought-text"><%= bt.thought %></span>
+          <span class="thought-score">Believability: <%= bt.pre_believability %></span>
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+</div>
