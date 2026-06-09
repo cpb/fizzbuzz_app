@@ -1,0 +1,13 @@
+<div class="workbook-step">
+  <h2 class="h2--mid">CHALLENGE BIASED THINKING</h2>
+  <p>1. Briefly describe the code review situation.</p>
+
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
+    <%= f.hidden_field :current_step, value: "describe_situation" %>
+    <div class="field">
+      <%= f.text_area :situation_description,
+          placeholder: "e.g., I submitted a PR and got 12 comments",
+          rows: 3 %>
+    </div>
+  <% end %>
+</div>

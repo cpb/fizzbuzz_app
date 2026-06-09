@@ -1,0 +1,78 @@
+<div class="workbook-step" data-controller="tipp-reveal">
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
+    <%= f.hidden_field :current_step, value: "tipp" %>
+
+    <h2 class="workbook-item h2--high" style="--wi: 0s">REDUCE PHYSIOLOGICAL AROUSAL</h2>
+    <p class="workbook-item" style="--wi: 0.04s"><em>Your initial anxiety score was <%= workbook_session.suds_initial %>/10.</em></p>
+    <p class="workbook-item" style="--wi: 0.08s">1. Put one of the TIPP skills into practice. Mark which skill you used below:</p>
+
+    <div class="tipp-options workbook-item" style="--wi: 0.12s">
+      <label class="tipp-option">
+        <%= f.radio_button :tipp_strategy, "Temperature",
+            data: { action: "change->tipp-reveal#reveal" } %>
+        <dl>
+          <dt>Temperature</dt>
+          <dd>splashing cold water on your face</dd>
+        </dl>
+      </label>
+      <label class="tipp-option">
+        <%= f.radio_button :tipp_strategy, "Intense Exercise",
+            data: { action: "change->tipp-reveal#reveal" } %>
+        <dl>
+          <dt>Intense Exercise</dt>
+          <dd>exercising for 20–30 min</dd>
+        </dl>
+      </label>
+      <label class="tipp-option">
+        <%= f.radio_button :tipp_strategy, "Paced Breathing",
+            data: { action: "change->tipp-reveal#reveal" } %>
+        <dl>
+          <dt>Paced Breathing</dt>
+          <dd>slowing breathing, taking care to take longer out breaths</dd>
+        </dl>
+      </label>
+      <label class="tipp-option">
+        <%= f.radio_button :tipp_strategy, "Progressive Muscle Relaxation",
+            data: { action: "change->tipp-reveal#reveal" } %>
+        <dl>
+          <dt>Progressive Muscle Relaxation</dt>
+          <dd>tensing then releasing muscle groups</dd>
+        </dl>
+      </label>
+    </div>
+
+    <div id="suds-rerate"
+         data-tipp-reveal-target="sudsSection"
+         <%= "hidden" unless workbook_session.tipp_strategy.present? %>>
+      <p>2. Re-rate your anxiety using the SUDS scale:</p>
+      <table class="workbook-table">
+        <thead>
+          <tr><th>Select</th><th>Score</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <% [
+            [10, "Highest anxiety/distress that you have ever felt"],
+            [9,  "Extremely anxious/distressed"],
+            [8,  "Very anxious/distressed; can't concentrate. Physiological signs present (e.g. racing heart, sweating, stomach distress, shortness of breath)."],
+            [7,  "Quite anxious/distressed; interfering with functioning. Physiological signs may be present."],
+            [6,  "Moderate-to-strong anxiety or distress"],
+            [5,  "Moderate anxiety/distress; uncomfortable, but can continue to function"],
+            [4,  "Mild-to-moderate anxiety or distress"],
+            [3,  "Mild anxiety/distress; no interference with functioning"],
+            [2,  "Minimal anxiety/distress"],
+            [1,  "Alert and awake; concentrating well"],
+            [0,  "No distress; total relaxation"]
+          ].each do |score, description|
+            zone = score >= 7 ? "high" : score >= 3 ? "mid" : "low" %>
+            <tr class="suds-zone--<%= zone %>" data-controller="suds-row" data-action="click->suds-row#select">
+              <td><%= f.radio_button :suds_post_tipp, score, id: "suds_post_tipp_#{score}" %></td>
+              <td><%= f.label "suds_post_tipp_#{score}", score %></td>
+              <td><%= description %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <p><em>*Repeat this step up to one more time if your score did not go down. Remember, we don't want to get trapped in a cycle of avoidance!</em></p>
+    </div>
+  <% end %>
+</div>

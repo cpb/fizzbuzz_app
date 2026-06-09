@@ -1,0 +1,55 @@
+class WorkbookSession < ApplicationRecord
+  has_many :biased_thoughts, -> { order(:position, :id) }, dependent: :destroy
+  belongs_to :primary_thought, class_name: "BiasedThought", optional: true,
+             foreign_key: :primary_thought_id
+  has_many :thinking_trap_evaluations, dependent: :destroy
+
+  accepts_nested_attributes_for :biased_thoughts,
+    reject_if: :all_blank, allow_destroy: true
+
+  validates :current_step, presence: true
+
+  FALLBACK_THOUGHT = "My code will be heavily criticized and my teammates will think less of me as an engineer."
+
+  STEPS = %w[suds_initial tipp describe_situation biased_thoughts
+             select_primary select_trap evidence rational_response
+             post_believability suds_final dear_give dear_plan give_plan summary].freeze
+
+  def next_step
+    case current_step
+    when "dear_give"
+      review_direction == "ask" ? "dear_plan" : "give_plan"
+    when "dear_plan", "give_plan"
+      "summary"
+    else
+      steps = conditional_steps
+      idx = steps.index(current_step)
+      steps[idx + 1] if idx
+    end
+  end
+
+  def prev_step
+    return "dear_give" if %w[dear_plan give_plan].include?(current_step)
+    steps = conditional_steps
+    idx = steps.index(current_step)
+    idx&.positive? ? steps[idx - 1] : steps.first
+  end
+
+  def first_step?
+    current_step == conditional_steps.first
+  end
+
+  def primary_thought_text
+    primary_thought&.thought.presence || FALLBACK_THOUGHT
+  end
+
+  private
+
+  def conditional_steps
+    if suds_initial.present? && suds_initial.to_i <= 2
+      %w[suds_initial dear_give dear_plan give_plan summary]
+    else
+      STEPS.reject { |s| s == "tipp" && suds_initial.to_i < 7 }
+    end
+  end
+end

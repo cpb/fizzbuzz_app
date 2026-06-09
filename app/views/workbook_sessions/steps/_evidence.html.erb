@@ -1,0 +1,32 @@
+<div class="workbook-step">
+  <h2 class="h2--mid">CHALLENGE BIASED THINKING</h2>
+
+  <div class="context-box">
+    <strong>Your most strongly believed thought:</strong>
+    <p><%= workbook_session.primary_thought_text %></p>
+  </div>
+
+  <p>5. Evaluate the evidence for and against this thought:</p>
+
+  <p>Guiding Questions:</p>
+  <ul>
+    <li><em>Am I 100% sure of this? Can I tell the future, or read minds?</em></li>
+    <li><em>What is the worst that could happen? Could I handle it?</em></li>
+    <li><em>Is there another explanation / way of looking at this situation?</em></li>
+    <li><em>Am I placing unrealistic and unattainable standards on myself that I wouldn't expect another person to achieve?</em></li>
+    <li><em>Am I overestimating the probability of this?</em></li>
+    <li><em>Am I blaming myself for a situation outside of my control?</em></li>
+  </ul>
+
+  <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
+    <%= f.hidden_field :current_step, value: "evidence" %>
+
+    <div class="evidence-grid">
+      <div class="evidence-grid__header">Evidence FOR<br><small>(The thought is realistic and true)</small></div>
+      <div class="evidence-grid__header">Evidence AGAINST<br><small>(The thought is unrealistic and false)</small></div>
+      <div class="evidence-grid__cell"><%= f.text_area :evidence_for, rows: 6, placeholder: "What supports this thought being true?" %></div>
+      <div class="evidence-grid__cell"><%= f.text_area :evidence_against, rows: 6, placeholder: "What contradicts this thought?" %></div>
+    </div>
+    <p><em>* If there is evidence in the FOR column, check whether it is due to a thinking error!</em></p>
+  <% end %>
+</div>
