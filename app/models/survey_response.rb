@@ -3,6 +3,7 @@ class SurveyResponse < ApplicationRecord
 
   before_validation { ai_tools.reject!(&:blank?) }
 
+
   enum :role, { developer: "developer", engineering_manager: "engineering_manager",
                 student: "student", other: "other" }, validate: true, prefix: :role
 
