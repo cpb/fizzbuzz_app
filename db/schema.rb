@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_09_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_09_110000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -142,6 +142,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_100000) do
     t.index [ "ruby_llm_evals_prompt_id" ], name: "index_ruby_llm_evals_samples_on_ruby_llm_evals_prompt_id"
   end
 
+  create_table "survey_responses", force: :cascade do |t|
+    t.text "ai_tools", default: "[]", null: false
+    t.datetime "created_at", null: false
+    t.integer "likert_anxious"
+    t.integer "likert_frustrated"
+    t.integer "likert_limit_to_boilerplate"
+    t.integer "likert_made_peace"
+    t.integer "likert_more_capable"
+    t.integer "likert_overhyped"
+    t.text "location"
+    t.string "paid_to_write_ruby", null: false
+    t.string "prior_experience", null: false
+    t.string "role", null: false
+    t.datetime "submitted_at", null: false
+    t.string "team_ai_adoption", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "writes_ruby", null: false
+    t.string "years_of_experience", null: false
+    t.index [ "role" ], name: "index_survey_responses_on_role"
+    t.index [ "submitted_at" ], name: "index_survey_responses_on_submitted_at"
+  end
+
   create_table "thinking_trap_evaluations", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "feedback_text"
@@ -153,20 +175,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_100000) do
   end
 
   create_table "workbook_sessions", force: :cascade do |t|
-    t.json "biased_thoughts_json"
+    t.text "biased_thoughts_json"
     t.datetime "created_at", null: false
     t.string "current_step"
     t.text "dear_plan"
-    t.json "evidence_against"
-    t.json "evidence_for"
+    t.text "evidence_against"
+    t.text "evidence_for"
     t.text "give_plan"
-    t.json "post_believabilities"
     t.integer "post_believability"
-    t.json "pre_believabilities"
     t.integer "pre_believability"
     t.integer "primary_thought_id"
     t.integer "rational_believability"
-    t.json "rational_response"
+    t.text "rational_response"
     t.string "review_direction"
     t.text "selected_thinking_traps"
     t.text "situation_description"

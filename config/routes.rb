@@ -8,6 +8,10 @@ Rails.application.routes.draw do
   root "fizz_buzz#start"
   post "/", to: "fizz_buzz#create"
 
+  resource :survey, only: [ :show, :create ] do
+    get :results, on: :member
+  end
+
   post "/links/publish", to: "links#publish", as: :links_publish
   resources :links
   resources :workbook_sessions do

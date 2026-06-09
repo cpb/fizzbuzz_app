@@ -1,0 +1,6 @@
+<% content_for :no_drawer, true %>
+<h1>Survey Results</h1>
+<%= turbo_stream_from :survey_results %>
+<div id="results_panel">
+  <%= render "surveys/results_panel", stats: @stats %>
+</div>
