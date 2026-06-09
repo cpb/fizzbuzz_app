@@ -1,7 +1,7 @@
 module RubyLLM
   module Evals
     module RunsHelper
-      FIZZBUZZ_CATEGORIES = %i[number fizz buzz fizzbuzz].freeze
+      FIZZBUZZ_CATEGORIES = %i[number fizz buzz fizzbuzz other].freeze
 
       def fizzbuzz_run?(run)
         run.prompt_executions.any? { |e| execution_variables(e)&.key?("number") }
@@ -25,7 +25,8 @@ module RubyLLM
         if t.match?(/fizzbuzz/) then :fizzbuzz
         elsif t.match?(/fizz/) then :fizz
         elsif t.match?(/buzz/) then :buzz
-        else :number
+        elsif t.match?(/\d/) then :number
+        else :other
         end
       end
 

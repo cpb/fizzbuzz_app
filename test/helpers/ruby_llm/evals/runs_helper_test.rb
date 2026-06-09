@@ -46,10 +46,17 @@ module RubyLLM
         assert_equal :buzz, fizzbuzz_predicted_category("buzz")
       end
 
-      test "fizzbuzz_predicted_category falls back to number for plain output" do
+      test "fizzbuzz_predicted_category returns number for digit-containing output" do
         assert_equal :number, fizzbuzz_predicted_category("7")
         assert_equal :number, fizzbuzz_predicted_category("13")
-        assert_equal :number, fizzbuzz_predicted_category("")
+        assert_equal :number, fizzbuzz_predicted_category("The answer is 4.")
+      end
+
+      test "fizzbuzz_predicted_category returns other for non-numeric non-fizzbuzz output" do
+        assert_equal :other, fizzbuzz_predicted_category("Neither.")
+        assert_equal :other, fizzbuzz_predicted_category("I don't know")
+        assert_equal :other, fizzbuzz_predicted_category("")
+        assert_equal :other, fizzbuzz_predicted_category("None of the above")
       end
 
       test "fizzbuzz_cell_style returns dark color for passed expected cell" do
@@ -72,6 +79,13 @@ module RubyLLM
         assert_includes fizzbuzz_cell_style(:buzz, entry), "#f0f0f0"
         assert_includes fizzbuzz_cell_style(:fizzbuzz, entry), "#f0f0f0"
         assert_includes fizzbuzz_cell_style(:number, entry), "#f0f0f0"
+        assert_includes fizzbuzz_cell_style(:other, entry), "#f0f0f0"
+      end
+
+      test "fizzbuzz_cell_style marks other row blue when model output was unrecognized" do
+        entry = { expected: :fizzbuzz, predicted: :other, passed: false }
+        assert_includes fizzbuzz_cell_style(:other, entry), "#b3ddf2"
+        assert_includes fizzbuzz_cell_style(:fizzbuzz, entry), "#ff3860"
       end
     end
   end
