@@ -1,6 +1,8 @@
 class SurveyResponse < ApplicationRecord
   serialize :ai_tools, coder: JSON
 
+  before_validation { ai_tools.reject!(&:blank?) }
+
   enum :role, { developer: "developer", engineering_manager: "engineering_manager",
                 student: "student", other: "other" }, validate: true, prefix: :role
 
@@ -48,7 +50,7 @@ class SurveyResponse < ApplicationRecord
     adopt_counts       = group(:team_ai_adoption).count
     likert_avgs        = LIKERT_COLUMNS.index_with { |col| average(col)&.round(2) }
     tool_counts        = Hash.new(0).tap do |h|
-      pluck(:ai_tools).each { |tools| tools.each { |t| h[t] += 1 } }
+      pluck(:ai_tools).each { |tools| tools.each { |t| h[t] += 1 unless t.blank? } }
     end
     { total: total.to_i, role: role_counts, writes_ruby: writes_ruby_counts,
       paid_to_write_ruby: paid_counts, years_of_experience: exp_counts,
