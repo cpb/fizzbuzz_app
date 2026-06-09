@@ -1,0 +1,19 @@
+<% content_for :drawer do %>
+  <div id="workbook-drawer-nav">
+    <%= form_with url: workbook_sessions_path, method: :post, class: "btn-form" do |f| %>
+      <%= f.submit "Get Started", class: "btn" %>
+    <% end %>
+    <%= link_to "← FizzBuzz", root_path, class: "btn" %>
+  </div>
+<% end %>
+
+<div id="workbook-intro">
+  <p class="workbook-item workbook-intro__bullet" style="--wi: 0.84s">Planning how to ask for or give a review</p>
+  <p class="workbook-item workbook-intro__bullet" style="--wi: 0.72s">Building a rational response</p>
+  <p class="workbook-item workbook-intro__bullet" style="--wi: 0.60s">Identifying and challenging biased thoughts</p>
+  <p class="workbook-item workbook-intro__bullet" style="--wi: 0.48s">Optional physiological regulation (TIPP)</p>
+  <p class="workbook-item workbook-intro__bullet" style="--wi: 0.36s">Rating your current anxiety level</p>
+  <p class="workbook-item" style="--wi: 0.22s">It takes about 10–15 minutes and will guide you through:</p>
+  <p class="workbook-item" style="--wi: 0.12s">This interactive wizard walks you through the Code Review Anxiety Workbook (Lee &amp; Foster-Marks), a validated CBT intervention to help reduce anxiety around code reviews.</p>
+  <h1 class="workbook-item" style="--wi: 0s">Code Review Anxiety Workbook</h1>
+</div>
