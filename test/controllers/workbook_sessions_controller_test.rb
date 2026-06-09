@@ -42,4 +42,11 @@ class WorkbookSessionsControllerTest < ActionDispatch::IntegrationTest
     end
     assert_match "Evaluating", response.body
   end
+
+  test "GET edit at summary step shows a Replay button linking to the replay path" do
+    workbook_session = WorkbookSession.create!(current_step: "summary")
+    get edit_workbook_session_url(workbook_session)
+    assert_response :success
+    assert_select "a[href=?]", workbook_session_replay_path(workbook_session), text: /Replay/i
+  end
 end
