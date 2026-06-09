@@ -1,0 +1,117 @@
+<% content_for :no_drawer, true %>
+<h1>Audience Survey</h1>
+
+<%= form_with model: @response, url: survey_path, class: "survey-form" do |f| %>
+  
+  <div class="survey-field">
+    <%= f.label :role, "Role" %>
+    <div class="radio-group">
+      <%= f.collection_radio_buttons :role, SurveyResponse.roles.map{|k,v| [k, k.humanize]}, :first, :last do |b| %>
+        <label class="radio-option">
+          <%= b.radio_button %>
+          <%= b.label %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="survey-field">
+    <%= f.label :writes_ruby, "Do you write Ruby?" %>
+    <div class="radio-group">
+      <label class="radio-option">
+        <%= f.radio_button :writes_ruby, true %> Yes
+      </label>
+      <label class="radio-option">
+        <%= f.radio_button :writes_ruby, false %> No
+      </label>
+    </div>
+  </div>
+
+  <div class="survey-field">
+    <%= f.label :paid_to_write_ruby, "Paid to write Ruby?" %>
+    <div class="radio-group">
+      <%= f.collection_radio_buttons :paid_to_write_ruby, SurveyResponse.paid_to_write_rubies.map{|k,v| [k, k.humanize]}, :first, :last do |b| %>
+        <label class="radio-option">
+          <%= b.radio_button %>
+          <%= b.label %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="survey-field">
+    <%= f.label :years_of_experience, "Years of Experience" %>
+    <div class="radio-group">
+      <%= f.collection_radio_buttons :years_of_experience, SurveyResponse.years_of_experiences.map{|k,v| [k, k.humanize]}, :first, :last do |b| %>
+        <label class="radio-option">
+          <%= b.radio_button %>
+          <%= b.label %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="survey-field">
+    <%= f.label :prior_experience, "Prior Experience" %>
+    <div class="radio-group">
+      <%= f.collection_radio_buttons :prior_experience, SurveyResponse.prior_experiences.map{|k,v| [k, k.humanize]}, :first, :last do |b| %>
+        <label class="radio-option">
+          <%= b.radio_button %>
+          <%= b.label %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="survey-field">
+    <%= f.label :team_ai_adoption, "Team AI Adoption" %>
+    <div class="radio-group">
+      <%= f.collection_radio_buttons :team_ai_adoption, SurveyResponse.team_ai_adoptions.map{|k,v| [k, k.humanize]}, :first, :last do |b| %>
+        <label class="radio-option">
+          <%= b.radio_button %>
+          <%= b.label %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="survey-field">
+    <%= f.label :ai_tools, "AI Tools Used (check all that apply)" %>
+    <div class="checkbox-group-list">
+      <%= f.collection_check_boxes :ai_tools, SurveyResponse::AI_TOOL_OPTIONS.map{|t| [t, t.humanize]}, :first, :last do |b| %>
+        <label class="checkbox-option">
+          <%= b.check_box %>
+          <%= b.label %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+
+  <fieldset class="likert-fieldset">
+    <legend>Rate each statement (1=Strongly Disagree, 5=Strongly Agree)</legend>
+    <div class="likert-scale" aria-label="1=Strongly disagree, 5=Strongly agree">
+      <% {
+        likert_overhyped: "AI is overhyped",
+        likert_frustrated: "AI tools frustrate me",
+        likert_limit_to_boilerplate: "AI is limited to boilerplate",
+        likert_anxious: "AI makes me anxious",
+        likert_made_peace: "I have made peace with AI",
+        likert_more_capable: "AI makes me more capable"
+      }.each do |stmt_key, stmt_text| %>
+        <div class="likert-row">
+          <span class="likert-label"><%= stmt_text %></span>
+          <div class="likert-options">
+            <% (1..5).each do |n| %>
+              <label class="likert-option">
+                <%= f.radio_button stmt_key, n, id: "#{stmt_key}_#{n}" %>
+                <span class="likert-point"><%= n %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </fieldset>
+
+  <%= f.submit "Submit Survey", class: "btn survey-submit" %>
+<% end %>
