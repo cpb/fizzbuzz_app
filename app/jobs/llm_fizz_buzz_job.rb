@@ -9,7 +9,6 @@ class LLMFizzBuzzJob < ApplicationJob
       partial: "fizz_buzz/result",
       locals: { result: result }
     )
-    sleep 1
-    LLMFizzBuzzJob.perform_later(number - 1, tab_token) if number > 1
+    LLMFizzBuzzJob.set(wait: 1.second).perform_later(number - 1, tab_token) if number > 1
   end
 end
