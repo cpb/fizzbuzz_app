@@ -5,27 +5,21 @@
   <%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch, id: "step-form" do |f| %>
     <%= f.hidden_field :current_step, value: "post_believability" %>
 
-    <table class="workbook-table thoughts-table">
-      <thead>
-        <tr>
-          <th>Thought</th>
-          <th>Pre</th>
-          <th>Post</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% workbook_session.biased_thoughts.each do |bt| %>
-          <%= f.fields_for :biased_thoughts, bt do |bt_f| %>
-            <tr>
-              <td><%= bt.thought %></td>
-              <td style="width: 4rem; text-align: center;"><%= bt.pre_believability %></td>
-              <td style="width: 4rem;">
-                <%= bt_f.number_field :post_believability, in: 0..100, placeholder: "0–100" %>
-              </td>
-            </tr>
-          <% end %>
+    <div class="post-believability-grid">
+      <div class="post-believability-grid__header">
+        <div>Thought</div>
+        <div>Pre</div>
+        <div>Post</div>
+      </div>
+      <% workbook_session.biased_thoughts.each do |bt| %>
+        <%= f.fields_for :biased_thoughts, bt do |bt_f| %>
+          <div class="post-believability-grid__row">
+            <div><%= bt.thought %></div>
+            <div><%= bt.pre_believability %></div>
+            <div><%= bt_f.number_field :post_believability, in: 0..100, placeholder: "0–100" %></div>
+          </div>
         <% end %>
-      </tbody>
-    </table>
+      <% end %>
+    </div>
   <% end %>
 </div>

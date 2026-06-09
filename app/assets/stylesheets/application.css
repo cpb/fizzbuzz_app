@@ -623,6 +623,56 @@ main.page-content {
   outline: none;
 }
 
+/* Post-believability grid (Thought | Pre | Post — 3-column variant of thoughts-grid) */
+.post-believability-grid {
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.post-believability-grid__header {
+  display: grid;
+  grid-template-columns: 1fr 4rem 6.5rem;
+  background: rgba(44, 44, 44, 0.06);
+  border-bottom: 1px solid var(--border);
+}
+.post-believability-grid__header > div {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.3rem 0.5rem;
+  font-weight: bold;
+}
+.post-believability-grid__header > div:not(:first-child) {
+  border-left: 1px solid var(--border);
+  text-align: center;
+}
+.post-believability-grid__row {
+  display: grid;
+  grid-template-columns: 1fr 4rem 6.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.post-believability-grid__row:last-child { border-bottom: none; }
+.post-believability-grid__row > div {
+  padding: 0.4rem 0.5rem;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+.post-believability-grid__row > div:not(:first-child) {
+  border-left: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.post-believability-grid input[type="number"] {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  text-align: center;
+  outline: none;
+}
+
 /* Workbook drawer nav slot */
 #workbook-drawer-nav {
   display: flex;
