@@ -1,0 +1,192 @@
+<% content_for :title, "Run ##{@run.id}" %>
+
+<h1 class="title">Run #<%= @run.id %></h1>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <th>Prompt</th>
+      <td><%= link_to @run.prompt.name, @run.prompt %></td>
+    </tr>
+    <tr>
+      <th>Provider/Model</th>
+      <td><%= @run.provider %>/<%= @run.model %></td>
+    </tr>
+    <tr>
+      <th>Temperature</th>
+      <td><%= @run.temperature %></td>
+    </tr>
+    <tr>
+      <th>Params</th>
+      <td><%= json @run.params %></td>
+    </tr>
+    <tr>
+      <th>Tools</th>
+      <td><%= @run.tools.try :to_sentence %></td>
+    </tr>
+    <tr>
+      <th>Schema</th>
+      <td>
+        <% if @run.schema_other.present? %>
+          <%= json @run.schema_other %>
+        <% elsif @run.schema.present? %>
+          <%= @run.schema %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th>Instructions</th>
+      <td style="white-space: pre-wrap;"><%= @run.instructions %></td>
+    </tr>
+    <tr>
+      <th>Message</th>
+      <td style="white-space: pre-wrap;"><%= @run.message %></td>
+    </tr>
+    <tr>
+      <th>ActiveJob ID</th>
+      <td><%= @run.active_job_id %></td>
+    </tr>
+    <tr>
+      <th>Started at</th>
+      <td><%= @run.started_at %></td>
+    </tr>
+    <tr>
+      <th>Ended at</th>
+      <td><%= @run.ended_at %></td>
+    </tr>
+    <tr>
+      <th>Duration</th>
+      <td><%= duration @run %></td>
+    </tr>
+    <tr>
+      <th>Accuracy</th>
+      <td><%= accuracy @run %></td>
+    </tr>
+    <tr>
+      <th>Cost</th>
+      <td>$<%= @run.cost %></td>
+    </tr>
+    <% if @run.judge_cost > 0 %>
+      <tr>
+        <th>Judge Cost</th>
+        <td>$<%= @run.judge_cost %></td>
+      </tr>
+      <tr>
+        <th>Total Cost</th>
+        <td>$<%= @run.total_cost %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if fizzbuzz_run?(@run) %>
+  <%= render "fizzbuzz_grid", run: @run %>
+<% end %>
+
+<h2 class="mt-6 subtitle">Prompt executions</h2>
+
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Active Job ID</th>
+      <th>Variables</th>
+      <th>With</th>
+      <th>Output message</th>
+      <th>Eval type</th>
+      <th>Expected output</th>
+      <th>Tokens (input/output)</th>
+      <th>Duration</th>
+      <th>Cost</th>
+      <th>Passed?</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @run.prompt_executions.each do |prompt_execution| %>
+      <tr>
+        <td>
+          <%= prompt_execution.active_job_id %>
+          <% if prompt_execution.error_message.present? %>
+            <span title="<%= prompt_execution.error_message %>">⚠️</span>
+          <% end %>
+        </td>
+        <td><%= json prompt_execution.variables %></td>
+        <td>
+          <ul>
+            <% prompt_execution.files.each do |file| %>
+              <li>
+                <% if file.previewable? %>
+                  <%= image_tag main_app.url_for(file.preview(resize_to_limit: [400, 400]).processed) %>
+                <% elsif file.variable? %>
+                  <%= image_tag main_app.url_for(file.variant(resize_to_limit: [400, 400]).processed) %>
+                <% else %>
+                  <%= link_to file.filename, main_app.url_for(file) %>
+                <% end %>
+                <div><%= link_to file.filename, main_app.rails_blob_path(file, disposition: "attachment") %> (<%= number_to_human_size(file.byte_size) %>)</div>
+              </li>
+            <% end %>
+          </ul>
+        </td>
+        <td>
+          <% if @run.schema_other.present? || @run.schema.present? %>
+            <% if prompt_execution.message.present? %>
+              <%= json JSON.parse(prompt_execution.message) %>
+            <% end %>
+          <% else %>
+            <div style="white-space: pre-wrap;"><%= prompt_execution.message %></div>
+          <% end %>
+        </td>
+        <td>
+          <%= prompt_execution.eval_type %>
+          <% if prompt_execution.llm_judge? %>
+            <div>(<%= prompt_execution.judge_provider %>/<%= prompt_execution.judge_model %>)</div>
+          <% end %>
+        </td>
+        <td>
+          <% if prompt_execution.llm_judge? %>
+            <div><strong>Criteria:</strong> <%= prompt_execution.expected_output %></div>
+            <% if prompt_execution.judge_message&.[]("explanation").present? %>
+              <div><strong>Explanation:</strong> <%= prompt_execution.judge_message["explanation"] %></div>
+            <% end %>
+          <% else %>
+            <%= expected_output prompt_execution %>
+          <% end %>
+        </td>
+        <td>
+          <div><%= prompt_execution.input %>/<%= prompt_execution.output %></div>
+          <% if prompt_execution.llm_judge? %>
+            <div><%= prompt_execution.judge_input %>/<%= prompt_execution.judge_output %> (judge)</div>
+          <% end %>
+        </td>
+        <td><%= duration prompt_execution %></td>
+        <td>
+          <div>$<%= prompt_execution.cost %></div>
+          <% if prompt_execution.llm_judge? %>
+            <div>$<%= prompt_execution.judge_cost %> (judge)</div>
+          <% end %>
+        </td>
+        <td><%= status_indicator(prompt_execution) %></td>
+        <td>
+          <div class="buttons">
+            <% if prompt_execution.error_message.present? %>
+              <%= button_to "Retry", retry_prompt_execution_path(prompt_execution), method: :post, class: "button is-warning is-light" %>
+            <% end %>
+            <% if prompt_execution.sample.human_judge? %>
+              <% if prompt_execution.passed.nil? %>
+                <%= button_to "Pass", prompt_execution_passage_path(prompt_execution), method: :post, class: "button is-success is-light" %>
+                <%= button_to "Fail", prompt_execution_failure_path(prompt_execution), method: :post, class: "button is-danger is-light" %>
+              <% else %>
+                <% target_path = prompt_execution.passed? ? prompt_execution_failure_path(prompt_execution) : prompt_execution_passage_path(prompt_execution) %>
+                <%= button_to "Toggle", target_path, method: :post, class: "button" %>
+              <% end %>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="mt-6 buttons">
+  <%= button_to "Destroy this run", @run, method: :delete, class: "button is-danger" %>
+</div>

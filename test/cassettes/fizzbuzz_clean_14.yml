@@ -1,0 +1,38 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<OLLAMA_API_BASE>/chat/completions"
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3.2","messages":[{"role":"system","content":"Return
+        ONLY valid JSON with a single key: {\"result\": \"Fizz\"}. Rules: divisible
+        by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise the number as a
+        string."},{"role":"user","content":"14"}],"stream":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.2
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 09 Jun 2026 21:20:09 GMT
+      Content-Length:
+      - '318'
+    body:
+      encoding: UTF-8
+      string: '{"id":"chatcmpl-291","object":"chat.completion","created":1781040009,"model":"llama3.2","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"```\n{\"result\":\"FizzBuzz\"}\n```"},"finish_reason":"stop"}],"usage":{"prompt_tokens":72,"completion_tokens":10,"total_tokens":82}}
+
+        '
+  recorded_at: Tue, 09 Jun 2026 21:20:09 GMT
+recorded_with: VCR 6.4.0

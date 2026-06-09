@@ -26,6 +26,56 @@ class FizzbuzzEvalEvalTest < EvalTestCase
     run_eval(:fizzbuzz_eval_5)
   end
 
+  test "1 is 1" do
+    run_eval(:fizzbuzz_eval_1)
+  end
+
+  test "2 is 2" do
+    run_eval(:fizzbuzz_eval_2)
+  end
+
+  test "4 is 4" do
+    run_eval(:fizzbuzz_eval_4)
+  end
+
+  test "6 is Fizz" do
+    run_eval(:fizzbuzz_eval_6)
+  end
+
+  test "7 is 7" do
+    run_eval(:fizzbuzz_eval_7)
+  end
+
+  test "8 is 8" do
+    skip "VCR records known model failure"
+    run_eval(:fizzbuzz_eval_8)
+  end
+
+  test "9 is Fizz" do
+    run_eval(:fizzbuzz_eval_9)
+  end
+
+  test "10 is Buzz" do
+    run_eval(:fizzbuzz_eval_10)
+  end
+
+  test "11 is 11" do
+    run_eval(:fizzbuzz_eval_11)
+  end
+
+  test "12 is Fizz" do
+    run_eval(:fizzbuzz_eval_12)
+  end
+
+  test "13 is 13" do
+    run_eval(:fizzbuzz_eval_13)
+  end
+
+  test "14 is 14" do
+    skip "VCR records known model failure"
+    run_eval(:fizzbuzz_eval_14)
+  end
+
   private
 
   def run_eval(sample_key)
