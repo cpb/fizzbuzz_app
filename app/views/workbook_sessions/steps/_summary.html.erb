@@ -8,15 +8,30 @@
     </div>
   <% end %>
 
-  <p><strong>Anxiety Progress (SUDS):</strong>
-    <%= workbook_session.suds_initial %>
-    <% if workbook_session.suds_post_tipp.present? %>
-      → <%= workbook_session.suds_post_tipp %> (after TIPP)
-    <% end %>
-    <% if workbook_session.suds_post_restructuring.present? %>
-      → <%= workbook_session.suds_post_restructuring %> (after restructuring)
-    <% end %>
-  </p>
+  <p><strong>Anxiety Progress (SUDS)</strong></p>
+  <div class="suds-chart">
+    <div class="suds-chart__area">
+      <div class="suds-chart__bar-group">
+        <span class="suds-chart__score"><%= workbook_session.suds_initial %></span>
+        <div class="suds-chart__bar suds-chart__bar--initial" style="height: calc(<%= workbook_session.suds_initial %> * 11px)"></div>
+        <span class="suds-chart__label">Initial</span>
+      </div>
+      <% if workbook_session.suds_post_tipp.present? %>
+        <div class="suds-chart__bar-group">
+          <span class="suds-chart__score"><%= workbook_session.suds_post_tipp %></span>
+          <div class="suds-chart__bar suds-chart__bar--tipp" style="height: calc(<%= workbook_session.suds_post_tipp %> * 11px)"></div>
+          <span class="suds-chart__label">After TIPP</span>
+        </div>
+      <% end %>
+      <% if workbook_session.suds_post_restructuring.present? %>
+        <div class="suds-chart__bar-group">
+          <span class="suds-chart__score"><%= workbook_session.suds_post_restructuring %></span>
+          <div class="suds-chart__bar suds-chart__bar--final" style="height: calc(<%= workbook_session.suds_post_restructuring %> * 11px)"></div>
+          <span class="suds-chart__label">After restructuring</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
 
   <% if workbook_session.tipp_strategy.present? %>
     <p><strong>TIPP technique used:</strong> <%= workbook_session.tipp_strategy %></p>
