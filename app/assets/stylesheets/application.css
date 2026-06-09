@@ -728,50 +728,6 @@ tr[data-controller="trap-row"]  { cursor: pointer; }
   background: rgba(74, 155, 142, 0.08);
 }
 
-/* SUDS vertical bar chart */
-.suds-chart { margin: 0.5rem 0 1.25rem; }
-.suds-chart__area {
-  display: flex;
-  align-items: flex-end;
-  gap: 1.5rem;
-  height: 132px;
-  border-left: 2px solid var(--border);
-  border-bottom: 2px solid var(--border);
-  padding: 0 0.75rem 0 0.5rem;
-}
-.suds-chart__bar-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-}
-.suds-chart__bar {
-  width: 36px;
-  min-height: 6px;
-  background: var(--teal);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 3px;
-}
-.suds-chart__bar.suds-zone--high { background: var(--blush); }
-.suds-chart__bar.suds-zone--mid  { background: var(--peach); }
-.suds-chart__bar.suds-zone--low  { background: var(--mint); }
-.suds-chart__score {
-  font-size: 0.72rem;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-  line-height: 1;
-}
-.suds-chart__label {
-  font-size: 0.62rem;
-  text-align: center;
-  max-width: 52px;
-  line-height: 1.2;
-  color: rgba(44, 44, 44, 0.7);
-}
-
 /* Button variants */
 .btn--secondary {
   background: transparent;

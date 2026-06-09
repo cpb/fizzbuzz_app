@@ -9,36 +9,42 @@
   <% end %>
 
   <p><strong>Anxiety Progress (SUDS)</strong></p>
-  <% suds_zone = ->(s) { s >= 7 ? "high" : s >= 3 ? "mid" : "low" } %>
-  <div class="suds-chart">
-    <div class="suds-chart__area">
-      <div class="suds-chart__bar-group">
-        <div class="suds-chart__bar suds-zone--<%= suds_zone.(workbook_session.suds_initial) %>"
-             style="height: calc(<%= workbook_session.suds_initial %> * 13px + 6px)">
-          <span class="suds-chart__score"><%= workbook_session.suds_initial %></span>
-        </div>
-        <span class="suds-chart__label">Initial</span>
-      </div>
-      <% if workbook_session.suds_post_tipp.present? %>
-        <div class="suds-chart__bar-group">
-          <div class="suds-chart__bar suds-zone--<%= suds_zone.(workbook_session.suds_post_tipp) %>"
-               style="height: calc(<%= workbook_session.suds_post_tipp %> * 13px + 6px)">
-            <span class="suds-chart__score"><%= workbook_session.suds_post_tipp %></span>
-          </div>
-          <span class="suds-chart__label">Post-TIPP</span>
-        </div>
-      <% end %>
-      <% if workbook_session.suds_post_restructuring.present? %>
-        <div class="suds-chart__bar-group">
-          <div class="suds-chart__bar suds-zone--<%= suds_zone.(workbook_session.suds_post_restructuring) %>"
-               style="height: calc(<%= workbook_session.suds_post_restructuring %> * 13px + 6px)">
-            <span class="suds-chart__score"><%= workbook_session.suds_post_restructuring %></span>
-          </div>
-          <span class="suds-chart__label">Final</span>
-        </div>
-      <% end %>
-    </div>
-  </div>
+  <%
+    suds_bars  = [[workbook_session.suds_initial, "Initial"]]
+    suds_bars << [workbook_session.suds_post_tipp,           "Post-TIPP"] if workbook_session.suds_post_tipp.present?
+    suds_bars << [workbook_session.suds_post_restructuring,  "Final"]     if workbook_session.suds_post_restructuring.present?
+    suds_color = ->(s) { s.to_i >= 7 ? "#D4849C" : s.to_i >= 3 ? "#E8855A" : "#7AC4B6" }
+    sw = 280; sh = 170; lp = 30; rp = 10; tp = 22; bp = 30
+    bah = sh - tp - bp   # bar area height = 118
+    bly = tp + bah       # baseline y = 140
+    baw = sw - lp - rp   # bar area width = 240
+    n   = suds_bars.size
+    spc = baw.to_f / (n + 1)
+    bw  = n == 1 ? 50 : 40
+  %>
+  <svg viewBox="0 0 <%= sw %> <%= sh %>" width="100%" style="max-width: 320px; display: block; margin-bottom: 1rem;">
+    <line x1="<%= lp %>" y1="<%= tp - 4 %>" x2="<%= lp %>" y2="<%= bly %>" stroke="#2C2C2C" stroke-width="1.5"/>
+    <line x1="<%= lp %>" y1="<%= bly %>" x2="<%= sw - rp %>" y2="<%= bly %>" stroke="#2C2C2C" stroke-width="1.5"/>
+    <% [0, 5, 10].each do |tick| %>
+      <% ty = (bly - tick * bah / 10.0).round %>
+      <line x1="<%= lp - 4 %>" y1="<%= ty %>" x2="<%= lp %>" y2="<%= ty %>" stroke="#2C2C2C" stroke-width="1"/>
+      <text x="<%= lp - 6 %>" y="<%= ty + 4 %>" text-anchor="end" font-size="9" fill="#2C2C2C" opacity="0.6" font-family="Arial,sans-serif"><%= tick %></text>
+    <% end %>
+    <% ty5 = (bly - 5 * bah / 10.0).round %>
+    <line x1="<%= lp %>" y1="<%= ty5 %>" x2="<%= sw - rp %>" y2="<%= ty5 %>" stroke="#2C2C2C" stroke-width="0.5" opacity="0.15" stroke-dasharray="4,3"/>
+    <% suds_bars.each_with_index do |(score, label), i| %>
+      <%
+        s   = score.to_i
+        cx  = (lp + spc * (i + 1)).round
+        bh  = [(s * bah / 10.0).round, 2].max
+        by  = bly - bh
+        sty = [by - 4, 12].max
+      %>
+      <rect x="<%= cx - bw / 2 %>" y="<%= by %>" width="<%= bw %>" height="<%= bh %>" fill="<%= suds_color.(s) %>"/>
+      <text x="<%= cx %>" y="<%= sty %>" text-anchor="middle" font-size="11" font-weight="bold" fill="#2C2C2C" font-family="Arial,sans-serif"><%= s %></text>
+      <text x="<%= cx %>" y="<%= bly + 14 %>" text-anchor="middle" font-size="9" fill="#2C2C2C" opacity="0.7" font-family="Courier New,monospace"><%= label %></text>
+    <% end %>
+  </svg>
 
   <% if workbook_session.tipp_strategy.present? %>
     <p><strong>TIPP technique used:</strong> <%= workbook_session.tipp_strategy %></p>
