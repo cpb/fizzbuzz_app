@@ -4,7 +4,7 @@ class WorkbookWizardTest < ApplicationSystemTestCase
   test "intro page renders and Get Started button leads to SUDS step" do
     visit new_workbook_session_path
 
-    assert_selector "#workbook-wizard"
+    assert_selector "#workbook-intro"
     assert_selector "h1", text: /Code Review Anxiety/
     assert_selector "button", text: "Get Started"
 
