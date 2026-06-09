@@ -102,12 +102,12 @@
     <legend>Rate each statement (1=Strongly Disagree, 5=Strongly Agree)</legend>
     <div class="likert-scale" aria-label="1=Strongly disagree, 5=Strongly agree">
       <% {
-        likert_overhyped: "AI is overhyped",
-        likert_frustrated: "AI tools frustrate me",
-        likert_limit_to_boilerplate: "AI is limited to boilerplate",
-        likert_anxious: "AI makes me anxious",
-        likert_made_peace: "I have made peace with AI",
-        likert_more_capable: "AI makes me more capable"
+        likert_overhyped: "AI coding tools are overhyped and won't fundamentally change how I build software",
+        likert_frustrated: "I feel frustrated by the growing expectation to use AI in my workflow",
+        likert_limit_to_boilerplate: "I intentionally limit AI to boilerplate tasks so I stay in control of the real problem-solving",
+        likert_anxious: "The pace of AI advancement makes me anxious about the long-term value of my skills",
+        likert_made_peace: "AI tools are here to stay and I've made peace with that, limitations and all",
+        likert_more_capable: "I've adapted how I work and AI genuinely makes me more capable"
       }.each do |stmt_key, stmt_text| %>
         <div class="likert-row">
           <span class="likert-label"><%= stmt_text %></span>

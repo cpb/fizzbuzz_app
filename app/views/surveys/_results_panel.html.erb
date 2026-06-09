@@ -19,9 +19,60 @@
   </div>
 
   <div class="results-section">
+    <h3>Writes Ruby</h3>
+    <ul class="results-bar-list">
+      <% stats[:writes_ruby].each do |val, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= val ? "Yes" : "No" %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h3>Paid to Write Ruby</h3>
+    <ul class="results-bar-list">
+      <% stats[:paid_to_write_ruby].each do |val, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= val.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
     <h3>Years of Ruby Experience</h3>
     <ul class="results-bar-list">
       <% stats[:years_of_experience].each do |exp, count| %>
+        <li class="results-bar-item">
+          <div class="results-bar-label">
+            <span><%= exp.humanize %></span>
+            <span><%= count %></span>
+          </div>
+          <div class="results-bar-track">
+            <div class="results-bar-fill" style="width: <%= stats[:total] > 0 ? (count.to_f / stats[:total] * 100).round : 0 %>%"></div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="results-section">
+    <h3>Prior Programming Experience</h3>
+    <ul class="results-bar-list">
+      <% stats[:prior_experience].each do |exp, count| %>
         <li class="results-bar-item">
           <div class="results-bar-label">
             <span><%= exp.humanize %></span>
