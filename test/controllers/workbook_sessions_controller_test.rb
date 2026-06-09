@@ -16,4 +16,13 @@ class WorkbookSessionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_match "Evaluating", response.body
   end
+
+  test "POST create with turbo stream returns a Turbo Stream that appends the next question step partial with the float-up animation class" do
+    post workbook_sessions_url,
+      params: { step: "intro" },
+      headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    assert_match "result", response.body
+  end
 end
