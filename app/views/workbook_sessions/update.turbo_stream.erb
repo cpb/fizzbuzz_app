@@ -1,0 +1,3 @@
+<%= turbo_stream.update "workbook-wizard" do %>
+  <%= render "workbook_sessions/steps/#{@workbook_session.current_step}", workbook_session: @workbook_session %>
+<% end %>

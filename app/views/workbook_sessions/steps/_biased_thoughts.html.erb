@@ -1,0 +1,55 @@
+<h2>CHALLENGE BIASED THINKING</h2>
+<p>2. Write down your biased thoughts.</p>
+
+<p>Guiding questions:</p>
+<ul>
+  <li><em>How am I doubting my abilities as an engineer?</em></li>
+  <li><em>What am I worried will happen?</em></li>
+  <li><em>What do I think are the consequences of that outcome?</em></li>
+  <li><em>What am I afraid it means about me if that happened?</em></li>
+</ul>
+
+<%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch do |f| %>
+  <%= f.hidden_field :current_step, value: "biased_thoughts" %>
+  <div data-controller="dynamic-rows">
+    <table class="workbook-table">
+      <thead>
+        <tr>
+          <th>Thought</th>
+          <th>Pre-Believability (0–100)</th>
+        </tr>
+      </thead>
+      <tbody data-dynamic-rows-target="container">
+        <%= f.fields_for :biased_thoughts do |bt_f| %>
+          <tr>
+            <td><%= bt_f.text_area :thought, rows: 2, data: { action: "focus->dynamic-rows#addRow" } %></td>
+            <td><%= bt_f.number_field :pre_believability, in: 0..100, data: { action: "focus->dynamic-rows#addRow" } %></td>
+          </tr>
+        <% end %>
+        <% if workbook_session.biased_thoughts.empty? %>
+          <%= f.fields_for :biased_thoughts, workbook_session.biased_thoughts.build do |bt_f| %>
+            <tr>
+              <td><%= bt_f.text_area :thought, rows: 2, data: { action: "focus->dynamic-rows#addRow" } %></td>
+              <td><%= bt_f.number_field :pre_believability, in: 0..100, data: { action: "focus->dynamic-rows#addRow" } %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <template data-dynamic-rows-target="template">
+      <%= f.fields_for :biased_thoughts, workbook_session.biased_thoughts.build, child_index: "NEW_RECORD" do |bt_f| %>
+        <tr>
+          <td><%= bt_f.text_area :thought, rows: 2, data: { action: "focus->dynamic-rows#addRow" } %></td>
+          <td><%= bt_f.number_field :pre_believability, in: 0..100, data: { action: "focus->dynamic-rows#addRow" } %></td>
+        </tr>
+      <% end %>
+    </template>
+  </div>
+
+  <div class="navigation">
+    <%= link_to "Back", workbook_session_path(workbook_session, direction: "back"),
+        data: { turbo_method: :patch }, class: "btn btn--secondary" %>
+    <%= f.submit "Next", class: "btn" %>
+  </div>
+<% end %>

@@ -1,0 +1,28 @@
+<h2>PROACTIVELY ENGAGE</h2>
+<p>Plan ahead: write down how you will <strong>GIVE</strong> the review.</p>
+
+<div class="context-box">
+  <ul>
+    <li><strong>G</strong>entle</li>
+    <li><strong>I</strong>nterested</li>
+    <li><strong>V</strong>alidate</li>
+    <li><strong>E</strong>asy manner</li>
+  </ul>
+  <p><em>Example: "I can see a lot of effort and dedication went into this and I appreciate the approach you took. The code looks really solid, and it lays a good foundation for the new feature. I think you could move a couple constants created here to the settings file, but otherwise this code is very DRY. Great work!"</em></p>
+</div>
+
+<%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch do |f| %>
+  <%= f.hidden_field :current_step, value: "give_plan" %>
+
+  <div class="field">
+    <%= f.label :give_plan, "Your GIVE review:" %>
+    <%= f.text_area :give_plan, rows: 5,
+        placeholder: "Write your practice review here..." %>
+  </div>
+
+  <div class="navigation">
+    <%= link_to "Back", workbook_session_path(workbook_session, direction: "back"),
+        data: { turbo_method: :patch }, class: "btn btn--secondary" %>
+    <%= f.submit "Finish", class: "btn" %>
+  </div>
+<% end %>

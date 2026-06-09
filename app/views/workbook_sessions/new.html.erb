@@ -1,7 +1,3 @@
-<div id="workbook-steps" style="display: flex; flex-direction: column-reverse;">
-  <div id="question-stack">
-    <div data-step="intro" class="result">
-      <p>intro</p>
-    </div>
-  </div>
+<div id="workbook-wizard">
+  <%= render "workbook_sessions/steps/intro", workbook_session: @workbook_session %>
 </div>

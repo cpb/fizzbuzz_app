@@ -1,0 +1,17 @@
+<h2>CHALLENGE BIASED THINKING</h2>
+<p>1. Briefly describe the code review situation.</p>
+
+<%= form_with model: workbook_session, url: workbook_session_path(workbook_session), method: :patch do |f| %>
+  <%= f.hidden_field :current_step, value: "describe_situation" %>
+  <div class="field">
+    <%= f.text_area :situation_description,
+        placeholder: "e.g., I submitted a PR and got 12 comments",
+        rows: 3 %>
+  </div>
+
+  <div class="navigation">
+    <%= link_to "Back", workbook_session_path(workbook_session, direction: "back"),
+        data: { turbo_method: :patch }, class: "btn btn--secondary" %>
+    <%= f.submit "Next", class: "btn" %>
+  </div>
+<% end %>
