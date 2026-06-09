@@ -2,7 +2,13 @@
 <h1>Audience Survey</h1>
 
 <%= form_with model: @response, url: survey_path, class: "survey-form" do |f| %>
-  
+  <% if @response.errors.any? %>
+    <div class="flash flash-alert">
+      Please fix <%= pluralize(@response.errors.count, "error") %>:
+      <ul><% @response.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+    </div>
+  <% end %>
+
   <div class="survey-field">
     <%= f.label :role, "Role" %>
     <div class="radio-group">
