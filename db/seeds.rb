@@ -5,3 +5,8 @@ ActiveRecord::FixtureSet.create_fixtures(
     workbook/prompts workbook/samples workbook/runs workbook/executions
   ]
 )
+
+ActiveRecord::FixtureSet.create_fixtures(
+  Rails.root.join("db/seeds/fixtures"),
+  %w[links gists]
+)

@@ -16,4 +16,15 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
     # No QR code when no gist exists
     assert_select "[data-qr-code]", count: 0
   end
+
+  test "authoring actions are forbidden in production" do
+    original_env = Rails.env
+    begin
+      Rails.env = ActiveSupport::EnvironmentInquirer.new("production")
+      get new_link_url
+      assert_response :forbidden
+    ensure
+      Rails.env = original_env
+    end
+  end
 end

@@ -1,8 +1,10 @@
 <% content_for :drawer do %>
-  <%= button_to "Publish", links_publish_path, method: :post,
-        form_class: "btn-form", class: "btn" %>
+  <% unless Rails.env.production? %>
+    <%= button_to "Publish", links_publish_path, method: :post,
+          form_class: "btn-form", class: "btn" %>
+    <%= link_to "+ New Link", new_link_path, class: "btn" %>
+  <% end %>
   <%= link_to "← FizzBuzz", root_path, class: "btn" %>
-  <%= link_to "+ New Link", new_link_path, class: "btn" %>
 <% end %>
 
 <h1>Links</h1>
