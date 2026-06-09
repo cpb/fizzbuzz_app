@@ -14,8 +14,8 @@
     </span>
     <%= f.submit "Start", class: "btn" %>
   <% end %>
-  <%= link_to "Links →", links_path, class: "btn" %>
   <%= link_to "Workbook →", new_workbook_session_path, class: "btn" %>
+  <%= link_to "Links →", links_path, class: "btn" %>
 <% end %>
 
 <% if params[:tab_token].present? %>

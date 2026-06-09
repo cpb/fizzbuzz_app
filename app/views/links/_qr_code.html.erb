@@ -1,4 +1,5 @@
 <div id="qr_code" data-qr-code>
-  <a href="<%= gist.url %>" target="_blank">View Gist</a>
-  <%= QrCodeGenerator.call(gist.url).html_safe %>
+  <%= link_to gist.url, target: "_blank", rel: "noopener noreferrer" do %>
+    <%= QrCodeGenerator.call(gist.url).html_safe %>
+  <% end %>
 </div>
