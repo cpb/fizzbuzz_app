@@ -22,7 +22,7 @@ class SurveyResponse < ApplicationRecord
   }, validate: true, prefix: :team_ai_adoption
 
   validates :role, :paid_to_write_ruby, :years_of_experience,
-            :prior_experience, :team_ai_adoption, :submitted_at, presence: true
+            :prior_experience, :team_ai_adoption, :submitted_at, :location, presence: true
   validates :writes_ruby, inclusion: { in: [ true, false ], message: "must be selected" }
 
   validates :likert_overhyped, :likert_frustrated, :likert_limit_to_boilerplate,
