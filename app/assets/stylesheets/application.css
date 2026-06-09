@@ -469,7 +469,7 @@ main.page-content {
 .tipp-option input { margin-top: 0.3rem; flex-shrink: 0; }
 .tipp-option dl { margin: 0; padding: 0; }
 .tipp-option dt { font-weight: bold; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
-.tipp-option dd { margin: 0; font-size: 0.85rem; }
+.tipp-option dd { margin: 0; font-size: 0.85rem; text-transform: none; letter-spacing: normal; }
 
 /* Thought options (select_primary, dear_give) */
 .thought-options { margin-bottom: 1rem; }
@@ -495,7 +495,7 @@ main.page-content {
 /* Side-by-side rational response */
 .response-grid {
   display: grid;
-  grid-template-columns: 1fr 6.5rem;
+  grid-template-columns: 1fr 8rem;
   gap: 0;
   border: 1px solid var(--border);
   margin-bottom: 1rem;
@@ -575,7 +575,7 @@ main.page-content {
 }
 .thoughts-grid__header {
   display: grid;
-  grid-template-columns: 1fr 6.5rem;
+  grid-template-columns: 1fr 8rem;
   background: rgba(44, 44, 44, 0.06);
   border-bottom: 1px solid var(--border);
 }
@@ -592,7 +592,7 @@ main.page-content {
 }
 .thoughts-grid__row {
   display: grid;
-  grid-template-columns: 1fr 6.5rem;
+  grid-template-columns: 1fr 8rem;
   border-bottom: 1px solid var(--border);
 }
 .thoughts-grid__row:last-child { border-bottom: none; }
