@@ -9,6 +9,7 @@ WebMock.disable_net_connect!(allow_localhost: [ "127.0.0.1", "localhost" ])
 VCR.configure do |config|
   config.cassette_library_dir = "test/cassettes"
   config.hook_into :webmock
+  config.ignore_hosts "127.0.0.1", "localhost"
   config.filter_sensitive_data("<OLLAMA_API_BASE>") { RubyLLM.config.ollama_api_base }
 end
 

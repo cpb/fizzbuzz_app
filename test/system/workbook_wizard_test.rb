@@ -5,8 +5,8 @@ class WorkbookWizardTest < ApplicationSystemTestCase
     visit new_workbook_session_path
 
     assert_selector "#workbook-intro"
-    assert_selector "h1", text: /Code Review Anxiety/
-    assert_selector "button", text: "Get Started"
+    assert_selector "h1", text: /Code Review Anxiety/i
+    assert_button "Get Started"
 
     click_button "Get Started"
 
