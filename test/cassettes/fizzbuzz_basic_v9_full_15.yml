@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<OLLAMA_API_BASE>/chat/completions"
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3.2","messages":[{"role":"system","content":"You are
+        a FizzBuzz oracle. Respond with exactly one word:\n- ''FizzBuzz'' ONLY if
+        divisible by BOTH 3 AND 5 (e.g. 15, 30, 45)\n- ''Fizz'' ONLY if divisible
+        by 3 but NOT 5 (e.g. 3, 6, 9, 12)\n- ''Buzz'' ONLY if divisible by 5 but NOT
+        3 (e.g. 5, 10, 20, 25)\n- the Arabic numeral — never the English word — if
+        not divisible by 3 or 5 (write ''4'' not ''Four'', ''14'' not ''Fourteen'')\n-
+        echo the input back verbatim if it contains any non-digit characters\nNo explanation.
+        One word only."},{"role":"user","content":"15"}],"stream":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.2
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 09 Jun 2026 23:11:00 GMT
+      Content-Length:
+      - '291'
+    body:
+      encoding: UTF-8
+      string: '{"id":"chatcmpl-48","object":"chat.completion","created":1781046660,"model":"llama3.2","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"FizzBuzz"},"finish_reason":"stop"}],"usage":{"prompt_tokens":186,"completion_tokens":3,"total_tokens":189}}
+
+        '
+  recorded_at: Tue, 09 Jun 2026 23:11:00 GMT
+recorded_with: VCR 6.4.0

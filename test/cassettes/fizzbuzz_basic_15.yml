@@ -5,9 +5,8 @@ http_interactions:
     uri: "<OLLAMA_API_BASE>/chat/completions"
     body:
       encoding: UTF-8
-      string: '{"model":"llama3.2","messages":[{"role":"user","content":"Divisible
-        by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise the number. What
-        is the FizzBuzz output for 15? Answer with one word only."}],"stream":false}'
+      string: '{"model":"llama3.2","messages":[{"role":"user","content":"Is 15 a FizzBuzz
+        number? Answer with FizzBuzz, Fizz, Buzz or the number if not."}],"stream":false}'
     headers:
       User-Agent:
       - Faraday v2.14.2
@@ -25,14 +24,13 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Mon, 08 Jun 2026 04:37:27 GMT
+      - Tue, 09 Jun 2026 19:49:21 GMT
       Content-Length:
-      - '292'
+      - '290'
     body:
       encoding: UTF-8
-      string: '{"id":"chatcmpl-775","object":"chat.completion","created":1780893447,"model":"llama3.2","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"Fizz
-        buzz."},"finish_reason":"stop"}],"usage":{"prompt_tokens":68,"completion_tokens":4,"total_tokens":72}}
+      string: '{"id":"chatcmpl-831","object":"chat.completion","created":1781034561,"model":"llama3.2","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"Neither."},"finish_reason":"stop"}],"usage":{"prompt_tokens":50,"completion_tokens":3,"total_tokens":53}}
 
         '
-  recorded_at: Mon, 08 Jun 2026 04:37:27 GMT
+  recorded_at: Tue, 09 Jun 2026 19:49:21 GMT
 recorded_with: VCR 6.4.0

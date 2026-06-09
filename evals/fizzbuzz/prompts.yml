@@ -6,7 +6,7 @@ fizzbuzz_basic:
   slug: "fizzbuzz-basic"
   provider: "ollama"
   model: "llama3.2"
-  message: "Divisible by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise the number. What is the FizzBuzz output for {{number}}? Answer with one word only."
+  message: "Is {{number}} a FizzBuzz number? Answer with FizzBuzz, Fizz, Buzz or the number if not."
 
 yoda_fizzbuzz:
   name: "Yoda FizzBuzz"
@@ -22,6 +22,93 @@ fizzbuzz_eval:
   provider: "ollama"
   model: "llama3.2"
   instructions: "Evaluate FizzBuzz for the given number. Return exactly one word: 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if divisible by 3 only, 'Buzz' if divisible by 5 only, or the number itself otherwise."
+  message: "{{number}}"
+
+fizzbuzz_basic_v2:
+  name: "FizzBuzz Basic v2"
+  slug: "fizzbuzz-basic-v2"
+  provider: "ollama"
+  model: "llama3.2"
+  message: "FizzBuzz for {{number}}: answer FizzBuzz if divisible by 3 and 5, Fizz if by 3 only, Buzz if by 5 only, or the number itself. One word."
+
+fizzbuzz_basic_v3:
+  name: "FizzBuzz Basic v3"
+  slug: "fizzbuzz-basic-v3"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "Play FizzBuzz. For multiples of 3 say Fizz, multiples of 5 say Buzz, multiples of both say FizzBuzz, otherwise say the number. One word only."
+  message: "{{number}}"
+
+fizzbuzz_basic_v4:
+  name: "FizzBuzz Basic v4"
+  slug: "fizzbuzz-basic-v4"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Given a number respond with exactly one word: 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if divisible by 3 only, 'Buzz' if divisible by 5 only, or the number as digits if neither. No explanation or extra text."
+  message: "{{number}}"
+
+fizzbuzz_basic_v5:
+  name: "FizzBuzz Basic v5"
+  slug: "fizzbuzz-basic-v5"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Given an input respond with exactly one word: 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if divisible by 3 only, 'Buzz' if divisible by 5 only, the number as digits if it is a number not divisible by 3 or 5, or the input itself unchanged if it is not a valid number. No explanation or extra text."
+  message: "{{number}}"
+
+fizzbuzz_basic_v6:
+  name: "FizzBuzz Basic v6"
+  slug: "fizzbuzz-basic-v6"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Respond with exactly one word:\n- 'FizzBuzz' ONLY if divisible by BOTH 3 AND 5 (e.g. 15, 30, 45)\n- 'Fizz' ONLY if divisible by 3 but NOT 5 (e.g. 3, 6, 9, 12)\n- 'Buzz' ONLY if divisible by 5 but NOT 3 (e.g. 5, 10, 20, 25)\n- the number as digits if not divisible by 3 or 5\n- the input unchanged if it is not a valid number\nNo explanation. One word only."
+  message: "{{number}}"
+
+fizzbuzz_basic_v7:
+  name: "FizzBuzz Basic v7"
+  slug: "fizzbuzz-basic-v7"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Respond with exactly one word:\n- 'FizzBuzz' ONLY if divisible by BOTH 3 AND 5 (e.g. 15, 30, 45)\n- 'Fizz' ONLY if divisible by 3 but NOT 5 (e.g. 3, 6, 9, 12)\n- 'Buzz' ONLY if divisible by 5 but NOT 3 (e.g. 5, 10, 20, 25)\n- the number as digits if not divisible by 3 or 5 (e.g. 1, 2, 4, 7)\n- echo the input back verbatim if it contains any non-digit characters\nNo explanation. One word only."
+  message: "{{number}}"
+
+fizzbuzz_basic_v8:
+  name: "FizzBuzz Basic v8"
+  slug: "fizzbuzz-basic-v8"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Respond with exactly one word:\n- 'FizzBuzz' ONLY if divisible by BOTH 3 AND 5 (e.g. 15, 30, 45)\n- 'Fizz' ONLY if divisible by 3 but NOT 5 (e.g. 3, 6, 9, 12)\n- 'Buzz' ONLY if divisible by 5 but NOT 3 (e.g. 5, 10, 20, 25)\n- repeat the input exactly as given in all other cases\nNo explanation. One word only."
+  message: "{{number}}"
+
+fizzbuzz_basic_v9:
+  name: "FizzBuzz Basic v9"
+  slug: "fizzbuzz-basic-v9"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Respond with exactly one word:\n- 'FizzBuzz' ONLY if divisible by BOTH 3 AND 5 (e.g. 15, 30, 45)\n- 'Fizz' ONLY if divisible by 3 but NOT 5 (e.g. 3, 6, 9, 12)\n- 'Buzz' ONLY if divisible by 5 but NOT 3 (e.g. 5, 10, 20, 25)\n- the Arabic numeral — never the English word — if not divisible by 3 or 5 (write '4' not 'Four', '14' not 'Fourteen')\n- echo the input back verbatim if it contains any non-digit characters\nNo explanation. One word only."
+  message: "{{number}}"
+
+fizzbuzz_basic_v10:
+  name: "FizzBuzz Basic v10"
+  slug: "fizzbuzz-basic-v10"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Reply with exactly one token — no explanation.\nRules:\n- FizzBuzz if divisible by both 3 and 5\n- Fizz if divisible by 3 but not 5\n- Buzz if divisible by 5 but not 3\n- the input as-is in all other cases\nExamples: 15→FizzBuzz, 9→Fizz, 10→Buzz, 4→4, 7→7, 8→8, 11→11, 13→13, 14→14, hello→hello"
+  message: "{{number}}"
+
+fizzbuzz_basic_v11:
+  name: "FizzBuzz Basic v11"
+  slug: "fizzbuzz-basic-v11"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Reply with exactly one token — no explanation.\nRules:\n- FizzBuzz if divisible by both 3 and 5\n- Fizz if divisible by 3 but not 5\n- Buzz if divisible by 5 but not 3\n- the input as-is in all other cases\nExamples: 15:FizzBuzz, 9:Fizz, 10:Buzz, 4:4, 7:7, 8:8, 11:11, 13:13, 14:14, hello:hello"
+  message: "{{number}}"
+
+fizzbuzz_basic_v12:
+  name: "FizzBuzz Basic v12"
+  slug: "fizzbuzz-basic-v12"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "Reply with one word only: Fizz for multiples of 3, Buzz for multiples of 5, FizzBuzz for multiples of both, or echo the input unchanged for everything else. No explanation."
   message: "{{number}}"
 
 fizzbuzz_clean:

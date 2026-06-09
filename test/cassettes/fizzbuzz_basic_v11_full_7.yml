@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<OLLAMA_API_BASE>/chat/completions"
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3.2","messages":[{"role":"system","content":"You are
+        a FizzBuzz oracle. Reply with exactly one token — no explanation.\nRules:\n-
+        FizzBuzz if divisible by both 3 and 5\n- Fizz if divisible by 3 but not 5\n-
+        Buzz if divisible by 5 but not 3\n- the input as-is in all other cases\nExamples:
+        15:FizzBuzz, 9:Fizz, 10:Buzz, 4:4, 7:7, 8:8, 11:11, 13:13, 14:14, hello:hello"},{"role":"user","content":"7"}],"stream":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.2
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 09 Jun 2026 23:15:20 GMT
+      Content-Length:
+      - '288'
+    body:
+      encoding: UTF-8
+      string: '{"id":"chatcmpl-138","object":"chat.completion","created":1781046920,"model":"llama3.2","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"Fizz"},"finish_reason":"stop"}],"usage":{"prompt_tokens":145,"completion_tokens":2,"total_tokens":147}}
+
+        '
+  recorded_at: Tue, 09 Jun 2026 23:15:20 GMT
+recorded_with: VCR 6.4.0

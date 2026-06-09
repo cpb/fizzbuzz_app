@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: "<OLLAMA_API_BASE>/chat/completions"
+    body:
+      encoding: UTF-8
+      string: '{"model":"llama3.2","messages":[{"role":"system","content":"You are
+        a FizzBuzz oracle. Given an input respond with exactly one word: ''FizzBuzz''
+        if divisible by both 3 and 5, ''Fizz'' if divisible by 3 only, ''Buzz'' if
+        divisible by 5 only, the number as digits if it is a number not divisible
+        by 3 or 5, or the input itself unchanged if it is not a valid number. No explanation
+        or extra text."},{"role":"user","content":"5"}],"stream":false}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.2
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 09 Jun 2026 23:02:00 GMT
+      Content-Length:
+      - '292'
+    body:
+      encoding: UTF-8
+      string: '{"id":"chatcmpl-640","object":"chat.completion","created":1781046120,"model":"llama3.2","system_fingerprint":"fp_ollama","choices":[{"index":0,"message":{"role":"assistant","content":"FizzBuzz"},"finish_reason":"stop"}],"usage":{"prompt_tokens":114,"completion_tokens":3,"total_tokens":117}}
+
+        '
+  recorded_at: Tue, 09 Jun 2026 23:02:00 GMT
+recorded_with: VCR 6.4.0
