@@ -1,6 +1,9 @@
 class SurveyResponse < ApplicationRecord
   serialize :ai_tools, coder: JSON
 
+  before_validation { ai_tools.reject!(&:blank?) }
+
+
   enum :role, { developer: "developer", engineering_manager: "engineering_manager",
                 student: "student", other: "other" }, validate: true, prefix: :role
 
@@ -22,7 +25,7 @@ class SurveyResponse < ApplicationRecord
   }, validate: true, prefix: :team_ai_adoption
 
   validates :role, :paid_to_write_ruby, :years_of_experience,
-            :prior_experience, :team_ai_adoption, :submitted_at, presence: true
+            :prior_experience, :team_ai_adoption, :submitted_at, :location, presence: true
   validates :writes_ruby, inclusion: { in: [ true, false ], message: "must be selected" }
 
   validates :likert_overhyped, :likert_frustrated, :likert_limit_to_boilerplate,
@@ -35,20 +38,24 @@ class SurveyResponse < ApplicationRecord
   ].freeze
 
   AI_TOOL_OPTIONS = %w[
-    claude_code_cli cursor copilot chatgpt gemini other none
+    claude_code_cli cursor copilot chatgpt claude_web gemini aider other none
   ].freeze
 
   def self.aggregate_stats
     total = count.to_f
-    role_counts   = group(:role).count
-    exp_counts    = group(:years_of_experience).count
-    adopt_counts  = group(:team_ai_adoption).count
-    likert_avgs   = LIKERT_COLUMNS.index_with { |col| average(col)&.round(2) }
-    tool_counts   = Hash.new(0).tap do |h|
-      pluck(:ai_tools).each { |tools| tools.each { |t| h[t] += 1 } }
+    role_counts        = group(:role).count
+    writes_ruby_counts = group(:writes_ruby).count
+    paid_counts        = group(:paid_to_write_ruby).count
+    exp_counts         = group(:years_of_experience).count
+    prior_exp_counts   = group(:prior_experience).count
+    adopt_counts       = group(:team_ai_adoption).count
+    likert_avgs        = LIKERT_COLUMNS.index_with { |col| average(col)&.round(2) }
+    tool_counts        = Hash.new(0).tap do |h|
+      pluck(:ai_tools).each { |tools| tools.each { |t| h[t] += 1 unless t.blank? } }
     end
-    { total: total.to_i, role: role_counts, years_of_experience: exp_counts,
-      team_ai_adoption: adopt_counts, likert: likert_avgs,
-      ai_tools: tool_counts.sort_by { |_, v| -v }.to_h }
+    { total: total.to_i, role: role_counts, writes_ruby: writes_ruby_counts,
+      paid_to_write_ruby: paid_counts, years_of_experience: exp_counts,
+      prior_experience: prior_exp_counts, team_ai_adoption: adopt_counts,
+      likert: likert_avgs, ai_tools: tool_counts.sort_by { |_, v| -v }.to_h }
   end
 end

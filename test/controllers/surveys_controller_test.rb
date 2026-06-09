@@ -9,6 +9,7 @@ class SurveysControllerTest < ActionDispatch::IntegrationTest
   test "POST /survey with valid params creates response and redirects" do
     assert_difference("SurveyResponse.count", 1) do
       post survey_url, params: { survey_response: {
+        location: "New York",
         role: "developer",
         writes_ruby: true,
         paid_to_write_ruby: "yes",

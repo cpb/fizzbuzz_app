@@ -5,6 +5,10 @@
       "note": "QrCodeGenerator.call returns a safe SVG string built entirely by the rqrcode gem from a URL value; the .html_safe call is intentional. Gist#url is sourced from the GitHub API html_url field."
     },
     {
+      "fingerprint": "4e2db95998ad5fbf9f6dc20284011f27a17be485e37b0b7a52c4772326b625f0",
+      "note": "QrCodeGenerator.call returns a safe SVG string built entirely by the rqrcode gem from a server-controlled URL; the .html_safe call is intentional."
+    },
+    {
       "fingerprint": "62fa2a766780ea93480c634cc629d4b87671be5977642c1c102a5c917250c79a",
       "note": ":location is a legitimate survey_responses column for optional respondent location; it is intentionally permitted."
     }
