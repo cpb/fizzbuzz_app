@@ -1,0 +1,8 @@
+<div id="survey-qr-panel" data-controller="dismissible">
+  <button class="survey-qr-dismiss" data-action="dismissible#dismiss" aria-label="Dismiss">×</button>
+  <a href="<%= survey_path %>" class="survey-qr-link">
+    <%= QrCodeGenerator.call(survey_url).html_safe %>
+    <span class="survey-qr-url"><%= survey_url.delete_prefix("https://").delete_prefix("http://") %></span>
+  </a>
+  <%= link_to "Live results →", results_survey_path, class: "btn survey-qr-results-btn" %>
+</div>

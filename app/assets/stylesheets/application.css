@@ -739,6 +739,68 @@ tr[data-controller="trap-row"]  { cursor: pointer; }
   color: var(--charcoal);
 }
 
+/* Survey QR panel */
+
+#survey-qr-panel {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 20;
+  text-align: center;
+}
+
+#survey-qr-panel svg {
+  display: block;
+  width: 260px;
+  height: 260px;
+}
+
+.survey-qr-dismiss {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  color: var(--charcoal);
+  opacity: 0.45;
+  font-family: inherit;
+}
+
+.survey-qr-dismiss:hover {
+  opacity: 1;
+}
+
+.survey-qr-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--charcoal);
+}
+
+.survey-qr-link:hover svg {
+  opacity: 0.85;
+}
+
+.survey-qr-url {
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  opacity: 0.6;
+}
+
 /* Survey */
 
 .survey-form {
