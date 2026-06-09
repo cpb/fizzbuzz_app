@@ -9,6 +9,6 @@
       "note": ":location is a legitimate survey_responses column for optional respondent location; it is intentionally permitted."
     }
   ],
-  "updated": "2026-06-08 00:00:00 +0000",
+  "updated": "2026-06-09 00:00:00 +0000",
   "brakeman_version": "8.0.4"
 }
