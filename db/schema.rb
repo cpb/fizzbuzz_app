@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_08_100001) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_09_100000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -37,6 +37,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_08_100001) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index [ "blob_id", "variation_digest" ], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "biased_thoughts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "evidence_against"
+    t.text "evidence_for"
+    t.integer "position"
+    t.integer "post_believability"
+    t.integer "pre_believability"
+    t.text "rational_response"
+    t.text "thought"
+    t.datetime "updated_at", null: false
+    t.integer "workbook_session_id", null: false
+    t.index [ "workbook_session_id" ], name: "index_biased_thoughts_on_workbook_session_id"
   end
 
   create_table "gists", force: :cascade do |t|
@@ -139,27 +153,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_08_100001) do
   end
 
   create_table "workbook_sessions", force: :cascade do |t|
-    t.text "biased_thoughts"
+    t.json "biased_thoughts_json"
     t.datetime "created_at", null: false
     t.string "current_step"
     t.text "dear_plan"
-    t.text "evidence_against"
-    t.text "evidence_for"
+    t.json "evidence_against"
+    t.json "evidence_for"
     t.text "give_plan"
+    t.json "post_believabilities"
     t.integer "post_believability"
+    t.json "pre_believabilities"
     t.integer "pre_believability"
+    t.integer "primary_thought_id"
     t.integer "rational_believability"
-    t.text "rational_response"
+    t.json "rational_response"
+    t.string "review_direction"
     t.text "selected_thinking_traps"
     t.text "situation_description"
     t.integer "suds_initial"
     t.integer "suds_post_restructuring"
     t.integer "suds_post_tipp"
+    t.string "tipp_strategy"
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "biased_thoughts", "workbook_sessions"
   add_foreign_key "ruby_llm_evals_prompt_executions", "ruby_llm_evals_runs"
   add_foreign_key "ruby_llm_evals_prompt_executions", "ruby_llm_evals_samples"
   add_foreign_key "ruby_llm_evals_runs", "ruby_llm_evals_prompts"

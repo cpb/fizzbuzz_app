@@ -1,13 +1,15 @@
 require "application_system_test_case"
 
 class WorkbookWizardTest < ApplicationSystemTestCase
-  test "first question is anchored at the bottom with float-up layout" do
+  test "intro page renders and Get Started button leads to SUDS step" do
     visit new_workbook_session_path
 
-    # The question stack uses column-reverse layout (same as #results)
-    assert_selector "#question-stack"
+    assert_selector "#workbook-wizard"
+    assert_selector "h1", text: /Code Review Anxiety/
+    assert_selector "button", text: "Get Started"
 
-    # The first question/step has the .result class that triggers float-up animation
-    assert_selector "#question-stack .result"
+    click_button "Get Started"
+
+    assert_selector "h2", text: /CREATE AWARENESS/
   end
 end

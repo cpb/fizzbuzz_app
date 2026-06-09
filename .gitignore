@@ -39,6 +39,7 @@
 /pr_context.md
 /.worktree-session.json
 
-# Ignore key files for decrypting credentials and more.
-/config/*.key
-
+# Test screenshots and browser automation artifacts
+/*.png
+/capybara-*.html
+/.playwright-mcp/
