@@ -1,168 +1,177 @@
-# FizzBuzz eval run grids
+# FizzBuzz Eval Run Grids
 
-Each grid shows how a model performed across the FizzBuzz test cases for one
-eval run. Columns are the input numbers tested; rows are the four output
-classes. A perfect run looks like this:
+Each eval prompt is tested against a set of sample inputs. When a run
+completes, the run detail page shows a prediction grid — a 4×N table
+inspired by [Joel Grus's pydata-chicago FizzBuzz visualizations][tf-ref] —
+that makes pass/fail patterns immediately visible.
 
-![Perfect FizzBuzz (ruby/FizzBuzz, 100%)](grid_perfect.png)
+## How to read the grid
 
-A dark cell on the diagonal means the model predicted the right class for
-that number. Red means the expected class was wrong; light blue marks what the
-model predicted instead.
+| Color | Meaning |
+|---|---|
+| ■ near-black | Model predicted the correct class |
+| ■ red | Expected this class, but the model didn't produce it |
+| ■ light blue | What the model actually predicted instead (when wrong) |
+| □ light gray | This (number, class) combination wasn't tested in this run |
 
----
+Rows are the four output classes (`number`, `fizz`, `buzz`, `fizzbuzz`).
+Columns are the input numbers tested, sorted ascending. A perfectly correct
+model produces a single dark diagonal — one lit cell per column in the row
+matching the correct class for that number.
 
-## FizzBuzz Basic
-
-<details>
-<summary>Prompt &amp; samples</summary>
-
-**Message** (no system instructions)
-```
-Is {{number}} a FizzBuzz number? Answer with FizzBuzz, Fizz, Buzz or the number if not.
-```
-
-| number | expected |
-|--------|----------|
-| 1 | `/\b1\b/i` |
-| 2 | `/\b2\b/i` |
-| 3 | `/fizz(?!buzz)/i` |
-| 4 | `/\b4\b/i` |
-| 5 | `/(?<!fizz)buzz/i` |
-| 6 | `/fizz(?!buzz)/i` |
-| 7 | `/\b7\b/i` |
-| 8 | `/\b8\b/i` |
-| 9 | `/fizz(?!buzz)/i` |
-| 10 | `/(?<!fizz)buzz/i` |
-| 11 | `/\b11\b/i` |
-| 12 | `/fizz(?!buzz)/i` |
-| 13 | `/\b13\b/i` |
-| 14 | `/\b14\b/i` |
-| 15 | `/fizz\s*buzz/i` |
-
-</details>
-
-![FizzBuzz Basic (ollama/llama3.2, 13.33%)](grid_fizzbuzz_basic.png)
+[tf-ref]: https://github.com/joelgrus/fizz-buzz-tensorflow/blob/d14b8b56956c3e7e13ff219cf580849adf6788bd/pydata-chicago/plots.py
 
 ---
 
-## FizzBuzz Eval
-
 <details>
-<summary>Prompt &amp; samples</summary>
+<summary><strong>FizzBuzz Eval</strong> — plain-language instructions, one-word answer</summary>
 
-**System instructions**
-```
-Evaluate FizzBuzz for the given number. Return exactly one word: 'FizzBuzz'
-if divisible by both 3 and 5, 'Fizz' if divisible by 3 only, 'Buzz' if
-divisible by 5 only, or the number itself otherwise.
-```
+**Instructions**
 
-**Message**
+> Evaluate FizzBuzz for the given number. Return exactly one word:
+> 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if divisible by 3 only,
+> 'Buzz' if divisible by 5 only, or the number itself otherwise.
+
+**Message template**
+
 ```
 {{number}}
 ```
 
-| number | expected |
-|--------|----------|
-| 1 | `1` |
-| 2 | `2` |
-| 3 | `Fizz` |
-| 4 | `4` |
-| 5 | `Buzz` |
-| 6 | `Fizz` |
-| 7 | `7` |
-| 8 | `8` |
-| 9 | `Fizz` |
-| 10 | `Buzz` |
-| 11 | `11` |
-| 12 | `Fizz` |
-| 13 | `13` |
-| 14 | `14` |
-| 15 | `FizzBuzz` |
+**Samples**
+
+| number | eval type | expected output |
+|--------|-----------|-----------------|
+| 3 | contains | `Fizz` |
+| 5 | contains | `Buzz` |
+| 15 | contains | `FizzBuzz` |
+
+**Run shown** — ollama/llama3.2, accuracy 66.67%
+
+The model answered `Fizz` for both 3 and 5. The grid shows:
+- **3 → fizz**: dark (correct)
+- **5 → buzz**: red (expected Buzz, model said Fizz); **5 → fizz**: light blue (what it predicted instead)
+- **15 → fizzbuzz**: dark (correct)
+
+![FizzBuzz Eval grid](fizzbuzz_eval.png)
 
 </details>
 
-![FizzBuzz Eval (ollama/llama3.2, 80.0%)](grid_fizzbuzz_eval.png)
+---
+
+<details>
+<summary><strong>FizzBuzz Basic</strong> — rules embedded in the message, no system instructions</summary>
+
+**Instructions**
+
+*(none)*
+
+**Message template**
+
+```
+Divisible by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise the
+number. What is the FizzBuzz output for {{number}}? Answer with one word only.
+```
+
+**Samples**
+
+| number | eval type | expected output |
+|--------|-----------|-----------------|
+| 3 | regex | `/fizz(?!buzz)/i` — Fizz but not FizzBuzz |
+| 5 | regex | `/(?<!fizz)buzz/i` — Buzz but not FizzBuzz |
+| 15 | regex | `/fizz\s*buzz/i` — FizzBuzz |
+
+The regex patterns use negative lookahead/lookbehind to reject a raw
+`FizzBuzz` answer when only `Fizz` or `Buzz` was expected.
+
+**Run shown** — ollama/llama3.2, accuracy 100%
+
+All three samples passed. The grid shows a clean diagonal of dark cells.
+
+![FizzBuzz Basic grid](fizzbuzz_basic.png)
+
+</details>
 
 ---
 
-## FizzBuzz Clean
-
 <details>
-<summary>Prompt &amp; samples</summary>
+<summary><strong>FizzBuzz Clean</strong> — structured JSON output</summary>
 
-**System instructions**
-```
-Return ONLY valid JSON with a single key: {"result": "Fizz"}. Rules:
-divisible by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise the
-number as a string.
-```
+**Instructions**
 
-**Message**
+> Return ONLY valid JSON with a single key: {"result": "Fizz"}. Rules:
+> divisible by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise
+> the number as a string.
+
+**Message template**
+
 ```
 {{number}}
 ```
 
-| number | expected |
-|--------|----------|
-| 1 | `"result": "1"` |
-| 2 | `"result": "2"` |
-| 3 | `"result": "Fizz"` |
-| 4 | `"result": "4"` |
-| 5 | `"result": "Buzz"` |
-| 6 | `"result": "Fizz"` |
-| 7 | `"result": "7"` |
-| 8 | `"result": "8"` |
-| 9 | `"result": "Fizz"` |
-| 10 | `"result": "Buzz"` |
-| 11 | `"result": "11"` |
-| 12 | `"result": "Fizz"` |
-| 13 | `"result": "13"` |
-| 14 | `"result": "14"` |
-| 15 | `"result": "FizzBuzz"` |
+**Samples**
+
+| number | eval type | expected output |
+|--------|-----------|-----------------|
+| 3 | contains | `"result": "Fizz"` |
+| 5 | contains | `"result": "Buzz"` |
+| 15 | contains | `"result": "FizzBuzz"` |
+
+The `contains` check looks for the key-value substring anywhere in the
+response, which tolerates minor JSON formatting variation while still
+requiring the wrapper.
+
+**Run shown** — ollama/llama3.2, accuracy 66.67%
+
+The model returned raw `Buzz` for number 5 without the JSON wrapper. The
+grid shows:
+- **3 → fizz**: dark (correct JSON)
+- **5 → buzz**: red (expected JSON-wrapped Buzz, got plain `Buzz`)
+- **15 → fizzbuzz**: dark (correct JSON)
+
+![FizzBuzz Clean grid](fizzbuzz_clean.png)
 
 </details>
 
-![FizzBuzz Clean (ollama/llama3.2, 33.33%)](grid_fizzbuzz_clean.png)
-
 ---
 
-## Yoda FizzBuzz
-
 <details>
-<summary>Prompt &amp; samples</summary>
+<summary><strong>Yoda FizzBuzz</strong> — creative persona, extra sample for plain numbers</summary>
 
-**System instructions**
-```
-Speak like Yoda, you must. Play FizzBuzz you must: for a number divisible
-by 3 but not 5, say Fizz; by 5 but not 3, say Buzz; by both 3 and 5, say
-FizzBuzz; otherwise say the number. One word only, your answer must be.
-```
+**Instructions**
 
-**Message**
+> Speak like Yoda, you must. Play FizzBuzz you must: for a number
+> divisible by 3 but not 5, say Fizz; by 5 but not 3, say Buzz; by both
+> 3 and 5, say FizzBuzz; otherwise say the number. One word only, your
+> answer must be.
+
+**Message template**
+
 ```
 {{number}}
 ```
 
-| number | expected |
-|--------|----------|
-| 1 | `/(\bone\b\|\b1\b)/i` |
-| 2 | `/(\btwo\b\|\b2\b)/i` |
-| 3 | `/fizz(?!buzz)/i` |
-| 4 | `/(\bfour\b\|\b4\b)/i` |
-| 5 | `/(?<!fizz)buzz/i` |
-| 6 | `/fizz(?!buzz)/i` |
-| 7 | `/(\bseven\b\|\b7\b)/i` |
-| 8 | `/(\beight\b\|\b8\b)/i` |
-| 9 | `/fizz(?!buzz)/i` |
-| 10 | `/(?<!fizz)buzz/i` |
-| 11 | `/(\beleven\b\|\b11\b)/i` |
-| 12 | `/fizz(?!buzz)/i` |
-| 13 | `/(\bthirteen\b\|\b13\b)/i` |
-| 14 | `/(\bfourteen\b\|\b14\b)/i` |
-| 15 | `/fizzbuzz/i` |
+**Samples**
+
+| number | eval type | expected output |
+|--------|-----------|-----------------|
+| 1 | regex | `/(\bone\b\|\b1\b)/i` — the digit or the word "one" |
+| 3 | regex | `/fizz(?!buzz)/i` |
+| 5 | regex | `/(?<!fizz)buzz/i` |
+| 15 | regex | `/fizzbuzz/i` |
+
+Number 1 is the only sample that tests the plain-number path. The regex
+accepts either the digit `1` or the word `one`, anticipating that a
+Yoda-persona model might spell out small numbers.
+
+**Run shown** — ollama/llama3.2, accuracy 75%
+
+The model returned `1` for number 1, which failed the regex (the eval
+flagged it as not matching the expected pattern). Fizz, Buzz, and FizzBuzz
+all passed. The grid shows:
+- **1 → number**: red (failed)
+- **3 → fizz**, **5 → buzz**, **15 → fizzbuzz**: dark (correct)
+
+![Yoda FizzBuzz grid](yoda_fizzbuzz.png)
 
 </details>
-
-![Yoda FizzBuzz (ollama/llama3.2, 73.33%)](grid_yoda_fizzbuzz.png)
