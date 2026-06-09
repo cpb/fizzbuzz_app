@@ -25,6 +25,14 @@ class WorkbookSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "tipp", session.reload.current_step
   end
 
+  test "PATCH update with suds_initial <= 2 jumps to dear_give" do
+    session = WorkbookSession.create!(current_step: "suds_initial")
+    patch workbook_session_url(session),
+      params: { workbook_session: { current_step: "suds_initial", suds_initial: 2 } },
+      headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    assert_equal "dear_give", session.reload.current_step
+  end
+
   test "submitting thinking trap selection enqueues ThinkingTrapEvaluationJob and returns turbo stream with Evaluating" do
     session = WorkbookSession.create!(current_step: "select_trap")
     assert_enqueued_with(job: ThinkingTrapEvaluationJob) do

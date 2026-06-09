@@ -46,6 +46,10 @@ class WorkbookSession < ApplicationRecord
   private
 
   def conditional_steps
-    STEPS.reject { |s| s == "tipp" && suds_initial.to_i < 7 }
+    if suds_initial.present? && suds_initial.to_i <= 2
+      %w[suds_initial dear_give dear_plan give_plan summary]
+    else
+      STEPS.reject { |s| s == "tipp" && suds_initial.to_i < 7 }
+    end
   end
 end
