@@ -33,6 +33,7 @@ class WorkbookSessionsController < ApplicationController
   def session_params
     params.require(:workbook_session).permit(
       :suds_initial, :tipp_strategy, :suds_post_tipp,
+      :suds_post_restructuring,
       :situation_description, :primary_thought_id,
       :evidence_for, :evidence_against,
       :rational_response, :rational_believability,

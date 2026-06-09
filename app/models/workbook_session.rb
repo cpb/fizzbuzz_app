@@ -9,9 +9,11 @@ class WorkbookSession < ApplicationRecord
 
   validates :current_step, presence: true
 
+  FALLBACK_THOUGHT = "My code will be heavily criticized and my teammates will think less of me as an engineer."
+
   STEPS = %w[suds_initial tipp describe_situation biased_thoughts
              select_primary select_trap evidence rational_response
-             dear_give dear_plan give_plan summary].freeze
+             post_believability suds_final dear_give dear_plan give_plan summary].freeze
 
   def next_step
     case current_step
@@ -27,10 +29,18 @@ class WorkbookSession < ApplicationRecord
   end
 
   def prev_step
+    return "dear_give" if %w[dear_plan give_plan].include?(current_step)
     steps = conditional_steps
-    effective = %w[dear_plan give_plan].include?(current_step) ? "dear_give" : current_step
-    idx = steps.index(effective)
+    idx = steps.index(current_step)
     idx&.positive? ? steps[idx - 1] : steps.first
+  end
+
+  def first_step?
+    current_step == conditional_steps.first
+  end
+
+  def primary_thought_text
+    primary_thought&.thought.presence || FALLBACK_THOUGHT
   end
 
   private
