@@ -1,12 +1,12 @@
 <h1>New Link</h1>
 <%= form_with model: @link do |f| %>
-  <div>
+  <div class="form-field">
     <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
-  <div>
-    <%= f.label :url %>
+  <div class="form-field">
+    <%= f.label :url, "URL" %>
     <%= f.text_field :url %>
   </div>
-  <%= f.submit "Create Link" %>
+  <%= f.submit "Create Link", class: "btn" %>
 <% end %>

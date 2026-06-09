@@ -24,6 +24,11 @@
   </head>
 
   <body>
-    <%= yield %>
+    <main class="page-content">
+      <%= yield %>
+    </main>
+    <div class="bottom-drawer">
+      <%= yield :drawer %>
+    </div>
   </body>
 </html>

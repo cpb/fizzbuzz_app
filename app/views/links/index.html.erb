@@ -1,11 +1,16 @@
+<% content_for :drawer do %>
+  <%= button_to "Publish", links_publish_path, method: :post,
+        form_class: "btn-form", class: "btn" %>
+  <%= link_to "← FizzBuzz", root_path, class: "btn" %>
+  <%= link_to "+ New Link", new_link_path, class: "btn" %>
+<% end %>
+
 <h1>Links</h1>
 <% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
+  <p class="flash-notice"><%= flash[:notice] %></p>
 <% end %>
 
 <%= turbo_stream_from :links %>
-
-<%= button_to "Publish", links_publish_path, method: :post %>
 
 <div id="qr_code_container">
   <% if (gist = Gist.latest) %>
@@ -18,5 +23,3 @@
     <%= render partial: "links/link", locals: { link: link } %>
   <% end %>
 </ul>
-
-<%= link_to "New Link", new_link_path %>

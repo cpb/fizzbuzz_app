@@ -1,19 +1,27 @@
-<h1>FizzBuzz</h1>
-
-<%= form_with url: root_path, method: :post do |f| %>
-  <%= f.label :starting_integer %>
-  <%= f.number_field :starting_integer, value: params[:starting_integer] || 10 %>
-  <%= check_box_tag :use_llm, "1" %>
-  <%= label_tag :use_llm, "Use LLM" %>
-  <%= f.submit "Start" %>
+<% content_for :drawer do %>
+  <%= form_with url: root_path, method: :post, class: "drawer-form" do |f| %>
+    <%= f.label :starting_integer do %>
+      <span class="sr-only">Starting integer</span>
+      From
+    <% end %>
+    <%= f.number_field :starting_integer, value: params[:starting_integer] || 10 %>
+    <span class="checkbox-group">
+      <%= label_tag :use_llm, class: "sr-only" do %>
+        Use LLM
+      <% end %>
+      <%= check_box_tag :use_llm, "1" %>
+      <%= label_tag :use_llm, "LLM" %>
+    </span>
+    <%= f.submit "Start", class: "btn" %>
+  <% end %>
+  <%= link_to "Links →", links_path, class: "btn" %>
 <% end %>
 
 <% if params[:tab_token].present? %>
   <%= turbo_stream_from "fizz_buzz_channel:#{params[:tab_token]}" %>
 <% end %>
 <div id="results">
-  <% if params[:starting_integer].present? %>
-    <% buzzer = params[:use_llm].present? ? LLMFizzBuzzer : FizzBuzzer %>
-    <%= render "result", result: buzzer.call(params[:starting_integer].to_i) %>
+  <% if params[:tab_token].present? %>
+    <p id="results-loader" class="result result--loading">…</p>
   <% end %>
 </div>
