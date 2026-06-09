@@ -74,6 +74,10 @@ class FizzbuzzBasicEvalTest < EvalTestCase
     run_eval(:fizzbuzz_basic_14)
   end
 
+  test "invalid input echoes back" do
+    run_eval(:fizzbuzz_basic_invalid)
+  end
+
   private
 
   def run_eval(sample_key)

@@ -360,3 +360,103 @@ fizzbuzz_clean_14:
   eval_type: contains
   expected_output: '"result": "14"'
   variables: { "number": "14" }
+
+# fizzbuzz_basic — invalid case
+fizzbuzz_basic_invalid:
+  prompt: fizzbuzz_basic
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v2
+fizzbuzz_basic_v2_1:
+  prompt: fizzbuzz_basic_v2
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v2_3:
+  prompt: fizzbuzz_basic_v2
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v2_5:
+  prompt: fizzbuzz_basic_v2
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v2_15:
+  prompt: fizzbuzz_basic_v2
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v2_invalid:
+  prompt: fizzbuzz_basic_v2
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v3
+fizzbuzz_basic_v3_1:
+  prompt: fizzbuzz_basic_v3
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v3_3:
+  prompt: fizzbuzz_basic_v3
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v3_5:
+  prompt: fizzbuzz_basic_v3
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v3_15:
+  prompt: fizzbuzz_basic_v3
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v3_invalid:
+  prompt: fizzbuzz_basic_v3
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v4
+fizzbuzz_basic_v4_1:
+  prompt: fizzbuzz_basic_v4
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v4_3:
+  prompt: fizzbuzz_basic_v4
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v4_5:
+  prompt: fizzbuzz_basic_v4
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v4_15:
+  prompt: fizzbuzz_basic_v4
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v4_invalid:
+  prompt: fizzbuzz_basic_v4
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }

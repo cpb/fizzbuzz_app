@@ -2198,3 +2198,316 @@ executions_15c1549a:
   input: 95
   output: 2
   passed: true
+executions_640b424d:
+  active_job_id: f1cb2ae2-ea70-4968-9b12-07bae80f79be
+  run: runs_e8cf0052
+  sample: fizzbuzz_basic_v3_15
+  eval_type: regex
+  expected_output: fizz\s*buzz
+  message: FizzBuzz
+  input: 64
+  output: 3
+  passed: true
+executions_9492d294:
+  active_job_id: 5aff79cb-646f-45a8-90ba-64e9e95b7f92
+  run: runs_7712f6a4
+  sample: fizzbuzz_basic_v3_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 64
+  output: 2
+  passed: true
+executions_e717b16c:
+  active_job_id: 730c7b09-d730-495f-93aa-24af0beecf60
+  run: runs_95d2b24d
+  sample: fizzbuzz_basic_v3_5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: Buzz
+  input: 64
+  output: 2
+  passed: true
+executions_a560142b:
+  active_job_id: '02594b0c-83d7-44d7-b8b0-ed4d81f43de4'
+  run: runs_755b4213
+  sample: fizzbuzz_basic_v3_1
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  message: '1'
+  input: 64
+  output: 2
+  passed: true
+executions_6f40e58a:
+  active_job_id: 7bee006b-e76b-4ed6-9824-e765393394c5
+  run: runs_13696146
+  sample: fizzbuzz_basic_v3_invalid
+  eval_type: regex
+  expected_output: hello
+  message: Fizzbuzz
+  input: 64
+  output: 3
+  passed: false
+executions_1a553e8a:
+  active_job_id: 4ecc39f2-2103-4ef7-afd1-f7c0c98481cc
+  run: runs_5367cd89
+  sample: fizzbuzz_basic_v2_15
+  eval_type: regex
+  expected_output: fizz\s*buzz
+  message: '15'
+  input: 67
+  output: 2
+  passed: false
+executions_b11ee3fe:
+  active_job_id: 8283f691-52b6-4f1c-b63c-a170e68b25f7
+  run: runs_ccdbe3ee
+  sample: fizzbuzz_basic_v2_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: FizzBang
+  input: 67
+  output: 3
+  passed: true
+executions_31a56c1a:
+  active_job_id: c1697be8-8861-4ef3-8c14-79759481e1af
+  run: runs_87400122
+  sample: fizzbuzz_basic_v2_5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: FizzBuzz is not an algorithm that's typically used to solve a mathematical
+    problem like this, but rather it's usually a programming exercise with varying
+    output depending on inputs from code and is most commonly used for testing algorithms
+    on all numbers which can iterate from 1-100.
+  input: 67
+  output: 55
+  passed: false
+executions_b9d9ccbb:
+  active_job_id: 0a78e9b0-8c20-4cd2-a49c-bb1e3b2af93b
+  run: runs_75b78239
+  sample: fizzbuzz_basic_v2_1
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  message: FizzBuzz
+  input: 67
+  output: 3
+  passed: false
+executions_f2132a4a:
+  active_job_id: 3d3dc7ee-3d38-462e-be5c-b6a3ab4ba50f
+  run: runs_cf8e18d0
+  sample: fizzbuzz_basic_v2_invalid
+  eval_type: regex
+  expected_output: hello
+  message: Ffizzle
+  input: 66
+  output: 4
+  passed: false
+executions_2cf3587a:
+  active_job_id: 4bda2ef7-62d6-4ff9-8412-e4763f7a1e53
+  run: runs_0b0ea0a9
+  sample: fizzbuzz_basic_invalid
+  eval_type: regex
+  expected_output: hello
+  message: Fizz
+  input: 49
+  output: 2
+  passed: false
+executions_b122fe53:
+  active_job_id: 0cb303c7-791e-43e3-8a62-843c9eccd2a9
+  run: runs_166e25ab
+  sample: fizzbuzz_basic_10
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: FizzBuzz
+  input: 50
+  output: 3
+  passed: false
+executions_776f8558:
+  active_job_id: a7edc876-ad38-434d-b69a-077677208776
+  run: runs_2a2d7628
+  sample: fizzbuzz_basic_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 50
+  output: 2
+  passed: true
+executions_f8e43069:
+  active_job_id: 8c09fa94-642e-4b9d-856b-fdcabf2927e3
+  run: runs_1becca7c
+  sample: fizzbuzz_basic_15
+  eval_type: regex
+  expected_output: fizz\s*buzz
+  message: Neither.
+  input: 50
+  output: 3
+  passed: false
+executions_d37e4175:
+  active_job_id: 2ce2441c-3f89-42bf-8646-890a4abbc91c
+  run: runs_79001019
+  sample: fizzbuzz_basic_5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: FizzBuzz
+  input: 50
+  output: 3
+  passed: false
+executions_1eb87cf4:
+  active_job_id: 76dbcc38-318b-4722-8d68-7aa58d682211
+  run: runs_8bdb3aff
+  sample: fizzbuzz_basic_1
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  message: FizzBuzz
+  input: 50
+  output: 3
+  passed: false
+executions_9df771d3:
+  active_job_id: edb25af7-3b32-43e2-8ddb-428b3e72ed21
+  run: runs_ab7c036f
+  sample: fizzbuzz_basic_11
+  eval_type: regex
+  expected_output: "\\b11\\b"
+  message: '11'
+  input: 50
+  output: 2
+  passed: true
+executions_56dd0b32:
+  active_job_id: 21553daa-e100-4395-9b69-7064fee873d3
+  run: runs_b2eb3089
+  sample: fizzbuzz_basic_6
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 50
+  output: 2
+  passed: true
+executions_24a08e83:
+  active_job_id: 01eceb55-7fa5-41c7-bd2d-d54640e83789
+  run: runs_9d59aa55
+  sample: fizzbuzz_basic_8
+  eval_type: regex
+  expected_output: "\\b8\\b"
+  message: Fizz
+  input: 50
+  output: 2
+  passed: false
+executions_b88e5773:
+  active_job_id: 24005c37-b32e-425d-9b00-44480cd90a7d
+  run: runs_ef08c7a6
+  sample: fizzbuzz_basic_2
+  eval_type: regex
+  expected_output: "\\b2\\b"
+  message: Fizz
+  input: 50
+  output: 2
+  passed: false
+executions_a72a36bc:
+  active_job_id: 8fc5c9dc-538d-4fb7-a861-b7dc39cbcae4
+  run: runs_d641373f
+  sample: fizzbuzz_basic_7
+  eval_type: regex
+  expected_output: "\\b7\\b"
+  message: Number.
+  input: 50
+  output: 3
+  passed: false
+executions_c7964e1f:
+  active_job_id: 4ef50921-42ba-47f5-9e19-3a74c7afe2d5
+  run: runs_529e3491
+  sample: fizzbuzz_basic_12
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 50
+  output: 2
+  passed: true
+executions_fd0d2849:
+  active_job_id: a88c8054-1bc2-4826-82f5-e799de783b73
+  run: runs_9bf245f4
+  sample: fizzbuzz_basic_13
+  eval_type: regex
+  expected_output: "\\b13\\b"
+  message: FizzBuzz
+  input: 50
+  output: 3
+  passed: false
+executions_e278edb7:
+  active_job_id: 6f9195b6-6ea5-45ff-967d-27785c2c405e
+  run: runs_e177c453
+  sample: fizzbuzz_basic_4
+  eval_type: regex
+  expected_output: "\\b4\\b"
+  message: Fizz
+  input: 50
+  output: 2
+  passed: false
+executions_4ae2d53f:
+  active_job_id: d13e40bf-2c9a-47a1-aa5a-12d92d716480
+  run: runs_e302bf6c
+  sample: fizzbuzz_basic_14
+  eval_type: regex
+  expected_output: "\\b14\\b"
+  message: FizzBuzz
+  input: 50
+  output: 3
+  passed: false
+executions_42fd4e20:
+  active_job_id: 1f6296c0-e303-460e-bd61-3228b989ffc8
+  run: runs_eb8459e5
+  sample: fizzbuzz_basic_9
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 50
+  output: 2
+  passed: true
+executions_7cb8bdb6:
+  active_job_id: e693923d-4109-4e05-98c7-9ae276ddf976
+  run: runs_55ed8303
+  sample: fizzbuzz_basic_v4_15
+  eval_type: regex
+  expected_output: fizz\s*buzz
+  message: FizzBuzz
+  input: 91
+  output: 3
+  passed: true
+executions_a92dc91b:
+  active_job_id: e9240628-686a-4f78-9c89-06a46d990b3e
+  run: runs_5f22ab89
+  sample: fizzbuzz_basic_v4_3
+  eval_type: regex
+  expected_output: fizz(?!buzz)
+  message: Fizz
+  input: 91
+  output: 3
+  passed: true
+executions_4ebb432c:
+  active_job_id: 465247d4-0276-4ff3-8751-bd88b7a9fadd
+  run: runs_02c087b8
+  sample: fizzbuzz_basic_v4_5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  message: Buzz
+  input: 91
+  output: 2
+  passed: true
+executions_6b18a7e6:
+  active_job_id: 0a0ac789-e5e3-4ed9-bbd9-a2ac07899bfe
+  run: runs_567132c6
+  sample: fizzbuzz_basic_v4_1
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  message: '1'
+  input: 91
+  output: 2
+  passed: true
+executions_a0941a45:
+  active_job_id: 45a92184-625b-4d1c-b784-99499736be44
+  run: runs_8c6549af
+  sample: fizzbuzz_basic_v4_invalid
+  eval_type: regex
+  expected_output: hello
+  message: Error
+  input: 91
+  output: 2
+  passed: false

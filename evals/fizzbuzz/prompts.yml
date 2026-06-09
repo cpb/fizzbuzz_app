@@ -24,6 +24,29 @@ fizzbuzz_eval:
   instructions: "Evaluate FizzBuzz for the given number. Return exactly one word: 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if divisible by 3 only, 'Buzz' if divisible by 5 only, or the number itself otherwise."
   message: "{{number}}"
 
+fizzbuzz_basic_v2:
+  name: "FizzBuzz Basic v2"
+  slug: "fizzbuzz-basic-v2"
+  provider: "ollama"
+  model: "llama3.2"
+  message: "FizzBuzz for {{number}}: answer FizzBuzz if divisible by 3 and 5, Fizz if by 3 only, Buzz if by 5 only, or the number itself. One word."
+
+fizzbuzz_basic_v3:
+  name: "FizzBuzz Basic v3"
+  slug: "fizzbuzz-basic-v3"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "Play FizzBuzz. For multiples of 3 say Fizz, multiples of 5 say Buzz, multiples of both say FizzBuzz, otherwise say the number. One word only."
+  message: "{{number}}"
+
+fizzbuzz_basic_v4:
+  name: "FizzBuzz Basic v4"
+  slug: "fizzbuzz-basic-v4"
+  provider: "ollama"
+  model: "llama3.2"
+  instructions: "You are a FizzBuzz oracle. Given a number respond with exactly one word: 'FizzBuzz' if divisible by both 3 and 5, 'Fizz' if divisible by 3 only, 'Buzz' if divisible by 5 only, or the number as digits if neither. No explanation or extra text."
+  message: "{{number}}"
+
 fizzbuzz_clean:
   name: "FizzBuzz Clean"
   slug: "fizzbuzz-clean"
