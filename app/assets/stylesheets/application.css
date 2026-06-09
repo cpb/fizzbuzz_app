@@ -459,11 +459,16 @@ main.page-content {
 .tipp-option {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.4rem 0;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(44, 44, 44, 0.15);
   cursor: pointer;
 }
-.tipp-option input { margin-top: 0.2rem; flex-shrink: 0; }
+.tipp-option:last-child { border-bottom: none; }
+.tipp-option input { margin-top: 0.3rem; flex-shrink: 0; }
+.tipp-option dl { margin: 0; padding: 0; }
+.tipp-option dt { font-weight: bold; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.tipp-option dd { margin: 0; font-size: 0.85rem; }
 
 /* Thought options (select_primary, dear_give) */
 .thought-options { margin-bottom: 1rem; }

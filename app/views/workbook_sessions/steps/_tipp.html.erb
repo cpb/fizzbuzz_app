@@ -10,22 +10,34 @@
       <label class="tipp-option">
         <%= f.radio_button :tipp_strategy, "Temperature",
             data: { action: "change->tipp-reveal#reveal" } %>
-        <strong>Temperature</strong>: splashing cold water on your face
+        <dl>
+          <dt>Temperature</dt>
+          <dd>splashing cold water on your face</dd>
+        </dl>
       </label>
       <label class="tipp-option">
         <%= f.radio_button :tipp_strategy, "Intense Exercise",
             data: { action: "change->tipp-reveal#reveal" } %>
-        <strong>Intense Exercise</strong>: exercising for 20–30 min
+        <dl>
+          <dt>Intense Exercise</dt>
+          <dd>exercising for 20–30 min</dd>
+        </dl>
       </label>
       <label class="tipp-option">
         <%= f.radio_button :tipp_strategy, "Paced Breathing",
             data: { action: "change->tipp-reveal#reveal" } %>
-        <strong>Paced Breathing</strong>: slowing breathing, taking care to take longer out breaths
+        <dl>
+          <dt>Paced Breathing</dt>
+          <dd>slowing breathing, taking care to take longer out breaths</dd>
+        </dl>
       </label>
       <label class="tipp-option">
         <%= f.radio_button :tipp_strategy, "Progressive Muscle Relaxation",
             data: { action: "change->tipp-reveal#reveal" } %>
-        <strong>Progressive Muscle Relaxation</strong>: tensing then releasing muscle groups
+        <dl>
+          <dt>Progressive Muscle Relaxation</dt>
+          <dd>tensing then releasing muscle groups</dd>
+        </dl>
       </label>
     </div>
 
