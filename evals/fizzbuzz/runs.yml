@@ -2751,3 +2751,1279 @@ runs_8c6549af:
     time: *250
   ended_at:
   prompt: fizzbuzz_basic_v4
+runs_2ad385b8:
+  active_job_id: test-c814a47c
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &251 2026-06-09 23:01:20.839847000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *251
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_982421e2:
+  active_job_id: test-75ea3147
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &252 2026-06-09 23:01:49.735078000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *252
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_219f8c93:
+  active_job_id: test-24452af7
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &253 2026-06-09 23:01:52.774028000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *253
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_fe795f51:
+  active_job_id: test-b38c7b33
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &254 2026-06-09 23:01:55.433866000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *254
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_c5ad1082:
+  active_job_id: test-9ce302bd
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &255 2026-06-09 23:01:58.014541000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *255
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_463eb90b:
+  active_job_id: test-4328d2b9
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &256 2026-06-09 23:03:31.018174000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *256
+  ended_at:
+  prompt: fizzbuzz_basic_v6
+runs_e9be3be3:
+  active_job_id: test-e9e074f8
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &257 2026-06-09 23:04:05.897506000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *257
+  ended_at:
+  prompt: fizzbuzz_basic_v6
+runs_c72a0fe1:
+  active_job_id: test-6d685b71
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &258 2026-06-09 23:04:08.250928000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *258
+  ended_at:
+  prompt: fizzbuzz_basic_v6
+runs_c49423c1:
+  active_job_id: test-eb754d28
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &259 2026-06-09 23:04:10.727077000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *259
+  ended_at:
+  prompt: fizzbuzz_basic_v6
+runs_e5faa13d:
+  active_job_id: test-c12bab27
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &260 2026-06-09 23:04:13.384217000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *260
+  ended_at:
+  prompt: fizzbuzz_basic_v6
+runs_3e7be225:
+  active_job_id: test-b5d89eee
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &261 2026-06-09 23:04:16.253905000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *261
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_9b147ae3:
+  active_job_id: test-c28b9a38
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &262 2026-06-09 23:04:16.386095000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *262
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_6fe613c1:
+  active_job_id: test-84410583
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &263 2026-06-09 23:04:16.512542000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *263
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_c7fa9bdf:
+  active_job_id: test-3c8a2712
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &264 2026-06-09 23:04:16.637704000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *264
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_7c5fe063:
+  active_job_id: test-eeb21fe9
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &265 2026-06-09 23:04:16.767076000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *265
+  ended_at:
+  prompt: fizzbuzz_basic_v5
+runs_a23cf285:
+  active_job_id: test-5096b13f
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &266 2026-06-09 23:05:17.006238000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *266
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_1be84a61:
+  active_job_id: test-88a6d481
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &267 2026-06-09 23:05:32.399872000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *267
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_f3034d22:
+  active_job_id: test-21239620
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &268 2026-06-09 23:05:34.875634000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *268
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_1420876b:
+  active_job_id: test-352ea90d
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &269 2026-06-09 23:05:38.087084000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *269
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_7549676f:
+  active_job_id: test-6392c8db
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &270 2026-06-09 23:05:40.866887000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *270
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_3b4c738c:
+  active_job_id: test-6cc34741
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &271 2026-06-09 23:06:22.679981000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *271
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_f66961c4:
+  active_job_id: test-e1f17715
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &272 2026-06-09 23:06:25.982218000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *272
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_6ad19015:
+  active_job_id: test-c9804b15
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &273 2026-06-09 23:06:28.705043000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *273
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_03eb5bbd:
+  active_job_id: test-9db6d4f8
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &274 2026-06-09 23:06:31.519561000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *274
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_53bf491b:
+  active_job_id: test-c154f12a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &275 2026-06-09 23:06:34.121425000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *275
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_a0fcdacb:
+  active_job_id: test-d7e2fa79
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &276 2026-06-09 23:06:36.660489000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *276
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_4867a31e:
+  active_job_id: test-965f238e
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &277 2026-06-09 23:06:39.065748000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *277
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_3d49e696:
+  active_job_id: test-b47b47c4
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &278 2026-06-09 23:06:41.652332000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *278
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_469ecab0:
+  active_job_id: test-4c8cdad1
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &279 2026-06-09 23:06:44.627360000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *279
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_456ead1a:
+  active_job_id: test-0eaf5a31
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &280 2026-06-09 23:06:47.119860000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *280
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_69579336:
+  active_job_id: test-7889cd01
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &281 2026-06-09 23:06:49.661910000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *281
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_fafb9fd1:
+  active_job_id: test-7801d4bd
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &282 2026-06-09 23:06:52.311944000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *282
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_3c29093a:
+  active_job_id: test-5879ebcb
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &283 2026-06-09 23:06:54.947995000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *283
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_62493d8b:
+  active_job_id: test-86137334
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &284 2026-06-09 23:06:57.464698000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *284
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_95e09b57:
+  active_job_id: test-6fedac9c
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &285 2026-06-09 23:06:59.913312000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *285
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_d05d132b:
+  active_job_id: test-dd130d57
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &286 2026-06-09 23:07:02.523328000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *286
+  ended_at:
+  prompt: fizzbuzz_basic_v7
+runs_df61e01b:
+  active_job_id: test-0b670df0
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &287 2026-06-09 23:08:14.692397000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *287
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_33787d9a:
+  active_job_id: test-728b7c91
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &288 2026-06-09 23:08:24.799982000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *288
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_13a9fa67:
+  active_job_id: test-87bd3d54
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &289 2026-06-09 23:08:27.614666000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *289
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_4e0f28c1:
+  active_job_id: test-51d065dc
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &290 2026-06-09 23:08:29.841628000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *290
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_ae8aa704:
+  active_job_id: test-71f1b00d
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &291 2026-06-09 23:08:33.664537000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *291
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_7d27d37b:
+  active_job_id: test-6c0e1dbf
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &292 2026-06-09 23:08:36.676875000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *292
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_743192cd:
+  active_job_id: test-5ac04f54
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &293 2026-06-09 23:08:39.476615000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *293
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_cbfeb3b1:
+  active_job_id: test-5243c6c0
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &294 2026-06-09 23:08:42.077007000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *294
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_21e6de56:
+  active_job_id: test-e46ec5aa
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &295 2026-06-09 23:08:44.756334000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *295
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_8ba29384:
+  active_job_id: test-a8bed484
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &296 2026-06-09 23:08:47.275374000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *296
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_c068b7a9:
+  active_job_id: test-6a59b126
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &297 2026-06-09 23:08:49.811678000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *297
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_310411c7:
+  active_job_id: test-628d995c
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &298 2026-06-09 23:08:52.379647000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *298
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_e14a8e3a:
+  active_job_id: test-5c3983b4
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &299 2026-06-09 23:08:55.371277000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *299
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_1b0c3d75:
+  active_job_id: test-714edf4d
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &300 2026-06-09 23:08:58.013277000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *300
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_41b65e39:
+  active_job_id: test-4e1089c9
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &301 2026-06-09 23:09:00.573531000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *301
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_56c23ac6:
+  active_job_id: test-7e728c12
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &302 2026-06-09 23:09:03.166328000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *302
+  ended_at:
+  prompt: fizzbuzz_basic_v8
+runs_d9228362:
+  active_job_id: test-002b7e0f
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &303 2026-06-09 23:10:14.921812000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *303
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_faac0797:
+  active_job_id: test-7edb23e8
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &304 2026-06-09 23:10:35.391320000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *304
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_78910d32:
+  active_job_id: test-842b8795
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &305 2026-06-09 23:10:38.089746000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *305
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_ee5c764d:
+  active_job_id: test-b168a40c
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &306 2026-06-09 23:10:40.671924000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *306
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_da77207a:
+  active_job_id: test-e0379502
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &307 2026-06-09 23:10:43.570698000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *307
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_e30a6918:
+  active_job_id: test-e965d131
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &308 2026-06-09 23:10:46.302009000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *308
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_7a60dff5:
+  active_job_id: test-976a1732
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &309 2026-06-09 23:10:48.987850000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *309
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_0119016e:
+  active_job_id: test-bf609cfb
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &310 2026-06-09 23:10:51.930657000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *310
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_8a200757:
+  active_job_id: test-6c164045
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &311 2026-06-09 23:10:54.745755000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *311
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_ae1fb8b0:
+  active_job_id: test-ab05772b
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &312 2026-06-09 23:10:57.441843000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *312
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_d9bab69a:
+  active_job_id: test-38f96f66
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &313 2026-06-09 23:11:00.483864000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *313
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_234d689a:
+  active_job_id: test-b0d0de54
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &314 2026-06-09 23:11:03.192736000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *314
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_3f40f2fd:
+  active_job_id: test-e9583c8a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &315 2026-06-09 23:11:05.786473000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *315
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_d9ab9d86:
+  active_job_id: test-8f032e99
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &316 2026-06-09 23:11:08.280553000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *316
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_cf0af195:
+  active_job_id: test-fa6cb2c7
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &317 2026-06-09 23:11:10.870686000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *317
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_aae2a28c:
+  active_job_id: test-e408a710
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &318 2026-06-09 23:11:13.480538000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *318
+  ended_at:
+  prompt: fizzbuzz_basic_v9
+runs_08731d0b:
+  active_job_id: test-d67f14c2
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &319 2026-06-09 23:12:24.337664000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *319
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_065c7960:
+  active_job_id: test-f4872fa7
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &320 2026-06-09 23:12:59.533678000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *320
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_e1388d83:
+  active_job_id: test-01317a89
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &321 2026-06-09 23:13:02.141967000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *321
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_140ea5b3:
+  active_job_id: test-f5482cb6
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &322 2026-06-09 23:13:04.731467000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *322
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_f8c08c05:
+  active_job_id: test-a4c966dc
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &323 2026-06-09 23:13:07.345688000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *323
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_053c8569:
+  active_job_id: test-30564d2b
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &324 2026-06-09 23:13:10.743365000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *324
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_3f1f3562:
+  active_job_id: test-141220bb
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &325 2026-06-09 23:13:13.897350000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *325
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_78906ac8:
+  active_job_id: test-b89b8940
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &326 2026-06-09 23:13:16.480674000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *326
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_451c89ad:
+  active_job_id: test-94795166
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &327 2026-06-09 23:13:19.410632000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *327
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_b970051d:
+  active_job_id: test-95604e9b
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &328 2026-06-09 23:13:23.013962000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *328
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_467224a6:
+  active_job_id: test-c37d5bc8
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &329 2026-06-09 23:13:26.193119000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *329
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_1ede61da:
+  active_job_id: test-1b5f1391
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &330 2026-06-09 23:13:29.102376000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *330
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_ea74a9e5:
+  active_job_id: test-10eeadf1
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &331 2026-06-09 23:13:31.548422000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *331
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_e5e3c85c:
+  active_job_id: test-b8b89d2a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &332 2026-06-09 23:13:34.025404000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *332
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_0a77d02b:
+  active_job_id: test-0f0fdf28
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &333 2026-06-09 23:13:36.513764000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *333
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_d6fcea05:
+  active_job_id: test-0c34bb77
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &334 2026-06-09 23:13:39.361662000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *334
+  ended_at:
+  prompt: fizzbuzz_basic_v10
+runs_b215daad:
+  active_job_id: test-b961014b
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &335 2026-06-09 23:14:41.466666000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *335
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_c17a18d7:
+  active_job_id: test-225ee27e
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &336 2026-06-09 23:14:58.797874000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *336
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_969cf46c:
+  active_job_id: test-a38147ec
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &337 2026-06-09 23:15:01.546145000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *337
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_3c160163:
+  active_job_id: test-508929c8
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &338 2026-06-09 23:15:04.781419000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *338
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_948f2be7:
+  active_job_id: test-0126fe19
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &339 2026-06-09 23:15:07.470338000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *339
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_453054c0:
+  active_job_id: test-5c8c6b89
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &340 2026-06-09 23:15:09.944715000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *340
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_e595f0a5:
+  active_job_id: test-6a6278a4
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &341 2026-06-09 23:15:12.553594000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *341
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_236a8d8e:
+  active_job_id: test-673597f1
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &342 2026-06-09 23:15:15.441504000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *342
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_85114324:
+  active_job_id: test-a7736595
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &343 2026-06-09 23:15:18.113637000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *343
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_49b6be2e:
+  active_job_id: test-5fd46838
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &344 2026-06-09 23:15:20.714831000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *344
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_5d4d48b7:
+  active_job_id: test-ed903dbe
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &345 2026-06-09 23:15:23.567214000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *345
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_db02048c:
+  active_job_id: test-277a08dd
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &346 2026-06-09 23:15:26.165060000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *346
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_93985ef8:
+  active_job_id: test-db48bda2
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &347 2026-06-09 23:15:28.336925000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *347
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_3fca32f2:
+  active_job_id: test-15ade256
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &348 2026-06-09 23:15:30.736743000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *348
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_c9883bef:
+  active_job_id: test-b16f1f3b
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &349 2026-06-09 23:15:33.476181000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *349
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_fa796b7a:
+  active_job_id: test-f5440cc7
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &350 2026-06-09 23:15:36.062751000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *350
+  ended_at:
+  prompt: fizzbuzz_basic_v11
+runs_268b5541:
+  active_job_id: test-6e9bbd28
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &351 2026-06-09 23:16:51.235340000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *351
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_4feb42d3:
+  active_job_id: test-47acc72a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &352 2026-06-09 23:17:06.524946000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *352
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_c908914a:
+  active_job_id: test-3725f5b9
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &353 2026-06-09 23:17:09.635086000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *353
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_eca66a7f:
+  active_job_id: test-80773259
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &354 2026-06-09 23:17:12.266254000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *354
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_69dd9221:
+  active_job_id: test-23aa8975
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &355 2026-06-09 23:17:15.430947000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *355
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_38388438:
+  active_job_id: test-9969e8bf
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &356 2026-06-09 23:17:18.060727000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *356
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_e71db882:
+  active_job_id: test-09eafcc3
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &357 2026-06-09 23:17:20.495879000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *357
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_dc379a8c:
+  active_job_id: test-a7ea921a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &358 2026-06-09 23:17:23.097938000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *358
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_cce4c998:
+  active_job_id: test-274a6264
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &359 2026-06-09 23:17:26.022636000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *359
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_212d75c2:
+  active_job_id: test-0dedb99d
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &360 2026-06-09 23:17:28.825732000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *360
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_21d68285:
+  active_job_id: test-7b608bf7
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &361 2026-06-09 23:17:31.492919000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *361
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_3173a583:
+  active_job_id: test-bfc3223c
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &362 2026-06-09 23:17:34.054003000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *362
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_b27aa867:
+  active_job_id: test-c5634da9
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &363 2026-06-09 23:17:36.449011000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *363
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_4c21b1c3:
+  active_job_id: test-cfc4aa7a
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &364 2026-06-09 23:17:38.794340000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *364
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_5277fb22:
+  active_job_id: test-69cb550b
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &365 2026-06-09 23:17:41.640885000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *365
+  ended_at:
+  prompt: fizzbuzz_basic_v12
+runs_cea4a085:
+  active_job_id: test-67bb2fd2
+  provider: ollama
+  model: llama3.2
+  started_at: !ruby/object:ActiveSupport::TimeWithZone
+    utc: &366 2026-06-09 23:17:44.202318000 Z
+    zone: !ruby/object:ActiveSupport::TimeZone
+      name: Etc/UTC
+    time: *366
+  ended_at:
+  prompt: fizzbuzz_basic_v12

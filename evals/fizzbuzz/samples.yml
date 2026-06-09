@@ -460,3 +460,709 @@ fizzbuzz_basic_v4_invalid:
   eval_type: regex
   expected_output: "hello"
   variables: { "number": "hello" }
+
+# fizzbuzz_basic_v5
+fizzbuzz_basic_v5_1:
+  prompt: fizzbuzz_basic_v5
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v5_3:
+  prompt: fizzbuzz_basic_v5
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v5_5:
+  prompt: fizzbuzz_basic_v5
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v5_15:
+  prompt: fizzbuzz_basic_v5
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v5_invalid:
+  prompt: fizzbuzz_basic_v5
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v6
+fizzbuzz_basic_v6_1:
+  prompt: fizzbuzz_basic_v6
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v6_3:
+  prompt: fizzbuzz_basic_v6
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v6_5:
+  prompt: fizzbuzz_basic_v6
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v6_15:
+  prompt: fizzbuzz_basic_v6
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v6_invalid:
+  prompt: fizzbuzz_basic_v6
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v7
+fizzbuzz_basic_v7_1:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v7_3:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v7_5:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v7_15:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v7_invalid:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v7 full validation (1-15 + invalid)
+fizzbuzz_basic_v7_full_1:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v7_full_2:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b2\\b"
+  variables: { "number": "2" }
+
+fizzbuzz_basic_v7_full_3:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v7_full_4:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b4\\b"
+  variables: { "number": "4" }
+
+fizzbuzz_basic_v7_full_5:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v7_full_6:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "6" }
+
+fizzbuzz_basic_v7_full_7:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b7\\b"
+  variables: { "number": "7" }
+
+fizzbuzz_basic_v7_full_8:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b8\\b"
+  variables: { "number": "8" }
+
+fizzbuzz_basic_v7_full_9:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "9" }
+
+fizzbuzz_basic_v7_full_10:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "10" }
+
+fizzbuzz_basic_v7_full_11:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b11\\b"
+  variables: { "number": "11" }
+
+fizzbuzz_basic_v7_full_12:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "12" }
+
+fizzbuzz_basic_v7_full_13:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b13\\b"
+  variables: { "number": "13" }
+
+fizzbuzz_basic_v7_full_14:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "\\b14\\b"
+  variables: { "number": "14" }
+
+fizzbuzz_basic_v7_full_15:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v7_full_invalid:
+  prompt: fizzbuzz_basic_v7
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v8 — pilot (1,3,5,15,invalid)
+fizzbuzz_basic_v8_1:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v8_3:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v8_5:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v8_15:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v8_invalid:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v8 full validation (1-15 + invalid)
+fizzbuzz_basic_v8_full_1:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v8_full_2:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b2\\b"
+  variables: { "number": "2" }
+
+fizzbuzz_basic_v8_full_3:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v8_full_4:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b4\\b"
+  variables: { "number": "4" }
+
+fizzbuzz_basic_v8_full_5:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v8_full_6:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "6" }
+
+fizzbuzz_basic_v8_full_7:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b7\\b"
+  variables: { "number": "7" }
+
+fizzbuzz_basic_v8_full_8:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b8\\b"
+  variables: { "number": "8" }
+
+fizzbuzz_basic_v8_full_9:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "9" }
+
+fizzbuzz_basic_v8_full_10:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "10" }
+
+fizzbuzz_basic_v8_full_11:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b11\\b"
+  variables: { "number": "11" }
+
+fizzbuzz_basic_v8_full_12:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "12" }
+
+fizzbuzz_basic_v8_full_13:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b13\\b"
+  variables: { "number": "13" }
+
+fizzbuzz_basic_v8_full_14:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "\\b14\\b"
+  variables: { "number": "14" }
+
+fizzbuzz_basic_v8_full_15:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v8_full_invalid:
+  prompt: fizzbuzz_basic_v8
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v9 full validation (1-15 + invalid)
+fizzbuzz_basic_v9_full_1:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v9_full_2:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b2\\b"
+  variables: { "number": "2" }
+
+fizzbuzz_basic_v9_full_3:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v9_full_4:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b4\\b"
+  variables: { "number": "4" }
+
+fizzbuzz_basic_v9_full_5:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v9_full_6:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "6" }
+
+fizzbuzz_basic_v9_full_7:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b7\\b"
+  variables: { "number": "7" }
+
+fizzbuzz_basic_v9_full_8:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b8\\b"
+  variables: { "number": "8" }
+
+fizzbuzz_basic_v9_full_9:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "9" }
+
+fizzbuzz_basic_v9_full_10:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "10" }
+
+fizzbuzz_basic_v9_full_11:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b11\\b"
+  variables: { "number": "11" }
+
+fizzbuzz_basic_v9_full_12:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "12" }
+
+fizzbuzz_basic_v9_full_13:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b13\\b"
+  variables: { "number": "13" }
+
+fizzbuzz_basic_v9_full_14:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "\\b14\\b"
+  variables: { "number": "14" }
+
+fizzbuzz_basic_v9_full_15:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v9_full_invalid:
+  prompt: fizzbuzz_basic_v9
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v10 full validation (1-15 + invalid)
+fizzbuzz_basic_v10_full_1:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v10_full_2:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b2\\b"
+  variables: { "number": "2" }
+
+fizzbuzz_basic_v10_full_3:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v10_full_4:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b4\\b"
+  variables: { "number": "4" }
+
+fizzbuzz_basic_v10_full_5:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v10_full_6:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "6" }
+
+fizzbuzz_basic_v10_full_7:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b7\\b"
+  variables: { "number": "7" }
+
+fizzbuzz_basic_v10_full_8:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b8\\b"
+  variables: { "number": "8" }
+
+fizzbuzz_basic_v10_full_9:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "9" }
+
+fizzbuzz_basic_v10_full_10:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "10" }
+
+fizzbuzz_basic_v10_full_11:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b11\\b"
+  variables: { "number": "11" }
+
+fizzbuzz_basic_v10_full_12:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "12" }
+
+fizzbuzz_basic_v10_full_13:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b13\\b"
+  variables: { "number": "13" }
+
+fizzbuzz_basic_v10_full_14:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "\\b14\\b"
+  variables: { "number": "14" }
+
+fizzbuzz_basic_v10_full_15:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v10_full_invalid:
+  prompt: fizzbuzz_basic_v10
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v11 full validation (1-15 + invalid)
+fizzbuzz_basic_v11_full_1:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v11_full_2:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b2\\b"
+  variables: { "number": "2" }
+
+fizzbuzz_basic_v11_full_3:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v11_full_4:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b4\\b"
+  variables: { "number": "4" }
+
+fizzbuzz_basic_v11_full_5:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v11_full_6:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "6" }
+
+fizzbuzz_basic_v11_full_7:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b7\\b"
+  variables: { "number": "7" }
+
+fizzbuzz_basic_v11_full_8:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b8\\b"
+  variables: { "number": "8" }
+
+fizzbuzz_basic_v11_full_9:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "9" }
+
+fizzbuzz_basic_v11_full_10:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "10" }
+
+fizzbuzz_basic_v11_full_11:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b11\\b"
+  variables: { "number": "11" }
+
+fizzbuzz_basic_v11_full_12:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "12" }
+
+fizzbuzz_basic_v11_full_13:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b13\\b"
+  variables: { "number": "13" }
+
+fizzbuzz_basic_v11_full_14:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "\\b14\\b"
+  variables: { "number": "14" }
+
+fizzbuzz_basic_v11_full_15:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v11_full_invalid:
+  prompt: fizzbuzz_basic_v11
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
+
+# fizzbuzz_basic_v12 full validation (1-15 + invalid)
+fizzbuzz_basic_v12_full_1:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b1\\b"
+  variables: { "number": "1" }
+
+fizzbuzz_basic_v12_full_2:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b2\\b"
+  variables: { "number": "2" }
+
+fizzbuzz_basic_v12_full_3:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "3" }
+
+fizzbuzz_basic_v12_full_4:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b4\\b"
+  variables: { "number": "4" }
+
+fizzbuzz_basic_v12_full_5:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "5" }
+
+fizzbuzz_basic_v12_full_6:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "6" }
+
+fizzbuzz_basic_v12_full_7:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b7\\b"
+  variables: { "number": "7" }
+
+fizzbuzz_basic_v12_full_8:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b8\\b"
+  variables: { "number": "8" }
+
+fizzbuzz_basic_v12_full_9:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "9" }
+
+fizzbuzz_basic_v12_full_10:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "(?<!fizz)buzz"
+  variables: { "number": "10" }
+
+fizzbuzz_basic_v12_full_11:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b11\\b"
+  variables: { "number": "11" }
+
+fizzbuzz_basic_v12_full_12:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "fizz(?!buzz)"
+  variables: { "number": "12" }
+
+fizzbuzz_basic_v12_full_13:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b13\\b"
+  variables: { "number": "13" }
+
+fizzbuzz_basic_v12_full_14:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "\\b14\\b"
+  variables: { "number": "14" }
+
+fizzbuzz_basic_v12_full_15:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "fizz\\s*buzz"
+  variables: { "number": "15" }
+
+fizzbuzz_basic_v12_full_invalid:
+  prompt: fizzbuzz_basic_v12
+  eval_type: regex
+  expected_output: "hello"
+  variables: { "number": "hello" }
