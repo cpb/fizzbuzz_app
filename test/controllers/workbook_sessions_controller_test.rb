@@ -7,6 +7,15 @@ class WorkbookSessionsControllerTest < ActionDispatch::IntegrationTest
     assert_select "[data-step='intro']", minimum: 1
   end
 
+  test "GET new renders column-reverse question stack container with active step bearing data-step attribute" do
+    get new_workbook_session_url
+    assert_response :success
+    assert_select "#workbook-steps[style*='column-reverse']", minimum: 1,
+      message: "expected a #workbook-steps container with style containing 'column-reverse'"
+    assert_select "#workbook-steps [data-step]", minimum: 1,
+      message: "expected at least one child element with a data-step attribute inside #workbook-steps"
+  end
+
   test "submitting thinking trap selection enqueues ThinkingTrapEvaluationJob and returns turbo stream with Evaluating" do
     assert_enqueued_with(job: ThinkingTrapEvaluationJob) do
       post workbook_session_thinking_traps_url(1),
