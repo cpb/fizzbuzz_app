@@ -14,6 +14,8 @@
     <%= f.text_field :location, placeholder: "City, Country, or 'Online'" %>
   </div>
 
+  <div class="survey-field">
+    <%= f.label :role, "Your role" %>
     <div class="radio-group">
       <%= f.collection_radio_buttons :role, SurveyResponse.roles.map{|k,v| [k, k.humanize]}, :first, :last do |b| %>
         <label class="radio-option">

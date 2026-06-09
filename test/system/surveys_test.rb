@@ -4,6 +4,7 @@ class SurveysTest < ApplicationSystemTestCase
   test "submitting the survey" do
     visit survey_path
 
+    fill_in "Where are you joining from?", with: "Chicago, USA"
     choose "Developer"
     choose "Yes", name: "survey_response[writes_ruby]"
     choose "Yes", name: "survey_response[paid_to_write_ruby]"

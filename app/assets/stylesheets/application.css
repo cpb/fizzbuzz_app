@@ -757,6 +757,22 @@ tr[data-controller="trap-row"]  { cursor: pointer; }
   margin-bottom: 0.6rem;
 }
 
+.survey-field input[type="text"] {
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  color: var(--charcoal);
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 0.7rem;
+  width: 100%;
+  outline: none;
+}
+
+.survey-field input[type="text"]:focus {
+  background: rgba(44, 44, 44, 0.05);
+}
+
 .survey-field textarea {
   border: 1px solid var(--border);
   border-radius: 0;
@@ -773,6 +789,23 @@ tr[data-controller="trap-row"]  { cursor: pointer; }
 
 .survey-field textarea:focus {
   background: rgba(44, 44, 44, 0.05);
+}
+
+.flash-alert {
+  font-size: 0.85rem;
+  color: var(--peach);
+  border: 1px solid var(--peach);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.flash-alert ul {
+  margin: 0.4rem 0 0 1.2rem;
+  padding: 0;
+}
+
+.flash-alert li {
+  margin: 0.15rem 0;
 }
 
 .radio-group,
@@ -934,4 +967,78 @@ tr[data-controller="trap-row"]  { cursor: pointer; }
   height: 100%;
   background: var(--teal);
   transition: width 0.4s ease;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 700px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.results-section h3 {
+  font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
+  font-weight: 900;
+  font-stretch: condensed;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.results-likert {
+  margin-bottom: 2rem;
+}
+
+.results-likert-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--grid);
+}
+
+.results-likert-label {
+  flex: 1;
+  font-size: 0.9rem;
+  min-width: 0;
+}
+
+.results-likert-track {
+  width: 8rem;
+  height: 1rem;
+  background: var(--grid);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.results-likert-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--mint);
+  transition: width 0.4s ease;
+}
+
+.results-likert-avg {
+  font-size: 0.85rem;
+  font-weight: bold;
+  width: 2.5rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.results-likert-scale {
+  font-size: 0.7rem;
+  font-weight: normal;
+  opacity: 0.6;
+  text-transform: none;
+  letter-spacing: normal;
 }
