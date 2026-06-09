@@ -6,7 +6,7 @@ fizzbuzz_basic:
   slug: "fizzbuzz-basic"
   provider: "ollama"
   model: "llama3.2"
-  message: "Divisible by 3 -> Fizz, by 5 -> Buzz, by both -> FizzBuzz, otherwise the number. What is the FizzBuzz output for {{number}}? Answer with one word only."
+  message: "Is {{number}} a FizzBuzz number? Answer with FizzBuzz, Fizz, Buzz or the number if not."
 
 yoda_fizzbuzz:
   name: "Yoda FizzBuzz"
