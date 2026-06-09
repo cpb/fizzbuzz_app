@@ -566,11 +566,6 @@ main.page-content {
   outline: none;
   resize: vertical;
 }
-@media (max-width: 600px) {
-  .evidence-grid { grid-template-columns: 1fr; }
-  .evidence-grid__header:last-child { border-left: none; border-top: 1px solid var(--border); }
-  .evidence-grid__cell:last-child { border-left: none; border-top: 1px solid var(--border); }
-}
 
 /* Biased thoughts grid (mirrors response-grid structure, multi-row) */
 .thoughts-grid {
