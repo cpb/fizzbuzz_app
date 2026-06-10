@@ -3,6 +3,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["advanceForm", "replayStep"]
 
+  connect() {
+    if (!this.hasAdvanceFormTarget) setTimeout(() => this.startWordByWord(), 0)
+  }
+
   // Used on the new-session page: just reveal words
   start() {
     this.startWordByWord()
