@@ -161,7 +161,7 @@ bin/rails test test/evals/
 # Run a specific eval suite
 bin/rails test test/evals/fizzbuzz_basic_eval_test.rb
 
-# Re-record cassettes (makes real LLM calls; requires provider credentials)
+# Re-record cassettes (makes real LLM calls; overwrites existing cassettes; requires provider credentials)
 RECORD_EVALS=true bin/rails test test/evals/fizzbuzz_basic_eval_test.rb
 
 # Run without cassettes (skips VCR entirely; requires provider credentials)
@@ -171,6 +171,7 @@ SKIP_VCR=true bin/rails test test/evals/fizzbuzz_basic_eval_test.rb
 Eval tests inherit from `EvalTestCase` (`test/evals/eval_test_case.rb`), which:
 - Points the fixture loader at `evals/` instead of `test/fixtures/`
 - Disables transactional tests so that eval runs persist across the test body
+- Clears `PromptExecution` and `Run` records in `before_setup` to isolate each test
 - Serializes execution (`parallelize(workers: 1)`) to avoid database conflicts
 - Provides `with_eval_cassette(name)` for VCR integration
 
@@ -272,7 +273,10 @@ keeps synthetic data structurally consistent with production data shapes.
 
 When a synthetic prompt and sample set is ready for production evaluation, it needs to be
 loaded into the live database. `EvalLoader.seed_dir` currently uses `find_or_create_by!`
-(upsert semantics: update fields if the record already exists, skip if not). The expected
-gap is a defined promotion workflow — including whether updates to a synthetic fixture that
-already exists in production should upsert (update in place) or replace (delete and
-re-create), and how to handle production runs that reference the old record.
+(create-if-not-found semantics: returns the existing record unchanged if found, creates a
+new one if not). The expected gap is a defined promotion workflow — including whether
+updates to a synthetic fixture that already exists in production should upsert (update in
+place) or replace (delete and re-create), and how to handle production runs that reference
+the old record. Note: `EvalLoader.seed_dir` also has a bug where it calls
+`attrs["model_class"].constantize` on every YAML entry rather than reading `model_class`
+once from the `_fixture` header (tracked in issue #122).
