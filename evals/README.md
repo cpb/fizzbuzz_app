@@ -2,9 +2,10 @@
 
 The eval framework is a structured test harness for measuring LLM prompt quality. It has two
 distinct data paths: **synthetic data** (YAML fixtures committed to the repository, run via
-minitest) and the **production data path** (real customer data evaluated locally through a
-web UI, never committed). Keeping these two paths separate is the core rule — it's what
-makes evals safe to share and reproduce across the team.
+minitest) and the **production data path** (real customer data evaluated on the production
+server through a web UI, never committed). Keeping these two paths separate is the core
+rule — it's what makes evals safe to share and reproduce across the team while keeping
+production data where it belongs.
 
 ---
 
@@ -179,9 +180,10 @@ Eval tests inherit from `EvalTestCase` (`test/evals/eval_test_case.rb`), which:
 
 ## Production data path
 
-The production data path is for evaluating real customer data against your prompts — locally,
-on your machine. It provides a web UI for running prompts against inputs that should never be
-committed to the repository.
+The production data path is for evaluating prompts against real customer data **on the
+production server**. Production data never leaves production — this is the core data privacy
+constraint the path is designed to satisfy. The web UI runs where the data already lives;
+no data is pulled down to a development machine.
 
 ### The engine mount point
 
@@ -191,38 +193,38 @@ committed to the repository.
 mount RubyLLM::Evals::Engine, at: "/evals"
 ```
 
-This provides a full-featured UI at `http://localhost:<port>/evals` with:
+This provides a full-featured UI at `/evals` on whichever host the app is running with:
 
 - Prompt listing and management
 - Run history with pass/fail metrics
 - Per-run results with grid visualization (FizzBuzz) and detailed execution records
 - Human-judge interface for `human_judge` eval type
 
-### Evaluating real data locally
+### Evaluating production data on the production server
 
-To evaluate real data against a prompt:
+To evaluate a prompt against production data:
 
-1. **Seed the prompt and samples** into the local database using `EvalLoader`:
+1. **Seed the prompt and samples** into the production database using `EvalLoader`:
 
    ```ruby
-   # In a Rails console or a seed script
+   # In a Rails console on the production server
    EvalLoader.seed_dir("fizzbuzz")  # loads evals/fizzbuzz/prompts.yml + samples.yml
    ```
 
-2. **Navigate to `/evals`** in your browser and select the prompt you want to run.
+2. **Navigate to `/evals`** on the production host and select the prompt you want to run.
 
-3. **Start a run.** Results are written to the local database (SQLite, isolated per worktree).
+3. **Start a run.** Results are written to the production database and stay there.
 
 4. **Review results** in the UI. The grid visualization shows pass/fail distribution across
    all samples for the run.
 
 ### Guardrails
 
-Three properties of the system prevent accidental exposure of production data:
+Three properties of the system enforce the data privacy boundary:
 
-1. **Results live only in the local database.** Each worktree has its own isolated SQLite
-   database in `storage/`. Production run results written via the engine UI stay there —
-   they are never written back to `runs.yml` or `executions.yml` in `evals/`.
+1. **Results stay in the production database.** Run results written via the engine UI are
+   never written back to `runs.yml` or `executions.yml` in `evals/`. There is no export
+   path from the UI to committed YAML.
 
 2. **`EvalFixtureWriter` is test-only.** The class that writes results back to YAML
    (`test/support/eval_fixture_writer.rb`) is only available in the test environment and is
@@ -233,8 +235,8 @@ Three properties of the system prevent accidental exposure of production data:
    interactions during test execution. The production path makes live LLM calls and never
    touches the cassette layer.
 
-The practical rule: anything in `evals/*.yml` is synthetic (commit freely); anything
-produced by running the engine UI against real data stays local (never commit).
+The practical rule: anything in `evals/*.yml` is synthetic (commit freely); results from
+running the engine UI against production data stay in the production database (never commit).
 
 ---
 
