@@ -3,6 +3,7 @@ class WorkbookSessionsController < ApplicationController
 
   def new
     @workbook_session = WorkbookSession.new(current_step: "intro")
+    @demo_session = WorkbookSession.auth_demo
   end
 
   def create
