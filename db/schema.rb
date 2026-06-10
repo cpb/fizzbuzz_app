@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[8.1].define(version: 2026_06_09_110000) do
-=======
 ActiveRecord::Schema[8.1].define(version: 2026_06_09_200000) do
->>>>>>> 59567ef (db: cascade delete biased_thoughts and thinking_trap_evaluations on workbook session delete)
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
