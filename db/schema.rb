@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[8.1].define(version: 2026_06_09_110000) do
+=======
+ActiveRecord::Schema[8.1].define(version: 2026_06_09_200000) do
+>>>>>>> 59567ef (db: cascade delete biased_thoughts and thinking_trap_evaluations on workbook session delete)
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -199,10 +203,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_09_110000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "biased_thoughts", "workbook_sessions"
+  add_foreign_key "biased_thoughts", "workbook_sessions", on_delete: :cascade
   add_foreign_key "ruby_llm_evals_prompt_executions", "ruby_llm_evals_runs"
   add_foreign_key "ruby_llm_evals_prompt_executions", "ruby_llm_evals_samples"
   add_foreign_key "ruby_llm_evals_runs", "ruby_llm_evals_prompts"
   add_foreign_key "ruby_llm_evals_samples", "ruby_llm_evals_prompts"
-  add_foreign_key "thinking_trap_evaluations", "workbook_sessions"
+  add_foreign_key "thinking_trap_evaluations", "workbook_sessions", on_delete: :cascade
 end
