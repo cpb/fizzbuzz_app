@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   resources :links
   resources :workbook_sessions do
     resources :thinking_traps, only: [ :create ]
+    resource :replay, only: [ :show ], module: :workbook_sessions do
+      post :advance
+    end
   end
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
@@ -24,6 +27,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  get "/demo", to: "demo#show"
 
   mount RubyLLM::Evals::Engine, at: "/evals"
 end

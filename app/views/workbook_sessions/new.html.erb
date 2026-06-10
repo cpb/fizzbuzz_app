@@ -1,3 +1,13 @@
+<% if @demo_session %>
+  <div data-controller="replay" data-action="click->replay#start">
+    <div data-controller="word-by-word">
+      <% @demo_session.situation_description.to_s.split.each do |word| %>
+        <span data-word-by-word-target="word"><%= word %></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <% content_for :drawer do %>
   <%= form_with url: workbook_sessions_path, method: :post, class: "btn-form" do |f| %>
     <%= f.submit "Get Started", class: "btn" %>

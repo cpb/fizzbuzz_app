@@ -98,4 +98,6 @@
     <p><strong>GIVE Review Plan:</strong></p>
     <p><%= workbook_session.give_plan %></p>
   <% end %>
+
+  <%= link_to "Replay", workbook_session_replay_path(workbook_session), class: "btn" %>
 </div>

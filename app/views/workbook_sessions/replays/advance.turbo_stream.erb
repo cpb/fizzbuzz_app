@@ -1,0 +1,5 @@
+<%= turbo_stream.update "replay-step" do %>
+  <%= render "workbook_sessions/replays/step",
+             workbook_session: @workbook_session,
+             step: @replay_step %>
+<% end %>
