@@ -1,0 +1,559 @@
+---
+_fixture:
+  model_class: RubyLLM::Evals::PromptExecution
+
+# =============================================================================
+# Iteration 1 — fizzbuzz(n) = n.to_s
+# Returns the number as a string for all inputs. 8/15 pass.
+# =============================================================================
+tdd_iter1_exec_1:
+  run: tdd_run_iter1
+  sample: tdd_iter1_1
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+  message: "1"
+  passed: true
+
+tdd_iter1_exec_2:
+  run: tdd_run_iter1
+  sample: tdd_iter1_2
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+  message: "2"
+  passed: true
+
+tdd_iter1_exec_3:
+  run: tdd_run_iter1
+  sample: tdd_iter1_3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+  message: "3"
+  passed: false
+
+tdd_iter1_exec_4:
+  run: tdd_run_iter1
+  sample: tdd_iter1_4
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+  message: "4"
+  passed: true
+
+tdd_iter1_exec_5:
+  run: tdd_run_iter1
+  sample: tdd_iter1_5
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+  message: "5"
+  passed: false
+
+tdd_iter1_exec_6:
+  run: tdd_run_iter1
+  sample: tdd_iter1_6
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+  message: "6"
+  passed: false
+
+tdd_iter1_exec_7:
+  run: tdd_run_iter1
+  sample: tdd_iter1_7
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+  message: "7"
+  passed: true
+
+tdd_iter1_exec_8:
+  run: tdd_run_iter1
+  sample: tdd_iter1_8
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+  message: "8"
+  passed: true
+
+tdd_iter1_exec_9:
+  run: tdd_run_iter1
+  sample: tdd_iter1_9
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+  message: "9"
+  passed: false
+
+tdd_iter1_exec_10:
+  run: tdd_run_iter1
+  sample: tdd_iter1_10
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+  message: "10"
+  passed: false
+
+tdd_iter1_exec_11:
+  run: tdd_run_iter1
+  sample: tdd_iter1_11
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+  message: "11"
+  passed: true
+
+tdd_iter1_exec_12:
+  run: tdd_run_iter1
+  sample: tdd_iter1_12
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+  message: "12"
+  passed: false
+
+tdd_iter1_exec_13:
+  run: tdd_run_iter1
+  sample: tdd_iter1_13
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+  message: "13"
+  passed: true
+
+tdd_iter1_exec_14:
+  run: tdd_run_iter1
+  sample: tdd_iter1_14
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+  message: "14"
+  passed: true
+
+tdd_iter1_exec_15:
+  run: tdd_run_iter1
+  sample: tdd_iter1_15
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+  message: "15"
+  passed: false
+
+# =============================================================================
+# Iteration 2 — adds: return "Buzz" if n % 5 == 0
+# Buzz cases now pass; Fizz and FizzBuzz still fail. 10/15 pass.
+# =============================================================================
+tdd_iter2_exec_1:
+  run: tdd_run_iter2
+  sample: tdd_iter2_1
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+  message: "1"
+  passed: true
+
+tdd_iter2_exec_2:
+  run: tdd_run_iter2
+  sample: tdd_iter2_2
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+  message: "2"
+  passed: true
+
+tdd_iter2_exec_3:
+  run: tdd_run_iter2
+  sample: tdd_iter2_3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+  message: "3"
+  passed: false
+
+tdd_iter2_exec_4:
+  run: tdd_run_iter2
+  sample: tdd_iter2_4
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+  message: "4"
+  passed: true
+
+tdd_iter2_exec_5:
+  run: tdd_run_iter2
+  sample: tdd_iter2_5
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+  message: "Buzz"
+  passed: true
+
+tdd_iter2_exec_6:
+  run: tdd_run_iter2
+  sample: tdd_iter2_6
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+  message: "6"
+  passed: false
+
+tdd_iter2_exec_7:
+  run: tdd_run_iter2
+  sample: tdd_iter2_7
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+  message: "7"
+  passed: true
+
+tdd_iter2_exec_8:
+  run: tdd_run_iter2
+  sample: tdd_iter2_8
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+  message: "8"
+  passed: true
+
+tdd_iter2_exec_9:
+  run: tdd_run_iter2
+  sample: tdd_iter2_9
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+  message: "9"
+  passed: false
+
+tdd_iter2_exec_10:
+  run: tdd_run_iter2
+  sample: tdd_iter2_10
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+  message: "Buzz"
+  passed: true
+
+tdd_iter2_exec_11:
+  run: tdd_run_iter2
+  sample: tdd_iter2_11
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+  message: "11"
+  passed: true
+
+tdd_iter2_exec_12:
+  run: tdd_run_iter2
+  sample: tdd_iter2_12
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+  message: "12"
+  passed: false
+
+tdd_iter2_exec_13:
+  run: tdd_run_iter2
+  sample: tdd_iter2_13
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+  message: "13"
+  passed: true
+
+tdd_iter2_exec_14:
+  run: tdd_run_iter2
+  sample: tdd_iter2_14
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+  message: "14"
+  passed: true
+
+tdd_iter2_exec_15:
+  run: tdd_run_iter2
+  sample: tdd_iter2_15
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+  message: "Buzz"
+  passed: false
+
+# =============================================================================
+# Iteration 3 — adds: return "Fizz" if n % 3 == 0 (after Buzz check)
+# Fizz cases now pass; n=15 still returns "Buzz" instead of "FizzBuzz". 14/15 pass.
+# =============================================================================
+tdd_iter3_exec_1:
+  run: tdd_run_iter3
+  sample: tdd_iter3_1
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+  message: "1"
+  passed: true
+
+tdd_iter3_exec_2:
+  run: tdd_run_iter3
+  sample: tdd_iter3_2
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+  message: "2"
+  passed: true
+
+tdd_iter3_exec_3:
+  run: tdd_run_iter3
+  sample: tdd_iter3_3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter3_exec_4:
+  run: tdd_run_iter3
+  sample: tdd_iter3_4
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+  message: "4"
+  passed: true
+
+tdd_iter3_exec_5:
+  run: tdd_run_iter3
+  sample: tdd_iter3_5
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+  message: "Buzz"
+  passed: true
+
+tdd_iter3_exec_6:
+  run: tdd_run_iter3
+  sample: tdd_iter3_6
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter3_exec_7:
+  run: tdd_run_iter3
+  sample: tdd_iter3_7
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+  message: "7"
+  passed: true
+
+tdd_iter3_exec_8:
+  run: tdd_run_iter3
+  sample: tdd_iter3_8
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+  message: "8"
+  passed: true
+
+tdd_iter3_exec_9:
+  run: tdd_run_iter3
+  sample: tdd_iter3_9
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter3_exec_10:
+  run: tdd_run_iter3
+  sample: tdd_iter3_10
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+  message: "Buzz"
+  passed: true
+
+tdd_iter3_exec_11:
+  run: tdd_run_iter3
+  sample: tdd_iter3_11
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+  message: "11"
+  passed: true
+
+tdd_iter3_exec_12:
+  run: tdd_run_iter3
+  sample: tdd_iter3_12
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter3_exec_13:
+  run: tdd_run_iter3
+  sample: tdd_iter3_13
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+  message: "13"
+  passed: true
+
+tdd_iter3_exec_14:
+  run: tdd_run_iter3
+  sample: tdd_iter3_14
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+  message: "14"
+  passed: true
+
+tdd_iter3_exec_15:
+  run: tdd_run_iter3
+  sample: tdd_iter3_15
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+  message: "Buzz"
+  passed: false
+
+# =============================================================================
+# Iteration 4 — adds: return "FizzBuzz" if n % 15 == 0 (checked first)
+# All 15 inputs pass. Perfect implementation.
+# =============================================================================
+tdd_iter4_exec_1:
+  run: tdd_run_iter4
+  sample: tdd_iter4_1
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+  message: "1"
+  passed: true
+
+tdd_iter4_exec_2:
+  run: tdd_run_iter4
+  sample: tdd_iter4_2
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+  message: "2"
+  passed: true
+
+tdd_iter4_exec_3:
+  run: tdd_run_iter4
+  sample: tdd_iter4_3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter4_exec_4:
+  run: tdd_run_iter4
+  sample: tdd_iter4_4
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+  message: "4"
+  passed: true
+
+tdd_iter4_exec_5:
+  run: tdd_run_iter4
+  sample: tdd_iter4_5
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+  message: "Buzz"
+  passed: true
+
+tdd_iter4_exec_6:
+  run: tdd_run_iter4
+  sample: tdd_iter4_6
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter4_exec_7:
+  run: tdd_run_iter4
+  sample: tdd_iter4_7
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+  message: "7"
+  passed: true
+
+tdd_iter4_exec_8:
+  run: tdd_run_iter4
+  sample: tdd_iter4_8
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+  message: "8"
+  passed: true
+
+tdd_iter4_exec_9:
+  run: tdd_run_iter4
+  sample: tdd_iter4_9
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter4_exec_10:
+  run: tdd_run_iter4
+  sample: tdd_iter4_10
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+  message: "Buzz"
+  passed: true
+
+tdd_iter4_exec_11:
+  run: tdd_run_iter4
+  sample: tdd_iter4_11
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+  message: "11"
+  passed: true
+
+tdd_iter4_exec_12:
+  run: tdd_run_iter4
+  sample: tdd_iter4_12
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+  message: "Fizz"
+  passed: true
+
+tdd_iter4_exec_13:
+  run: tdd_run_iter4
+  sample: tdd_iter4_13
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+  message: "13"
+  passed: true
+
+tdd_iter4_exec_14:
+  run: tdd_run_iter4
+  sample: tdd_iter4_14
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+  message: "14"
+  passed: true
+
+tdd_iter4_exec_15:
+  run: tdd_run_iter4
+  sample: tdd_iter4_15
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+  message: "FizzBuzz"
+  passed: true

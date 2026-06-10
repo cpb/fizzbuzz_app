@@ -1,0 +1,366 @@
+_fixture:
+  model_class: RubyLLM::Evals::Sample
+
+# --- Iteration 1 samples ---
+tdd_iter1_1:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+
+tdd_iter1_2:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+
+tdd_iter1_3:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+
+tdd_iter1_4:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+
+tdd_iter1_5:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+
+tdd_iter1_6:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+
+tdd_iter1_7:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+
+tdd_iter1_8:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+
+tdd_iter1_9:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+
+tdd_iter1_10:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+
+tdd_iter1_11:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+
+tdd_iter1_12:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+
+tdd_iter1_13:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+
+tdd_iter1_14:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+
+tdd_iter1_15:
+  prompt: tdd_iter1
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+
+# --- Iteration 2 samples ---
+tdd_iter2_1:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+
+tdd_iter2_2:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+
+tdd_iter2_3:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+
+tdd_iter2_4:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+
+tdd_iter2_5:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+
+tdd_iter2_6:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+
+tdd_iter2_7:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+
+tdd_iter2_8:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+
+tdd_iter2_9:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+
+tdd_iter2_10:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+
+tdd_iter2_11:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+
+tdd_iter2_12:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+
+tdd_iter2_13:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+
+tdd_iter2_14:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+
+tdd_iter2_15:
+  prompt: tdd_iter2
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+
+# --- Iteration 3 samples ---
+tdd_iter3_1:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+
+tdd_iter3_2:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+
+tdd_iter3_3:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+
+tdd_iter3_4:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+
+tdd_iter3_5:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+
+tdd_iter3_6:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+
+tdd_iter3_7:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+
+tdd_iter3_8:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+
+tdd_iter3_9:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+
+tdd_iter3_10:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+
+tdd_iter3_11:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+
+tdd_iter3_12:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+
+tdd_iter3_13:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+
+tdd_iter3_14:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+
+tdd_iter3_15:
+  prompt: tdd_iter3
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }
+
+# --- Iteration 4 samples ---
+tdd_iter4_1:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "1"
+  variables: { "number": "1" }
+
+tdd_iter4_2:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "2"
+  variables: { "number": "2" }
+
+tdd_iter4_3:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "3" }
+
+tdd_iter4_4:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "4"
+  variables: { "number": "4" }
+
+tdd_iter4_5:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "5" }
+
+tdd_iter4_6:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "6" }
+
+tdd_iter4_7:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "7"
+  variables: { "number": "7" }
+
+tdd_iter4_8:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "8"
+  variables: { "number": "8" }
+
+tdd_iter4_9:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "9" }
+
+tdd_iter4_10:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "Buzz"
+  variables: { "number": "10" }
+
+tdd_iter4_11:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "11"
+  variables: { "number": "11" }
+
+tdd_iter4_12:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "Fizz"
+  variables: { "number": "12" }
+
+tdd_iter4_13:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "13"
+  variables: { "number": "13" }
+
+tdd_iter4_14:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "14"
+  variables: { "number": "14" }
+
+tdd_iter4_15:
+  prompt: tdd_iter4
+  eval_type: exact
+  expected_output: "FizzBuzz"
+  variables: { "number": "15" }

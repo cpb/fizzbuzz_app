@@ -3,6 +3,7 @@ ActiveRecord::FixtureSet.create_fixtures(
   %w[
     fizzbuzz/prompts fizzbuzz/samples fizzbuzz/runs fizzbuzz/executions
     workbook/prompts workbook/samples workbook/runs workbook/executions
+    tdd/prompts tdd/samples tdd/runs tdd/executions
   ]
 )
 
