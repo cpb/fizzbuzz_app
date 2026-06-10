@@ -170,6 +170,46 @@ rather than re-discovering the project on each invocation:
 
 ---
 
+## cpb-dev-workflow plugin
+
+The workflow skills in `.claude/commands/` and the `bin/worktree` toolchain are
+also packaged as a reusable Claude Code plugin at
+[cpb/claude_plugins](https://github.com/cpb/claude_plugins).
+
+### Installing the plugin in another project
+
+```sh
+# Via skills directory (no marketplace step):
+git clone https://github.com/cpb/claude_plugins ~/.claude/skills/cpb-dev-workflow
+
+# Via marketplace:
+/plugin marketplace add cpb/claude_plugins
+/plugin install cpb-dev-workflow@cpb
+```
+
+Once installed, run `/cpb-dev-workflow:init` in the new project to scaffold
+`bin/check-worktree` and `bin/claude-code-web-setup`, then implement `bin/setup`
+and `bin/dev` for your stack.
+
+Skills are namespaced: `/cpb-dev-workflow:start-pr`, `/cpb-dev-workflow:qa-pr`, etc.
+
+### Migrating this project to the plugin
+
+The local `.claude/commands/` files take precedence over the plugin, so both can
+coexist. To fully migrate fizzbuzz_app:
+
+1. Install the plugin (above)
+2. Update cross-skill references in local skill files to use the namespaced form:
+   - `invoke the \`qa-pr-skill\` skill` → `invoke the \`cpb-dev-workflow:qa-pr-skill\` skill`
+   - `invoke the \`qa-pr-app\` skill` → `invoke the \`cpb-dev-workflow:qa-pr-app\` skill`
+   - `invoke the \`finish-pr\` skill` → `invoke the \`cpb-dev-workflow:finish-pr\` skill`
+   - `invoke the \`verify\` skill` → `invoke the \`cpb-dev-workflow:verify\` skill`
+3. Delete `.claude/commands/` once confirmed working
+4. Update `.claude/settings.json` hooks to use bare command names (`check-worktree`
+   instead of `bin/check-worktree`) so they resolve via the plugin's PATH additions
+
+---
+
 ## Development workflow
 
 ```sh
