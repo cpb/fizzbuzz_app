@@ -10,11 +10,20 @@ local linters = new Mapping<String, Step> {
     }
 }
 
+local brakem = new Mapping<String, Step> {
+    ["brakeman"] {
+        check = "bin/brakeman --no-pager"
+    }
+}
+
 hooks {
     ["pre-commit"] {
         fix = true
         stash = "git"
         steps = linters
+    }
+    ["pre-push"] {
+        steps = brakem
     }
     ["fix"] {
         fix = true
@@ -22,5 +31,8 @@ hooks {
     }
     ["check"] {
         steps = linters
+    }
+    ["brakeman"] {
+        steps = brakem
     }
 }
