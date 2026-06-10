@@ -18,11 +18,11 @@ Parse lines matching `^- \[ \]` in the section whose heading contains "test" (ca
 **2. Read the port and start the dev server if needed**
 
 ```bash
-port=$(grep "^PORT=" .env.local | cut -d= -f2)
-status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$port/up 2>/dev/null)
+grep "^PORT=" .env.local | cut -d= -f2 > /tmp/qa-pr-port.txt
+curl -s -o /dev/null -w "%{http_code}" http://localhost:$(cat /tmp/qa-pr-port.txt)/up > /tmp/qa-pr-status.txt 2>/dev/null
 ```
 
-If `status` is not `200`:
+If the content of `/tmp/qa-pr-status.txt` is not `200`:
 ```bash
 bin/worktree server <headRefName>
 ```
@@ -39,7 +39,7 @@ Load the Playwright MCP tools, navigate to the app, and snapshot the accessibili
 ```
 ToolSearch: select:mcp__playwright__browser_navigate,mcp__playwright__browser_snapshot,mcp__playwright__browser_take_screenshot
 
-mcp__playwright__browser_navigate { url: "http://localhost:<port>/" }
+mcp__playwright__browser_navigate { url: "http://localhost:<port>/" }  # <port> = content of /tmp/qa-pr-port.txt
 mcp__playwright__browser_snapshot {}
 ```
 
@@ -80,7 +80,7 @@ Invoke the `verify` skill, passing item text and server context as a multi-line 
 --server-up
 ```
 
-`<item text>` is the verbatim item text (no `- [ ] ` prefix); `<port>` is the value from step 2; `--server-up` signals the server is already confirmed running. Present the findings to the operator.
+`<item text>` is the verbatim item text (no `- [ ] ` prefix); `<port>` is `$(cat /tmp/qa-pr-port.txt)`; `--server-up` signals the server is already confirmed running. Present the findings to the operator.
 
 **4d. Ask for operator confirmation**
 
@@ -93,8 +93,8 @@ Use `AskUserQuestion`:
 
 Fetch the current PR body and replace `- [ ] <item text>` with `- [x] <item text>`:
 ```bash
-current_body=$(gh pr view <number> --json body --jq '.body')
-# apply replacement for this item
+gh pr view <number> --json body --jq '.body' > /tmp/qa-pr-<number>-body.txt
+# apply replacement for this item on the content of /tmp/qa-pr-<number>-body.txt
 gh pr edit <number> --body "<updated_body>"
 ```
 

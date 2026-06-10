@@ -163,8 +163,8 @@ Use `AskUserQuestion`:
 
 For each test-plan item, fetch the current PR body and replace `- [ ] <item text>` with `- [x] <item text>`:
 ```bash
-current_body=$(gh pr view <number> --json body --jq '.body')
-# apply replacement for each item
+gh pr view <number> --json body --jq '.body' > /tmp/qa-pr-<number>-body.txt
+# apply replacement for each item on the content of /tmp/qa-pr-<number>-body.txt
 gh pr edit <number> --body "<updated_body>"
 ```
 
