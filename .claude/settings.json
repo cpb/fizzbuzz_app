@@ -1,10 +1,12 @@
 {
-  "enabledMcpjsonServers": ["playwright"],
   "permissions": {
     "allow": [
       "Bash(bin/worktree *)"
     ]
   },
+  "enabledMcpjsonServers": [
+    "playwright"
+  ],
   "hooks": {
     "PreToolUse": [
       {
@@ -37,5 +39,16 @@
         ]
       }
     ]
+  },
+  "extraKnownMarketplaces": {
+    "cpb": {
+      "source": {
+        "source": "github",
+        "repo": "cpb/claude_plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "cpb-dev-workflow@cpb": true
   }
 }
