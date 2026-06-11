@@ -1,0 +1,3 @@
+---
+_fixture:
+  model_class: RubyLLM::Evals::PromptExecution
