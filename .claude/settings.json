@@ -1,41 +1,21 @@
 {
-  "enabledMcpjsonServers": ["playwright"],
   "permissions": {
     "allow": [
       "Bash(bin/worktree *)"
     ]
   },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": ".*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bin/check-worktree"
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "[ \"${CLAUDE_CODE_REMOTE:-}\" = true ] || exit 0 && exec bin/claude-code-web-setup"
-          }
-        ]
+  "enabledMcpjsonServers": [
+    "playwright"
+  ],
+  "extraKnownMarketplaces": {
+    "cpb": {
+      "source": {
+        "source": "github",
+        "repo": "cpb/claude_plugins"
       }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "HK_PKL_BACKEND=pklr hk fix $CLAUDE_FILE_PATHS"
-          }
-        ]
-      }
-    ]
+    }
+  },
+  "enabledPlugins": {
+    "cpb-dev-workflow@cpb": true
   }
 }
