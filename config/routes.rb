@@ -22,7 +22,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  get "/demo", to: "demo#show"
-
   mount RubyLLM::Evals::Engine, at: "/evals"
 end
