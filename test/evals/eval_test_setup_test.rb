@@ -21,4 +21,43 @@ class EvalTestSetupTest < ActiveSupport::TestCase
     assert Dir.glob(File.join(@eval_dir, "*.yml")).empty?,
       "No YAML files should be written during cassette playback"
   end
+
+  test "with_eval_cassette writes fixture YAML when cassette records new interactions" do
+    cassette_path = Rails.root.join("test/cassettes/eval_setup_recording.yml")
+    FileUtils.rm_f(cassette_path)
+
+    prompt = RubyLLM::Evals::Prompt.create!(
+      name: "EvalSetup Test", slug: "eval-setup-test",
+      provider: "ollama", model: "llama3.2", message: "{{n}}"
+    )
+    sample = RubyLLM::Evals::Sample.create!(
+      prompt: prompt, eval_type: "contains",
+      expected_output: "Fizz", variables: { "n" => "3" }
+    )
+    run = RubyLLM::Evals::Run.create!(
+      prompt: prompt, active_job_id: "eval-setup-run", started_at: Time.current
+    )
+    RubyLLM::Evals::PromptExecution.create!(
+      run: run, sample: sample, active_job_id: "eval-setup-exec",
+      eval_type: "contains", expected_output: "Fizz", message: "Fizz", passed: true
+    )
+
+    @runs = [ run ]
+    @sample_labels = { sample.id => "eval_setup_sample" }
+    @prompt_label = "eval_setup_prompt"
+
+    with_eval_cassette("eval_setup_recording") do
+      VCR.current_cassette.record_http_interaction(
+        VCR::HTTPInteraction.new(
+          VCR::Request.new(:post, "http://test.example.invalid/v1", nil, {}),
+          VCR::Response.new(VCR::ResponseStatus.new(200, "OK"), {}, "{}", "1.1")
+        )
+      )
+    end
+
+    refute Dir.glob(File.join(@eval_dir, "*.yml")).empty?,
+      "YAML files should be written when cassette records new interactions"
+  ensure
+    FileUtils.rm_f(cassette_path)
+  end
 end
