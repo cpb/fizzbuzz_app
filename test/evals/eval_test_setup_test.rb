@@ -47,12 +47,7 @@ class EvalTestSetupTest < ActiveSupport::TestCase
     @prompt_label = "eval_setup_prompt"
 
     with_eval_cassette("eval_setup_recording") do
-      VCR.current_cassette.record_http_interaction(
-        VCR::HTTPInteraction.new(
-          VCR::Request.new(:post, "http://test.example.invalid/v1", nil, {}),
-          VCR::Response.new(VCR::ResponseStatus.new(200, "OK"), {}, "{}", "1.1")
-        )
-      )
+      Net::HTTP.get(URI("http://cpb.ca/"))
     end
 
     refute Dir.glob(File.join(@eval_dir, "*.yml")).empty?,
