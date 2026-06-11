@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# PostToolUse hook — called by cpb-dev-workflow after every Edit/Write tool call.
+# $CLAUDE_FILE_PATHS contains the space-separated paths of files that were modified.
+# Implement your project's auto-formatting and linting here.
+#
+# Default: hk fix (https://github.com/jdx/hk)
+#   Requires: hk installed, .hk.toml present at project root
+#
+# Other examples:
+#   prettier --write $CLAUDE_FILE_PATHS
+#   rubocop --autocorrect $CLAUDE_FILE_PATHS
+#   ruff check --fix $CLAUDE_FILE_PATHS
+
+HK_PKL_BACKEND=pklr hk fix $CLAUDE_FILE_PATHS
