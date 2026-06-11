@@ -1,17 +1,15 @@
 require "test_helper"
-require "evals/eval_test_case"
+require "support/eval_test_setup"
 
-class FizzbuzzBasicV10FullEvalTest < EvalTestCase
+class FizzbuzzBasicV10FullEvalTest < ActiveSupport::TestCase
+  include EvalTestSetup
   fixtures :"fizzbuzz/prompts", :"fizzbuzz/samples"
 
   setup do
     @runs = []
     @sample_labels = {}
     @eval_dir = "fizzbuzz"
-  end
-
-  teardown do
-    EvalFixtureWriter.append(@eval_dir, @runs, sample_labels: @sample_labels, prompt_label: "fizzbuzz_basic_v10")
+    @prompt_label = "fizzbuzz_basic_v10"
   end
 
   test "1 is 1" do
