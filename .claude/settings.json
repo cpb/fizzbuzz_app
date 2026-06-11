@@ -11,11 +11,11 @@
     "cpb": {
       "source": {
         "source": "github",
-        "repo": "cpb/claude_plugins"
+        "repo": "cpb/claude-plugins"
       }
     }
   },
   "enabledPlugins": {
-    "cpb-dev-workflow@cpb": true
+    "cpb@cpb": true
   }
 }
