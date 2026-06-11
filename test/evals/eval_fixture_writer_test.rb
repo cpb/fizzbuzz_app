@@ -3,14 +3,9 @@ require "support/eval_fixture_writer"
 
 class EvalFixtureWriterTest < ActiveSupport::TestCase
   self.fixture_table_names = []
-  self.use_transactional_tests = false
 
-  def before_setup
-    RubyLLM::Evals::PromptExecution.delete_all
-    RubyLLM::Evals::Run.delete_all
-    RubyLLM::Evals::Sample.delete_all
-    RubyLLM::Evals::Prompt.delete_all
-    super
+  setup do
+    ActiveRecord::FixtureSet.reset_cache
   end
 
   test "round-trips run and execution to YAML and back to the database" do
