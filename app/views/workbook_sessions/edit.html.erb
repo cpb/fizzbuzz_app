@@ -1,9 +1,0 @@
-<% content_for :drawer do %>
-  <div id="workbook-drawer-nav">
-    <%= render "workbook_sessions/step_drawer", workbook_session: @workbook_session %>
-  </div>
-<% end %>
-
-<div id="workbook-wizard">
-  <%= render "workbook_sessions/steps/#{@workbook_session.current_step}", workbook_session: @workbook_session %>
-</div>
