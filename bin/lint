@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# PostToolUse hook — called by cpb-dev-workflow after every Edit/Write tool call.
+# PostToolUse hook — called by cpb after every Edit/Write tool call.
 # $CLAUDE_FILE_PATHS contains the space-separated paths of files that were modified.
 # Implement your project's auto-formatting and linting here.
 #
