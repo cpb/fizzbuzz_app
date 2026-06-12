@@ -138,10 +138,12 @@ fizzbuzz_eval_15:
 
 ---
 
-**`runs.yml`** and **`executions.yml`** — recorded results from past eval runs. These are
-written by `EvalFixtureWriter` during test runs with `RECORD_EVALS=true` and committed as
-a snapshot of model behavior. They are read by the test suite to verify that past runs are
-reproducible, and by `doc/evals/` visualizations.
+**`runs.yml`** and **`executions.yml`** — recorded results from past eval runs. Written by
+`EvalFixtureWriter` in each test file's `teardown` block after every non-skipped test run
+(not gated on `RECORD_EVALS` — that flag only controls VCR recording mode). Committed as a
+snapshot of model behavior. `seed_round_trip_test.rb` loads them as fixtures and asserts
+that all records parse correctly and counts match — verifying YAML structural integrity, not
+re-running the evals.
 
 ### Eval types
 
