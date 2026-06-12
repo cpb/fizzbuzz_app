@@ -5,6 +5,8 @@ class EvalLoaderTest < ActiveSupport::TestCase
   self.fixture_table_names = []
 
   setup do
+    RubyLLM::Evals::PromptExecution.delete_all
+    RubyLLM::Evals::Run.delete_all
     RubyLLM::Evals::Sample.delete_all
     RubyLLM::Evals::Prompt.delete_all
   end
