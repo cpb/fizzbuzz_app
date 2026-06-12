@@ -42,7 +42,6 @@ The framework currently covers three eval suites:
 | Suite | What it tests |
 |---|---|
 | `fizzbuzz` | Prompt variants for the FizzBuzz LLM feature; measures instruction clarity and output format compliance |
-| `workbook` | Thinking trap identification (CBT assistant); measures whether the model correctly affirms or challenges a user's cognitive distortion label |
 | `tdd` | Iterative TDD prompts for FizzBuzz; measures code correctness at each development stage |
 
 Performance results and grid visualizations for past runs live in [`doc/evals/`](../doc/evals/README.md).
@@ -62,14 +61,14 @@ safe to commit, review, and share.
 ```
 evals/
 ├── fizzbuzz/
-│   ├── prompts.yml       # prompt configurations
-│   ├── samples.yml       # test cases
-│   ├── runs.yml          # recorded batch execution metadata
-│   └── executions.yml    # recorded per-sample results
-├── workbook/
-│   └── ...               # same four files
-└── tdd/
-    └── ...               # same four files
+│   ├── prompts.yml           # prompt configurations
+│   ├── samples.yml           # test cases
+│   ├── runs.yml              # recorded batch execution metadata
+│   └── executions.yml        # recorded per-sample results
+├── tdd/
+│   └── ...                   # same four files
+├── runs.yml                  # empty fixture; clears Run records before each eval test
+└── prompt_executions.yml     # empty fixture; clears PromptExecution records before each eval test
 ```
 
 Each topic directory is self-contained. Add a new topic by creating a new directory with
@@ -139,11 +138,11 @@ fizzbuzz_eval_15:
 ---
 
 **`runs.yml`** and **`executions.yml`** — recorded results from past eval runs. Written by
-`EvalFixtureWriter` in each test file's `teardown` block after every non-skipped test run
-(not gated on `RECORD_EVALS` — that flag only controls VCR recording mode). Committed as a
-snapshot of model behavior. `seed_round_trip_test.rb` loads them as fixtures and asserts
-that all records parse correctly and counts match — verifying YAML structural integrity, not
-re-running the evals.
+`EvalFixtureWriter` inside `with_eval_cassette` only when VCR records new HTTP interactions
+(always with `RECORD_EVALS=true`; never during normal playback runs with all cassettes
+present). Committed as a snapshot of model behavior. `seed_round_trip_test.rb` loads them
+as fixtures and asserts that all records parse correctly and counts match — verifying YAML
+structural integrity, not re-running the evals.
 
 ### Eval types
 
@@ -166,17 +165,13 @@ bin/rails test test/evals/fizzbuzz_basic_eval_test.rb
 
 # Re-record cassettes (makes real LLM calls; overwrites existing cassettes; requires provider credentials)
 RECORD_EVALS=true bin/rails test test/evals/fizzbuzz_basic_eval_test.rb
-
-# Run without cassettes (skips VCR entirely; requires provider credentials)
-SKIP_VCR=true bin/rails test test/evals/fizzbuzz_basic_eval_test.rb
 ```
 
-Eval tests inherit from `EvalTestCase` (`test/evals/eval_test_case.rb`), which:
+Eval tests include `EvalTestSetup` (`test/support/eval_test_setup.rb`), which:
 - Points the fixture loader at `evals/` instead of `test/fixtures/`
-- Disables transactional tests so that eval runs persist across the test body
-- Clears `PromptExecution` and `Run` records in `before_setup` to isolate each test
 - Serializes execution (`parallelize(workers: 1)`) to avoid database conflicts
-- Provides `with_eval_cassette(name)` for VCR integration
+- Provides `with_eval_cassette(name)` — runs the block inside a VCR cassette and writes
+  `runs.yml`/`executions.yml` only when VCR records new HTTP interactions
 
 ---
 
@@ -259,18 +254,17 @@ specific ActiveRecord object via GlobalID.
 
 ### Multi-turn evals `[TODO: research-pr]`
 
-The workbook feature already uses multi-turn conversations (`WorkbookSession` with nested
-`ThinkingTrap` records). The eval framework currently treats each sample as a single
-prompt-response pair. The expected capability is a first-class multi-turn eval type that
-chains a sequence of messages across a conversation and evaluates the final response — or
-each turn independently. This will enable regression testing of the full workbook flow.
+The eval framework currently treats each sample as a single prompt-response pair. Some
+prompts are designed for multi-turn conversations where what matters is the quality of the
+full exchange, not a single response. The expected capability is a first-class multi-turn
+eval type that chains a sequence of messages across a conversation and evaluates the final
+response — or each turn independently.
 
 ### Automatic creation of valid synthetic data `[TODO: research-pr]`
 
 Hand-authoring YAML samples is the current bottleneck for expanding eval coverage. The
 expected capability is tooling that generates well-formed sample fixtures from existing
-domain model instances — converting a `WorkbookSession` or a set of `ThinkingTrap` records
-into a `samples.yml` entry automatically. This reduces the barrier to adding new evals and
+domain model instances — converting a domain record into a `samples.yml` entry automatically. This reduces the barrier to adding new evals and
 keeps synthetic data structurally consistent with production data shapes.
 
 ### Promoting synthetic data to production (upsert vs replace semantics) `[TODO: research-pr]`
