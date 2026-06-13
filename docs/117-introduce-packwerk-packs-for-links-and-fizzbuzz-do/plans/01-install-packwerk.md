@@ -53,24 +53,54 @@ package_paths:
 require:
   - packwerk-extensions
 
+# Architecture layers (highest → lowest).
+# A pack may depend on packs in the same or lower layers.
+# Enforced per-pack via enforce_layers: true in package.yml.
+architecture_layers:
+  - feature     # domain feature packs (fizzbuzz, links)
+  - utility     # shared Rails infrastructure (root package)
+
 parallel: true
 cache: true
 cache_directory: tmp/cache/packwerk
 ```
 
-### 4. Verify root package.yml
+### 4. Update root package.yml
 
-`bin/packwerk init` generates:
+`bin/packwerk init` generates a minimal file. Update it to declare the
+root's layer and enable layer enforcement:
 
 ```yaml
-# package.yml
+# package.yml (root)
 enforce_dependencies: false
 enforce_privacy: false
+enforce_layers: true
+layer: utility
 ```
 
-This is correct as-is. No changes needed.
+The root package is the `utility` layer — shared Rails infrastructure
+(ApplicationRecord, ApplicationController, ApplicationJob) that feature
+packs depend on, not the other way around.
 
-### 5. Configure autoload and view paths in config/application.rb
+### 5. Update Rakefile to discover pack tests
+
+```ruby
+# Rakefile
+require_relative "config/application"
+Rails.application.load_tasks
+
+# Override default test task to include tests in packs alongside root tests
+Rake::Task[:test].clear
+Rails::TestTask.new(:test) do |t|
+  t.pattern = FileList[
+    "test/**/*_test.rb",
+    "packs/*/test/**/*_test.rb"
+  ]
+  t.verbose = false
+end
+```
+
+### 6. Configure autoload and view paths in config/application.rb
 
 ```ruby
 module FizzbuzzApp
@@ -88,7 +118,7 @@ module FizzbuzzApp
 end
 ```
 
-### 6. Validate
+### 7. Validate
 
 ```sh
 bin/packwerk validate
@@ -96,7 +126,7 @@ bin/packwerk validate
 
 Expected output: `Validation successful.`
 
-### 7. Initial check (should pass with zero violations)
+### 8. Initial check (should pass with zero violations)
 
 ```sh
 bin/packwerk check
@@ -104,7 +134,7 @@ bin/packwerk check
 
 Expected: `No violations detected.` (no packs exist yet, so nothing to check)
 
-### 8. Run tests
+### 9. Run tests
 
 ```sh
 bin/rails test
@@ -112,11 +142,11 @@ bin/rails test
 
 All tests must pass — this step changes no application behavior.
 
-### 9. Commit
+### 10. Commit
 
 ```sh
-git add Gemfile Gemfile.lock bin/packwerk packwerk.yml package.yml config/application.rb
-git commit -m "feat: install packwerk with extensions and configure autoload paths"
+git add Gemfile Gemfile.lock bin/packwerk packwerk.yml package.yml config/application.rb Rakefile
+git commit -m "feat: install packwerk with extensions, configure autoload paths and test discovery"
 ```
 
 ---

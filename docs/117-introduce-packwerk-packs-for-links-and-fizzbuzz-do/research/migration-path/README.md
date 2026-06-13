@@ -12,7 +12,7 @@ structure into Packwerk packs without breaking autoloading, views, or tests.
 
 - **No source-code constant changes needed** — files move verbatim because Zeitwerk is configured to add `packs/*/app/<layer>/` as autoload roots (not `packs/*/app/` itself)
 - **View paths require explicit registration** — ActionView does not inherit the Zeitwerk path config; add `config.paths["app/views"] += Dir[root.join("packs/*/app/views")]` to `config/application.rb`
-- **Tests should stay at root** — `bin/rails test` discovers only `test/`; moving tests to `packs/*/test/` adds complexity without Packwerk benefit (Packwerk does not analyze test files)
+- **Tests move into packs** — Rakefile is updated to include `packs/*/test/` in the default test run; `require "test_helper"` works from pack test files because Rails adds `test/` to the load path
 - **VCR cassettes stay at root** — `test/cassettes/` is referenced by `test/test_helper.rb`; moving cassettes would require updating that path and all per-test cassette names
 - **evals/ directory stays at root** — `EvalLoader` seeds from `evals/` at app boot; moving it requires updating `lib/eval_loader.rb` load paths, a separate concern from pack creation
 - **QrCodeGenerator moves to root** — resolves the only cross-domain Ruby class reference (`_survey_qr.html.erb` → `QrCodeGenerator`); QR generation is a generic utility shared by both domains

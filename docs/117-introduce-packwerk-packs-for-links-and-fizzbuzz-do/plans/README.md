@@ -28,6 +28,8 @@ Plans must run sequentially — each plan's output is the next plan's prerequisi
 |----------|-----------|
 | Use manual `config.paths.add` instead of `packs-rails` gem | Only two packs; manual is transparent and avoids an extra dependency |
 | `QrCodeGenerator` stays at root | Generic utility used by both fizzbuzz and links; moving it to links creates an architecturally odd dependency |
-| Tests stay at root `test/` | Packwerk doesn't analyze test files; moving tests adds complexity with no boundary enforcement benefit |
+| Tests move into packs | Co-location makes pack ownership explicit; Rakefile updated to include `packs/*/test/` in the default test run |
+| Evals tests stay at root | EvalTestSetup has complex root-relative path setup; migration is a separate concern |
 | No `package_todo.yml` | New packs start clean — fix violations rather than recording them |
 | `enforce_privacy: true` from the start | Both packs are new; no legacy code to grandfather in |
+| Two architecture layers: `feature` + `utility` | Feature packs (fizzbuzz, links) sit above the Rails infrastructure root; enforces that root can't reach into pack internals |

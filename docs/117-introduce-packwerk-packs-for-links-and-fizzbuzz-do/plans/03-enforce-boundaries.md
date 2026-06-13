@@ -4,11 +4,13 @@
 to CI (`.github/workflows/`), do a final full sweep of violations, and open the PR.
 
 **Rationale:** Enforcement was already turned on during pack creation
-(`enforce_dependencies: true`, `enforce_privacy: true`). This plan covers the
-final verification sweep, CI integration, and PR opening. No violations are
-expected because the one cross-domain dependency was resolved in Plan 02.
+(`enforce_dependencies: true`, `enforce_privacy: true`, `enforce_layers: true`).
+This plan covers the final verification sweep, CI integration, and PR opening.
+No violations are expected because the one cross-domain dependency was resolved
+in Plan 02 and the layer assignments form a valid DAG (feature → utility).
 
 See: [packwerk-yml-format.md](../research/packwerk-setup/packwerk-yml-format.md),
+[package-yml-format.md](../research/pack-conventions/package-yml-format.md),
 [cross-domain-dependencies.md](../research/domain-inventory/cross-domain-dependencies.md)
 
 ---
@@ -128,8 +130,11 @@ None. All cross-domain dependencies identified in research have resolutions.
 - [ ] `bin/packwerk validate` → "Validation successful."
 - [ ] `bin/packwerk check` → "No violations detected."
 - [ ] `bin/rails zeitwerk:check` → "All is good!"
-- [ ] `bin/rails test` → all tests pass
-- [ ] Each pack's `package.yml` has `enforce_dependencies: true` and `enforce_privacy: true`
-- [ ] `package.yml` at root has `enforce_dependencies: false` and `enforce_privacy: false`
+- [ ] `bin/rails test` → all tests pass (root + pack tests via updated Rakefile)
+- [ ] Each pack's `package.yml` has `enforce_dependencies: true`, `enforce_privacy: true`, `enforce_layers: true`
+- [ ] Each pack's `package.yml` declares `layer: feature` and `dependencies: ["."]`
+- [ ] Root `package.yml` has `enforce_layers: true`, `layer: utility`
 - [ ] `packwerk.yml` lists both `"./"` and `"packs/*/"` in `package_paths`
+- [ ] `packwerk.yml` declares `architecture_layers: [feature, utility]`
 - [ ] No `package_todo.yml` files exist anywhere
+- [ ] Tests in `packs/links/test/` and `packs/fizzbuzz/test/` pass when run with `bin/rails test packs/links/test/ packs/fizzbuzz/test/`

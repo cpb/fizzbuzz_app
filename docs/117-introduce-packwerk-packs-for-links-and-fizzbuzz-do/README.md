@@ -57,7 +57,8 @@ or evals infrastructure.
 | Decision | Rationale |
 |----------|-----------|
 | `QrCodeGenerator` stays at root | Only cross-domain Ruby class ref; it's a generic utility, not a links concept |
-| Tests stay at root `test/` | Packwerk doesn't analyze tests; no runner config changes needed |
+| Tests move into packs | Co-location makes ownership explicit; Rakefile updated for test discovery |
 | `evals/` stays at root | EvalLoader and EvalTestSetup reference root-relative paths |
 | `enforce_privacy: true` from day 1 | New packs start clean; no legacy violations to record |
+| Two architecture layers: `feature` + `utility` | Feature packs (fizzbuzz, links) above Rails infrastructure root; prevents root from depending on pack internals |
 | Manual path config, not `packs-rails` | Two packs don't justify an extra gem dependency |

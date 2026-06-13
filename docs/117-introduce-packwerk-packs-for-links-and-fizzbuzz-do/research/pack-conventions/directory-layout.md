@@ -3,8 +3,8 @@
 ## Canonical Structure
 
 Each pack lives under `packs/` at the Rails root. Inside, it mirrors the Rails
-`app/` subdirectory structure. Tests may live inside the pack (`packs/<name>/test/`)
-or remain at the root `test/` directory.
+`app/` subdirectory structure. Tests live inside the pack at `packs/<name>/test/`,
+collocated with their domain.
 
 ```
 packs/
@@ -27,14 +27,16 @@ packs/
     │           ├── new.html.erb
     │           ├── _link.html.erb
     │           └── _qr_code.html.erb
-    └── test/                   ← optional; tests can stay at root test/ instead
+    └── test/
         ├── controllers/
         │   └── links_controller_test.rb
         ├── jobs/
         │   └── publish_gist_job_test.rb
         ├── models/
         │   ├── link_test.rb
-        │   └── gist_publisher_test.rb
+        │   ├── gist_test.rb
+        │   ├── gist_publisher_test.rb
+        │   └── qr_code_generator_test.rb
         └── system/
             └── links_test.rb
 ```
@@ -78,36 +80,24 @@ The class defined in `app/public/qr_code_generator.rb` is still named
 
 ## Where Tests Live
 
-### Option A: Tests inside the pack (full isolation)
+Tests live inside the pack collocated with their domain. This makes pack
+ownership explicit and keeps related code together.
 
 ```
 packs/links/test/
   controllers/links_controller_test.rb
   models/link_test.rb
+  models/gist_publisher_test.rb
   system/links_test.rb
 ```
 
-**Requires:** Adding pack test paths to test_helper.rb or adjusting how
-`bin/rails test` is invoked. Standard `bin/rails test` does not discover
-`packs/*/test/` by default.
+**Test runner impact:** `bin/rails test` discovers only `test/` by default.
+The Rakefile must be updated, or tests invoked with explicit paths. See
+[test-path-changes.md](../migration-path/test-path-changes.md) for configuration.
 
-### Option B: Tests at root (recommended for this issue)
-
-Keep existing `test/` structure untouched. Tests remain in:
-```
-test/
-  controllers/links_controller_test.rb
-  models/link_test.rb
-  system/links_test.rb
-```
-
-**Advantage:** `bin/rails test` continues to work unchanged. Packwerk does
-not analyze test files for boundary violations (only `app/` files). Tests can
-reference any constant without creating pack violations.
-
-**Recommendation:** Keep tests at root for Issue #117. This delivers the
-Packwerk boundary enforcement without introducing test runner complexity.
-Moving tests to packs is a future enhancement.
+**Important:** Packwerk does not analyze test files for boundary violations.
+Tests can freely reference constants from any pack — moving tests to packs is
+about co-location and ownership, not boundary enforcement.
 
 ## Concrete Example for fizzbuzz_app
 
@@ -115,38 +105,49 @@ Moving tests to packs is a future enhancement.
 packs/
 ├── fizzbuzz/
 │   ├── package.yml
-│   └── app/
-│       ├── controllers/
-│       │   └── fizz_buzz_controller.rb     (was app/controllers/)
-│       ├── jobs/
-│       │   ├── fizz_buzz_job.rb            (was app/jobs/)
-│       │   └── llm_fizz_buzz_job.rb        (was app/jobs/)
-│       ├── models/
-│       │   ├── fizz_buzzer.rb              (was app/models/)
-│       │   └── llm_fizz_buzzer.rb          (was app/models/)
-│       └── views/
-│           └── fizz_buzz/                  (was app/views/fizz_buzz/)
-│               ├── start.html.erb
-│               ├── _result.html.erb
-│               └── _survey_qr.html.erb
+│   ├── app/
+│   │   ├── controllers/
+│   │   │   └── fizz_buzz_controller.rb     (was app/controllers/)
+│   │   ├── helpers/ruby_llm/evals/
+│   │   │   └── runs_helper.rb              (was app/helpers/ruby_llm/evals/)
+│   │   ├── jobs/
+│   │   │   ├── fizz_buzz_job.rb            (was app/jobs/)
+│   │   │   └── llm_fizz_buzz_job.rb        (was app/jobs/)
+│   │   ├── models/
+│   │   │   ├── fizz_buzzer.rb              (was app/models/)
+│   │   │   └── llm_fizz_buzzer.rb          (was app/models/)
+│   │   └── views/
+│   │       └── fizz_buzz/                  (was app/views/fizz_buzz/)
+│   └── test/
+│       ├── controllers/fizz_buzz_controller_test.rb
+│       ├── jobs/fizz_buzz_job_test.rb
+│       ├── jobs/llm_fizz_buzz_job_test.rb
+│       ├── models/fizz_buzzer_test.rb
+│       ├── models/llm_fizz_buzzer_test.rb
+│       └── system/fizz_buzz_test.rb
 └── links/
     ├── package.yml
-    └── app/
-        ├── controllers/
-        │   └── links_controller.rb         (was app/controllers/)
-        ├── jobs/
-        │   └── publish_gist_job.rb         (was app/jobs/)
-        ├── models/
-        │   ├── link.rb                     (was app/models/)
-        │   ├── gist.rb                     (was app/models/)
-        │   └── gist_publisher.rb           (was app/models/)
-        └── views/
-            └── links/                      (was app/views/links/)
-                ├── index.html.erb
-                ├── new.html.erb
-                ├── _link.html.erb
-                └── _qr_code.html.erb
+    ├── app/
+    │   ├── controllers/
+    │   │   └── links_controller.rb         (was app/controllers/)
+    │   ├── jobs/
+    │   │   └── publish_gist_job.rb         (was app/jobs/)
+    │   ├── models/
+    │   │   ├── link.rb                     (was app/models/)
+    │   │   ├── gist.rb                     (was app/models/)
+    │   │   └── gist_publisher.rb           (was app/models/)
+    │   └── views/
+    │       └── links/                      (was app/views/links/)
+    └── test/
+        ├── controllers/links_controller_test.rb
+        ├── jobs/publish_gist_job_test.rb
+        ├── models/link_test.rb
+        ├── models/gist_test.rb
+        ├── models/gist_publisher_test.rb
+        ├── models/qr_code_generator_test.rb
+        └── system/links_test.rb
 ```
 
-Note: `QrCodeGenerator` moves to `app/models/` at root (see
-[cross-domain-dependencies.md](../domain-inventory/cross-domain-dependencies.md)).
+Notes:
+- `QrCodeGenerator` stays at `app/models/` (root) — shared utility used by both domains. See [cross-domain-dependencies.md](../domain-inventory/cross-domain-dependencies.md).
+- Evals tests (`test/evals/`, cassettes) stay at root — EvalLoader and EvalTestSetup reference root-relative paths; migrating them is a separate concern.

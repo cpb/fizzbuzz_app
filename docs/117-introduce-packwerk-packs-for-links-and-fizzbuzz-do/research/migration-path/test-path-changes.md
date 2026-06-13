@@ -1,33 +1,48 @@
 # Test Path Changes
 
-## Does bin/rails test Discover packs/*/test/?
+## Decision: Tests Move Into Packs
 
-**No.** By default, `bin/rails test` discovers test files only under `test/`.
-Moving tests to `packs/*/test/` requires either:
+Tests for each domain move into their pack at `packs/<name>/test/`, collocated
+with their source files. This makes pack ownership explicit and keeps related
+code together.
 
-1. Passing pack test directories explicitly:
-   ```sh
-   bin/rails test test/ packs/links/test/ packs/fizzbuzz/test/
-   ```
-2. Adding a custom Rake task that globs `packs/**/test/**/*_test.rb`
-3. Modifying `Rakefile` to include pack test paths in the default test task
+## Test Runner Configuration
 
-## Recommendation: Keep Tests at Root
+`bin/rails test` discovers only the root `test/` directory by default.
+Two changes are needed:
 
-**Keep all tests in the existing `test/` directory for Issue #117.**
+### 1. Rakefile — include pack test directories in the default test task
 
-Rationale:
-- Packwerk does not analyze test files for boundary violations — test code can
-  reference any constant from any pack without creating violations
-- `bin/rails test` continues to work unchanged with no configuration
-- test_helper.rb, fixtures, cassettes, and system test infrastructure all
-  assume `test/` as root
-- Moving tests to packs is a future enhancement that can be done independently
+```ruby
+# Rakefile
+require_relative "config/application"
+Rails.application.load_tasks
 
-The acceptance criteria for Issue #117 is "full test suite passes after
-restructure" — keeping tests at root guarantees this without risk.
+# Override the default test task to include tests from packs
+Rake::Task[:test].clear
+Rails::TestTask.new(:test) do |t|
+  t.pattern = FileList[
+    "test/**/*_test.rb",
+    "packs/*/test/**/*_test.rb"
+  ]
+  t.verbose = false
+end
+```
 
-## VCR Cassettes
+After this change, `bin/rails test` and `rake test` run tests from both
+`test/` and all `packs/*/test/` directories.
+
+### 2. Explicit path invocation (useful for focused runs)
+
+Run tests for a single pack without the Rakefile change:
+
+```sh
+bin/rails test packs/links/test/
+bin/rails test packs/fizzbuzz/test/
+bin/rails test packs/links/test/ packs/fizzbuzz/test/ test/
+```
+
+## VCR Cassettes — Stay at Root
 
 `test/test_helper.rb` configures:
 ```ruby
@@ -37,55 +52,79 @@ VCR.configure do |config|
 end
 ```
 
-VCR cassettes (in `test/cassettes/`) reference the cassette name as a string
-in each test file. Moving cassettes would require:
-1. Updating `cassette_library_dir` in test_helper.rb
-2. Updating cassette name strings in every test that uses VCR
+VCR resolves `cassette_library_dir` relative to `Dir.pwd` (Rails root), not
+the test file path. Tests in `packs/links/test/` that require `test_helper.rb`
+will still find cassettes at `test/cassettes/` — no changes needed to cassette
+names or the VCR configuration.
 
-**Decision: cassettes stay at `test/cassettes/`.**
+**Decision: `test/cassettes/` stays at root.**
 
-## Fixtures
+## Fixtures — Stay at Root
 
-`test/test_helper.rb` loads fixtures with `fixtures :all`, which finds all
-YAML files under `test/fixtures/`. Moving fixtures to `packs/*/test/fixtures/`
-would require changing this line.
+`test/test_helper.rb` loads fixtures with `fixtures :all`, which Rails resolves
+relative to `test/fixtures/`. Pack tests require `test_helper.rb`, inheriting
+this fixture setup. All fixture YAML files remain at `test/fixtures/`.
 
-**Decision: fixtures stay at `test/fixtures/`.**
+**Decision: `test/fixtures/` stays at root.**
 
-## evals/ Root Directory
+## Requiring test_helper from Pack Tests
 
-The `evals/` directory at the Rails root contains YAML data files loaded by:
-- `lib/eval_loader.rb` — seeds the database at boot (development/test)
-- `EvalTestSetup` in `test/support/eval_test_setup.rb` — sets fixture_paths
-  for eval tests
+Tests in pack directories need to require `test_helper.rb`. The relative path
+changes depending on depth — use `expand_path` for robustness:
 
-Moving `evals/` to `packs/fizzbuzz/evals/` would require updating the load
-paths in `lib/eval_loader.rb` and the fixture_paths in `eval_test_setup.rb`.
+```ruby
+# packs/links/test/models/link_test.rb
+require_relative "../../../../test/test_helper"
+```
 
-**Decision for Issue #117: `evals/` stays at the Rails root.**
+Or, if `test/` is added to the Ruby load path (Rails does this via
+`require "rails/test_help"` in test_helper), tests can use:
 
-The evals infrastructure (`EvalLoader`, `EvalTestSetup`) is not changed by
-this issue. Moving `evals/` into the fizzbuzz pack is a follow-up concern.
-The `test/evals/*.rb` test files also stay at root.
+```ruby
+require "test_helper"
+```
 
-## test/support/ Files
+**Recommendation:** Use `require "test_helper"` — Rails adds `test/` to the load
+path during test runs, so this works regardless of the test file's location.
 
-`test/support/eval_fixture_writer.rb` and `test/support/eval_test_setup.rb`
-are shared test infrastructure required by the evals tests. They stay at root.
+## evals Tests — Stay at Root
 
-## Summary Table
+The eval tests in `test/evals/` and supporting files in `test/support/` use:
+- `EvalTestSetup` which sets `fixture_paths` with root-relative paths
+- VCR cassettes from `test/cassettes/` with cassette names hardcoded in each test
+- `require_relative` references to `test/support/` files
 
-| Location | Move? | Reason |
-|----------|-------|--------|
-| `test/models/*_test.rb` | No | bin/rails test discovers test/ |
-| `test/controllers/*_test.rb` | No | Same |
-| `test/jobs/*_test.rb` | No | Same |
-| `test/system/*_test.rb` | No | Same |
-| `test/evals/*.rb` | No | EvalTestSetup paths; low value for packwerk |
-| `test/helpers/` | No | Low value for packwerk |
-| `test/configuration/` | No | Low value for packwerk |
-| `test/lib/` | No | Low value for packwerk |
-| `test/support/` | No | Shared infrastructure |
-| `test/cassettes/` | No | cassette_library_dir in test_helper.rb |
-| `test/fixtures/` | No | fixtures :all in test_helper.rb |
-| `evals/` | No | EvalLoader paths; separate concern |
+Moving these 20+ files requires updating all `require_relative` paths and
+verifying `EvalTestSetup`'s `fixture_paths` still resolve. This is a
+separate concern from creating the packs.
+
+**Decision: `test/evals/`, `test/support/`, and related infrastructure stay at root for Issue #117.**
+
+## Summary — What Moves vs. Stays
+
+| Location | Move? | Destination |
+|----------|-------|-------------|
+| `test/models/fizz_buzzer_test.rb` | Yes | `packs/fizzbuzz/test/models/` |
+| `test/models/llm_fizz_buzzer_test.rb` | Yes | `packs/fizzbuzz/test/models/` |
+| `test/controllers/fizz_buzz_controller_test.rb` | Yes | `packs/fizzbuzz/test/controllers/` |
+| `test/jobs/fizz_buzz_job_test.rb` | Yes | `packs/fizzbuzz/test/jobs/` |
+| `test/jobs/llm_fizz_buzz_job_test.rb` | Yes | `packs/fizzbuzz/test/jobs/` |
+| `test/system/fizz_buzz_test.rb` | Yes | `packs/fizzbuzz/test/system/` |
+| `test/models/link_test.rb` | Yes | `packs/links/test/models/` |
+| `test/models/gist_test.rb` | Yes | `packs/links/test/models/` |
+| `test/models/gist_publisher_test.rb` | Yes | `packs/links/test/models/` |
+| `test/models/qr_code_generator_test.rb` | Yes | `packs/links/test/models/` |
+| `test/controllers/links_controller_test.rb` | Yes | `packs/links/test/controllers/` |
+| `test/jobs/publish_gist_job_test.rb` | Yes | `packs/links/test/jobs/` |
+| `test/system/links_test.rb` | Yes | `packs/links/test/system/` |
+| `test/evals/*.rb` (20 files) | No | Complex setup paths; separate concern |
+| `test/support/eval_*.rb` | No | Required by evals tests |
+| `test/helpers/runs_helper_test.rb` | No | Evals infrastructure |
+| `test/configuration/` | No | Evals infrastructure |
+| `test/lib/` | No | Evals infrastructure |
+| `test/controllers/surveys_controller_test.rb` | No | Surveys not packed this issue |
+| `test/system/surveys_test.rb` | No | Surveys not packed this issue |
+| `test/cassettes/` | No | Root-relative path in VCR config |
+| `test/fixtures/` | No | Root-relative path in fixtures :all |
+| `test/test_helper.rb` | No | Shared infrastructure |
+| `test/application_system_test_case.rb` | No | Shared infrastructure |
