@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  before_action :ensure_not_production, only: [ :new, :create, :publish ]
+  before_action :ensure_not_production, only: [ :new, :create, :destroy, :publish ]
 
   def index
     @links = Link.all
@@ -21,5 +21,10 @@ class LinksController < ApplicationController
   def publish
     PublishGistJob.perform_later
     head :no_content
+  end
+
+  def destroy
+    Link.find(params[:id]).destroy
+    redirect_to links_path, status: :see_other
   end
 end
