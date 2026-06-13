@@ -1,3 +1,5 @@
+> **Execution order:** Run this plan LAST — after Plans 01 through 06 are complete.
+
 # Plan: Enforce Boundaries and Verify
 
 **Decision:** With files already in their pack directories, add `bin/packwerk check`
@@ -143,3 +145,6 @@ None. All cross-domain dependencies identified in research have resolutions.
 - [ ] `packs/surveys/package.yml` has `enforce_dependencies: true`, `enforce_privacy: true`, `enforce_layers: true`
 - [ ] `packs/surveys/package.yml` declares `layer: UI` and `dependencies: ["."]`
 - [ ] Tests in `packs/surveys/test/` pass when run with `bin/rails test packs/surveys/test/`
+- [ ] `packs/rails_shims/package.yml` has `enforce_dependencies: true`, `layer: utility`
+- [ ] `packs/qr_code/package.yml` has `enforce_dependencies: true`, `layer: utility`
+- [ ] Root `package.yml` has `layer: app` and `enforce_dependencies: true`

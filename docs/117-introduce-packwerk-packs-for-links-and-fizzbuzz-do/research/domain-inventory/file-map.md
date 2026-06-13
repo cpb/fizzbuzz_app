@@ -14,28 +14,28 @@ Pack targets:
 
 | File Path | Domain | Pack Target |
 |-----------|--------|-------------|
-| `app/models/application_record.rb` | infrastructure | root |
+| `app/models/application_record.rb` | infrastructure | packs/rails_shims |
 | `app/models/link.rb` | links | packs/links |
 | `app/models/gist.rb` | links | packs/links |
 | `app/models/gist_publisher.rb` | links | packs/links |
-| `app/models/qr_code_generator.rb` | links | packs/links |
+| `app/models/qr_code_generator.rb` | utility | packs/qr_code |
 | `app/models/fizz_buzzer.rb` | fizzbuzz | packs/fizzbuzz |
 | `app/models/llm_fizz_buzzer.rb` | fizzbuzz | packs/fizzbuzz |
 | `app/models/survey_response.rb` | surveys | packs/surveys |
-| `app/controllers/application_controller.rb` | infrastructure | root |
+| `app/controllers/application_controller.rb` | infrastructure | packs/rails_shims |
 | `app/controllers/fizz_buzz_controller.rb` | fizzbuzz | packs/fizzbuzz |
 | `app/controllers/links_controller.rb` | links | packs/links |
 | `app/controllers/surveys_controller.rb` | surveys | packs/surveys |
-| `app/controllers/replays_controller.rb` | workbook | out-of-scope |
-| `app/controllers/workbook_session_replays_controller.rb` | workbook | out-of-scope |
-| `app/controllers/workbook_sessions/replays_controller.rb` | workbook | out-of-scope |
+| `app/controllers/replays_controller.rb` | workbook | delete (Plan 03) |
+| `app/controllers/workbook_session_replays_controller.rb` | workbook | delete (Plan 03) |
+| `app/controllers/workbook_sessions/replays_controller.rb` | workbook | delete (Plan 03) |
 | `app/controllers/concerns/.keep` | infrastructure | root |
-| `app/jobs/application_job.rb` | infrastructure | root |
+| `app/jobs/application_job.rb` | infrastructure | packs/rails_shims |
 | `app/jobs/fizz_buzz_job.rb` | fizzbuzz | packs/fizzbuzz |
 | `app/jobs/llm_fizz_buzz_job.rb` | fizzbuzz | packs/fizzbuzz |
 | `app/jobs/publish_gist_job.rb` | links | packs/links |
-| `app/mailers/application_mailer.rb` | infrastructure | root |
-| `app/helpers/application_helper.rb` | infrastructure | root |
+| `app/mailers/application_mailer.rb` | infrastructure | packs/rails_shims |
+| `app/helpers/application_helper.rb` | infrastructure | packs/rails_shims |
 | `app/helpers/ruby_llm/evals/runs_helper.rb` | fizzbuzz/evals | packs/fizzbuzz |
 | `app/views/layouts/application.html.erb` | infrastructure | root |
 | `app/views/layouts/mailer.html.erb` | infrastructure | root |
@@ -52,10 +52,10 @@ Pack targets:
 | `app/views/surveys/show.html.erb` | surveys | packs/surveys |
 | `app/views/pwa/manifest.json.erb` | infrastructure | root |
 | `app/views/pwa/service-worker.js` | infrastructure | root |
-| `app/views/replays/show.html.erb` | workbook | out-of-scope |
-| `app/views/workbook_sessions/replays/_step.html.erb` | workbook | out-of-scope |
-| `app/views/workbook_sessions/replays/advance.turbo_stream.erb` | workbook | out-of-scope |
-| `app/views/workbook_sessions/replays/show.html.erb` | workbook | out-of-scope |
+| `app/views/replays/show.html.erb` | workbook | delete (Plan 03) |
+| `app/views/workbook_sessions/replays/_step.html.erb` | workbook | delete (Plan 03) |
+| `app/views/workbook_sessions/replays/advance.turbo_stream.erb` | workbook | delete (Plan 03) |
+| `app/views/workbook_sessions/replays/show.html.erb` | workbook | delete (Plan 03) |
 | `app/views/ruby_llm/evals/runs/_fizzbuzz_grid.html.erb` | fizzbuzz/evals | packs/fizzbuzz |
 | `app/views/ruby_llm/evals/runs/show.html.erb` | fizzbuzz/evals | packs/fizzbuzz |
 | `app/assets/stylesheets/application.css` | infrastructure | root |
@@ -65,8 +65,8 @@ Pack targets:
 | `app/javascript/controllers/dismissible_controller.js` | infrastructure | root |
 | `app/javascript/controllers/hello_controller.js` | infrastructure | root |
 | `app/javascript/controllers/index.js` | infrastructure | root |
-| `app/javascript/controllers/replay_controller.js` | workbook | out-of-scope |
-| `app/javascript/controllers/word_by_word_controller.js` | workbook | out-of-scope |
+| `app/javascript/controllers/replay_controller.js` | workbook | delete (Plan 03) |
+| `app/javascript/controllers/word_by_word_controller.js` | workbook | delete (Plan 03) |
 
 *`_survey_qr.html.erb` lives in the fizzbuzz pack directory but references survey and links domain items — see cross-domain-dependencies.md.
 
@@ -94,29 +94,29 @@ Pack targets:
 | `test/system/fizz_buzz_test.rb` | fizzbuzz | packs/fizzbuzz |
 | `test/system/links_test.rb` | links | packs/links |
 | `test/system/surveys_test.rb` | surveys | packs/surveys |
-| `test/evals/fizzbuzz_basic_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v2_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v3_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v4_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v5_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v6_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v7_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v7_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v8_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v9_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v10_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v11_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_basic_v12_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_clean_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/fizzbuzz_eval_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/yoda_fizzbuzz_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/evals/eval_fixture_writer_test.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz |
-| `test/evals/eval_test_setup_test.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz |
-| `test/support/eval_fixture_writer.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz |
-| `test/support/eval_test_setup.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz |
-| `test/lib/eval_loader_test.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz |
-| `test/helpers/ruby_llm/evals/runs_helper_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/configuration/evaluation_configuration_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
+| `test/evals/fizzbuzz_basic_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v2_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v3_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v4_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v5_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v6_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v7_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v7_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v8_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v9_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v10_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v11_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_basic_v12_full_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_clean_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/fizzbuzz_eval_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/yoda_fizzbuzz_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/evals/ |
+| `test/evals/eval_fixture_writer_test.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz/test/evals/ |
+| `test/evals/eval_test_setup_test.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz/test/evals/ |
+| `test/support/eval_fixture_writer.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz/test/support/ |
+| `test/support/eval_test_setup.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz/test/support/ |
+| `test/lib/eval_loader_test.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz/test/lib/ |
+| `test/helpers/ruby_llm/evals/runs_helper_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/helpers/ |
+| `test/configuration/evaluation_configuration_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/configuration/ |
 | `test/fixtures/links.yml` | links | packs/links |
 | `test/fixtures/ruby_llm/evals/prompts.yml` | fizzbuzz/evals | packs/fizzbuzz |
 | `test/fixtures/ruby_llm/evals/samples.yml` | fizzbuzz/evals | packs/fizzbuzz |
@@ -144,37 +144,36 @@ These files must remain at the Rails app root regardless of domain:
 | `config/application.rb` | Rails app bootstrap |
 | `config/environment*.rb` | Rails environments |
 | `config/database.yml` | Single database config |
-| `app/controllers/application_controller.rb` | Base class for all controllers |
-| `app/models/application_record.rb` | Base class for all models |
-| `app/jobs/application_job.rb` | Base class for all jobs |
-| `app/mailers/application_mailer.rb` | Base class for all mailers |
-| `app/helpers/application_helper.rb` | Shared helper |
-| `app/views/layouts/application.html.erb` | Shared layout |
+| `app/views/layouts/application.html.erb` | Shared layout (app-layer; stays at root) |
 | `app/assets/stylesheets/application.css` | Shared stylesheet |
 | `app/javascript/` (index, application, controllers/index) | Shared JS bundle |
 | `test/test_helper.rb` | Shared test infrastructure |
 | `test/application_system_test_case.rb` | Shared system test infrastructure |
-| `lib/eval_loader.rb` | Shared library — used by seeds |
+| `lib/eval_loader.rb` | Shared library used by seeds; path updated in Plan 05 but file stays in lib/ |
+
+Note: `app/controllers/application_controller.rb`, `app/models/application_record.rb`,
+`app/jobs/application_job.rb`, `app/mailers/application_mailer.rb`, and
+`app/helpers/application_helper.rb` were previously listed here as immovable.
+Plan 04 extracts these into `packs/rails_shims` — they CAN move once the autoload
+paths are configured in Plan 01.
 
 ---
 
 ## evals/ Root Directory
 
-| File | Domain | Notes |
-|------|--------|-------|
-| `evals/fizzbuzz/prompts.yml` | fizzbuzz/evals | Eval fixture data for fizzbuzz prompts |
-| `evals/fizzbuzz/samples.yml` | fizzbuzz/evals | Eval fixture data for fizzbuzz samples |
-| `evals/fizzbuzz/runs.yml` | fizzbuzz/evals | Historical run data |
-| `evals/fizzbuzz/executions.yml` | fizzbuzz/evals | Historical execution data |
-| `evals/tdd/prompts.yml` | fizzbuzz/evals | TDD eval data (fizzbuzz-related) |
-| `evals/tdd/samples.yml` | fizzbuzz/evals | TDD eval data |
-| `evals/tdd/runs.yml` | fizzbuzz/evals | TDD eval data |
-| `evals/tdd/executions.yml` | fizzbuzz/evals | TDD eval data |
-| `evals/runs.yml` | fizzbuzz/evals | Production eval run history |
-| `evals/prompt_executions.yml` | fizzbuzz/evals | Production execution history |
-| `evals/README.md` | docs | Eval documentation |
+All `evals/` files move to `packs/fizzbuzz/evals/` in Plan 05. `EvalLoader` is updated
+to reference the new path (`Rails.root.join("packs/fizzbuzz/evals")`).
 
-The `evals/` directory is referenced by `EvalLoader` (seeded at boot) and
-`EvalTestSetup` (used by eval tests via `fixture_paths`). It is fizzbuzz-domain
-data and should move into `packs/fizzbuzz/evals/` — but note that `EvalLoader`
-and the `EvalTestSetup` paths will need updating.
+| File | Domain | Pack Target |
+|------|--------|-------------|
+| `evals/fizzbuzz/prompts.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/fizzbuzz/samples.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/fizzbuzz/runs.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/fizzbuzz/executions.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/tdd/prompts.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/tdd/samples.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/tdd/runs.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/tdd/executions.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/runs.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/prompt_executions.yml` | fizzbuzz/evals | packs/fizzbuzz/evals/ |
+| `evals/README.md` | docs | packs/fizzbuzz/evals/ |
