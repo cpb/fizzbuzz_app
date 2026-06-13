@@ -1,0 +1,3 @@
+#!/bin/sh
+
+kamal app exec --once -- bin/rails db:seed
