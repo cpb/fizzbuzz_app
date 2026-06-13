@@ -166,15 +166,15 @@ rather than re-discovering the project on each invocation:
 | `bin/CLAUDE.md` | `bin/worktree` commands, port lookup, dev server |
 | `app/CLAUDE.md` | Routes, controllers, UI surface |
 | `test/CLAUDE.md` | Test coverage and what needs manual confirmation |
-| `.claude/commands/CLAUDE.md` | Skill format and skill-contribution PR convention |
 
 ---
 
 ## cpb plugin
 
-The workflow skills in `.claude/commands/` and the `bin/worktree` toolchain are
-also packaged as a reusable Claude Code plugin at
-[cpb/claude-plugins](https://github.com/cpb/claude-plugins).
+The workflow skills and the `bin/worktree` toolchain are packaged as a reusable
+Claude Code plugin at [cpb/claude-plugins](https://github.com/cpb/claude-plugins).
+This project uses the plugin exclusively — skills are provided by the installed
+`cpb@cpb` plugin and invoked as `/cpb:start-pr`, `/cpb:qa-pr`, etc.
 
 ### Installing the plugin in another project
 
@@ -192,21 +192,6 @@ Once installed, run `/cpb:init` in the new project to scaffold
 and `bin/dev` for your stack.
 
 Skills are namespaced: `/cpb:start-pr`, `/cpb:qa-pr`, etc.
-
-### Migrating this project to the plugin
-
-The local `.claude/commands/` files take precedence over the plugin, so both can
-coexist. To fully migrate fizzbuzz_app:
-
-1. Install the plugin (above)
-2. Update cross-skill references in local skill files to use the namespaced form:
-   - `invoke the \`qa-pr-skill\` skill` → `invoke the \`cpb:qa-pr-skill\` skill`
-   - `invoke the \`qa-pr-app\` skill` → `invoke the \`cpb:qa-pr-app\` skill`
-   - `invoke the \`finish-pr\` skill` → `invoke the \`cpb:finish-pr\` skill`
-   - `invoke the \`verify\` skill` → `invoke the \`cpb:verify\` skill`
-3. Delete `.claude/commands/` once confirmed working
-4. Update `.claude/settings.json` hooks to use bare command names (`check-worktree`
-   instead of `bin/check-worktree`) so they resolve via the plugin's PATH additions
 
 ---
 
