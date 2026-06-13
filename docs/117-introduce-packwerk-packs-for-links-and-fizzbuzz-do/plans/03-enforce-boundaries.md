@@ -132,9 +132,9 @@ None. All cross-domain dependencies identified in research have resolutions.
 - [ ] `bin/rails zeitwerk:check` → "All is good!"
 - [ ] `bin/rails test` → all tests pass (root + pack tests via updated Rakefile)
 - [ ] Each pack's `package.yml` has `enforce_dependencies: true`, `enforce_privacy: true`, `enforce_layers: true`
-- [ ] Each pack's `package.yml` declares `layer: feature` and `dependencies: ["."]`
-- [ ] Root `package.yml` has `enforce_layers: true`, `layer: utility`
+- [ ] Each pack's `package.yml` declares `layer: UI` and `dependencies: ["."]`
+- [ ] Root `package.yml` has no `layer:` field (mixed-layer; exempt from enforcement)
 - [ ] `packwerk.yml` lists both `"./"` and `"packs/*/"` in `package_paths`
-- [ ] `packwerk.yml` declares `architecture_layers: [feature, utility]`
+- [ ] `packwerk.yml` declares `architecture_layers: [app, UI, data, utility]`
 - [ ] No `package_todo.yml` files exist anywhere
 - [ ] Tests in `packs/links/test/` and `packs/fizzbuzz/test/` pass when run with `bin/rails test packs/links/test/ packs/fizzbuzz/test/`

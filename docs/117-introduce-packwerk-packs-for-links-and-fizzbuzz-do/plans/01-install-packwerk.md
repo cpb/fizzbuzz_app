@@ -53,12 +53,15 @@ package_paths:
 require:
   - packwerk-extensions
 
-# Architecture layers (highest → lowest).
+# Architecture layers (Hagemann's four canonical layers, highest → lowest).
 # A pack may depend on packs in the same or lower layers.
 # Enforced per-pack via enforce_layers: true in package.yml.
+# Root package declares no layer (mixed concerns; exempt from enforcement).
 architecture_layers:
-  - feature     # domain feature packs (fizzbuzz, links)
-  - utility     # shared Rails infrastructure (root package)
+  - app       # global nav, layouts, application wiring (currently at root, unlabeled)
+  - UI        # user-facing feature packs: packs/fizzbuzz, packs/links
+  - data      # domain model packs (future)
+  - utility   # shared utilities (future)
 
 parallel: true
 cache: true
@@ -67,20 +70,18 @@ cache_directory: tmp/cache/packwerk
 
 ### 4. Update root package.yml
 
-`bin/packwerk init` generates a minimal file. Update it to declare the
-root's layer and enable layer enforcement:
+`bin/packwerk init` generates a minimal file. The root package does NOT
+declare a layer — it contains mixed-layer concerns (global nav + base classes)
+and its packs depend on it:
 
 ```yaml
 # package.yml (root)
 enforce_dependencies: false
 enforce_privacy: false
-enforce_layers: true
-layer: utility
+# No layer declared — root is pre-modular (mixed app/utility concerns).
+# packwerk-extensions exempts unlabeled packages from layer enforcement,
+# allowing feature packs to depend on root without a layer violation.
 ```
-
-The root package is the `utility` layer — shared Rails infrastructure
-(ApplicationRecord, ApplicationController, ApplicationJob) that feature
-packs depend on, not the other way around.
 
 ### 5. Update Rakefile to discover pack tests
 

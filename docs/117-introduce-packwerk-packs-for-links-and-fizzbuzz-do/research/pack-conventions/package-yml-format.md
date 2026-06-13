@@ -103,11 +103,16 @@ it belongs to.
 
 ### packwerk.yml — declare the layer hierarchy
 
+Use Stephan Hagemann's four canonical layers (from *Gradual Modularization for
+Ruby and Rails*):
+
 ```yaml
 # packwerk.yml
 architecture_layers:
-  - feature      # domain packs (highest — may depend on lower layers)
-  - utility      # shared infrastructure (lowest — may not depend on feature packs)
+  - app       # top-level orchestration: global nav, layouts, application wiring
+  - UI        # user-facing feature packs: controllers + views (fizzbuzz, links)
+  - data      # domain model packs: pure business logic and persistence
+  - utility   # shared utilities: generic tools with no domain knowledge
 ```
 
 Layers are listed from highest to lowest. A pack in a higher layer MAY depend
@@ -117,15 +122,29 @@ on packs in a higher layer.
 ### Layer assignments for fizzbuzz_app
 
 ```
-Layer: feature    → packs/fizzbuzz, packs/links
-Layer: utility    → root package (ApplicationRecord, ApplicationController, etc.)
+Layer: UI       → packs/fizzbuzz, packs/links (user-facing feature packs)
+Layer: (none)   → root package
 ```
 
-This means:
-- Feature packs (fizzbuzz, links) CAN depend on the root utility layer ✓
-- The root utility layer CANNOT depend on feature packs ✓
-- Two feature packs CANNOT depend on each other without `enforce_layers` blocking
-  it (but `enforce_dependencies: true` already prevents this via missing declaration)
+**Why does root have no layer?**
+
+The root package is pre-modular — it contains a mix of layer concerns:
+- `app`-layer: global layout (`layouts/application.html.erb`), routes, surveys
+- `utility`-layer: `ApplicationController`, `ApplicationRecord`, `ApplicationJob`
+
+Declaring a single layer for root would be inaccurate. More importantly, it
+would create an unsolvable violation: feature packs in `UI` need to depend on
+`ApplicationController` at root — but if root is labeled `app` (higher layer),
+that dependency would be illegal.
+
+packwerk-extensions' `LayerChecker` explicitly exempts packages with no `layer:`
+field from enforcement. Root left unlabeled means pack → root dependencies are
+not layer-checked. Enforcement between packs works correctly.
+
+**Future state:** As modularization deepens, extract `ApplicationController` /
+`ApplicationRecord` / `ApplicationJob` into a `utility`-layer pack, and global
+nav into an `app`-layer pack. Then root can shrink to just surveys (which would
+itself move into a `UI` pack), and eventually be labeled.
 
 ### package.yml — declare layer membership
 
@@ -133,8 +152,7 @@ This means:
 # package.yml (root)
 enforce_dependencies: false
 enforce_privacy: false
-enforce_layers: true
-layer: utility
+# layer: not set — root is a mixed-layer package; exempt from layer enforcement
 ```
 
 ```yaml
@@ -142,7 +160,7 @@ layer: utility
 enforce_dependencies: true
 enforce_privacy: true
 enforce_layers: true
-layer: feature
+layer: UI
 dependencies:
   - "."
 ```
@@ -152,10 +170,18 @@ dependencies:
 enforce_dependencies: true
 enforce_privacy: true
 enforce_layers: true
-layer: feature
+layer: UI
 dependencies:
   - "."
 ```
+
+With this config, the LayerChecker verifies that:
+- `packs/fizzbuzz` (UI) does not reference any `data` or `utility` pack that
+  depends upward on it (i.e., it will catch future violations as more packs are
+  added)
+- `packs/links` (UI) same
+- Inter-pack layer violations between UI packs and any future `data` or
+  `utility` packs are caught immediately
 
 ### enforce_layers values
 

@@ -24,11 +24,11 @@ The intended dependency graph after this plan completes:
 
 ```mermaid
 graph TD
-    subgraph utility["Layer: utility (root package)"]
-        Root["Rails Root\nApplicationController · ApplicationRecord\nApplicationJob · QrCodeGenerator\nSurveysController · SurveyResponse"]
+    subgraph root_layer["No layer (pre-modular root package)"]
+        Root["Rails Root\nApplicationController · ApplicationRecord · ApplicationJob\nQrCodeGenerator · SurveysController · SurveyResponse\nglobal layout · routes"]
     end
 
-    subgraph feature["Layer: feature (packs)"]
+    subgraph ui_layer["Layer: UI (Hagemann)"]
         Links["packs/links\nLinksController\nLink · Gist · GistPublisher\nPublishGistJob\nviews/links/"]
         FizzBuzz["packs/fizzbuzz\nFizzBuzzController\nFizzBuzzer · LLMFizzBuzzer\nFizzBuzzJob · LLMFizzBuzzJob\nviews/fizz_buzz/"]
     end
@@ -43,9 +43,9 @@ graph TD
 
 **Key properties:**
 - No inter-pack dependencies (fizzbuzz ↔ links)
-- Both feature packs depend only on the root utility layer
-- Root utility layer has no pack dependencies (surveys + infrastructure only)
-- Layer enforcement: feature packs CAN depend on utility; utility CANNOT depend on feature
+- Both `UI`-layer packs depend only on root (which has no layer — exempt from layer enforcement)
+- Root has no layer declaration: it contains `app`-layer concerns (global nav, layouts) mixed with `utility`-layer concerns (base classes); those will separate as modularization deepens
+- `enforce_layers: true` on UI packs catches future violations if a `data` or `utility` pack incorrectly depends back up on a `UI` pack
 
 ---
 
@@ -111,7 +111,7 @@ resolves regardless of the test file's location.
 enforce_dependencies: true
 enforce_privacy: true
 enforce_layers: true
-layer: feature
+layer: UI
 dependencies:
   - "."
 ```
@@ -177,7 +177,7 @@ Note: `test/evals/` tests, `test/helpers/`, `test/configuration/`, and
 enforce_dependencies: true
 enforce_privacy: true
 enforce_layers: true
-layer: feature
+layer: UI
 dependencies:
   - "."
 ```

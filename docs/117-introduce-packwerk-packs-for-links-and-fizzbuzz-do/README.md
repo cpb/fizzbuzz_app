@@ -60,5 +60,6 @@ or evals infrastructure.
 | Tests move into packs | Co-location makes ownership explicit; Rakefile updated for test discovery |
 | `evals/` stays at root | EvalLoader and EvalTestSetup reference root-relative paths |
 | `enforce_privacy: true` from day 1 | New packs start clean; no legacy violations to record |
-| Two architecture layers: `feature` + `utility` | Feature packs (fizzbuzz, links) above Rails infrastructure root; prevents root from depending on pack internals |
+| Hagemann's 4 layers (`app/UI/data/utility`) | Standard vocabulary from *Gradual Modularization for Ruby and Rails*; `UI` layer for feature packs, `data`/`utility` reserved for future splits |
+| Root package has no `layer:` field | Mixed-layer concerns (global nav + base classes); exempt from enforcement until they're separated into proper packs |
 | Manual path config, not `packs-rails` | Two packs don't justify an extra gem dependency |

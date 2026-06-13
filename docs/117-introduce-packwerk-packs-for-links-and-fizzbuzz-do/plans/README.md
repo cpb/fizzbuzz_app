@@ -32,4 +32,7 @@ Plans must run sequentially — each plan's output is the next plan's prerequisi
 | Evals tests stay at root | EvalTestSetup has complex root-relative path setup; migration is a separate concern |
 | No `package_todo.yml` | New packs start clean — fix violations rather than recording them |
 | `enforce_privacy: true` from the start | Both packs are new; no legacy code to grandfather in |
-| Two architecture layers: `feature` + `utility` | Feature packs (fizzbuzz, links) sit above the Rails infrastructure root; enforces that root can't reach into pack internals |
+| Hagemann's 4 layers (`app/UI/data/utility`) in packwerk.yml | Provides vocabulary for future modularization depth; all four layers named even if `data`/`utility` are empty today |
+| Feature packs at `UI` layer | fizzbuzz and links are user-facing features (controllers + views + domain logic); `data` available if they're ever split |
+| Root package has no `layer:` field | Root contains mixed-layer concerns (global nav at `app` level + base classes at `utility` level); packwerk-extensions exempts unlabeled packages from layer enforcement, preventing an unsolvable pack → root violation |
+| Global nav stays at root for now | `application.html.erb` belongs semantically in an `app`-layer pack; extracting it is a future step once base classes move to `utility` |
