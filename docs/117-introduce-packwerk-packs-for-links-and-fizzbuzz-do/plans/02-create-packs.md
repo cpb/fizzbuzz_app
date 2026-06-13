@@ -71,6 +71,38 @@ No code changes needed.
 
 ### Step B: Create packs/links
 
+#### B0 — Update test/test_helper.rb to support pack fixtures
+
+Add pack fixture directories to Rails' fixture search path. Edit `test/test_helper.rb` and add after the `fixtures :all` line:
+
+```ruby
+# Include fixtures from all pack test directories
+ActiveRecord::FixtureSet.fixture_paths = [
+  Rails.root.join("test/fixtures").to_s,
+  *Dir[Rails.root.join("packs/*/test/fixtures")]
+]
+```
+
+This change only needs to be made once (here in Step B); it covers all three packs.
+
+Also update the VCR configuration in `test/test_helper.rb` to resolve cassettes relative to the Rails root so pack-relative paths work:
+
+```ruby
+VCR.configure do |config|
+  config.cassette_library_dir = Rails.root.to_s   # was "test/cassettes"
+  # cassette names in tests now use full relative paths, e.g.:
+  #   "packs/links/test/cassettes/gist_publisher_create"
+  #   "packs/fizzbuzz/test/cassettes/fizzbuzz_basic_01"
+  ...
+end
+```
+
+Commit this change with the Step B5 commit or separately:
+```sh
+git add test/test_helper.rb
+git commit -m "test: update fixture_paths and VCR cassette_library_dir to support per-pack test directories"
+```
+
 #### B1 — Move source files
 
 ```sh
@@ -107,6 +139,31 @@ require "test_helper"
 Rails adds `test/` to the load path during test runs, so `require "test_helper"`
 resolves regardless of the test file's location.
 
+#### B2a — Move fixtures
+
+```sh
+mkdir -p packs/links/test/fixtures
+git mv test/fixtures/links.yml packs/links/test/fixtures/
+```
+
+#### B2b — Move VCR cassettes
+
+```sh
+mkdir -p packs/links/test/cassettes
+git mv test/cassettes/gist_publisher_*.yml packs/links/test/cassettes/
+```
+
+Update cassette names in `packs/links/test/jobs/publish_gist_job_test.rb` — prefix each
+`VCR.use_cassette` name with `"packs/links/test/cassettes/"`:
+
+```ruby
+# Before
+VCR.use_cassette("gist_publisher_create") { ... }
+
+# After
+VCR.use_cassette("packs/links/test/cassettes/gist_publisher_create") { ... }
+```
+
 #### B3 — Add package.yml
 
 ```yaml
@@ -133,7 +190,7 @@ Expected: all green, zero violations.
 #### B5 — Commit
 
 ```sh
-git add packs/links/ app/ test/
+git add packs/links/ app/ test/fixtures/ test/cassettes/
 git commit -m "refactor: create packs/links — move models, controller, job, views, and tests"
 ```
 
@@ -173,6 +230,29 @@ Update `require "test_helper"` as in Step B2.
 Note: `test/evals/` tests, `test/helpers/`, `test/configuration/`, and
 `test/support/` stay at root — see [test-path-changes.md](../research/migration-path/test-path-changes.md).
 
+#### C2a — Move fixtures
+
+```sh
+mkdir -p packs/fizzbuzz/test/fixtures/ruby_llm/evals
+git mv test/fixtures/ruby_llm/ packs/fizzbuzz/test/fixtures/ruby_llm/
+```
+
+#### C2b — Move VCR cassettes
+
+```sh
+mkdir -p packs/fizzbuzz/test/cassettes
+git mv test/cassettes/fizzbuzz_basic_*.yml       packs/fizzbuzz/test/cassettes/
+git mv test/cassettes/fizzbuzz_basic_v*_*.yml    packs/fizzbuzz/test/cassettes/
+git mv test/cassettes/fizzbuzz_clean_*.yml       packs/fizzbuzz/test/cassettes/
+git mv test/cassettes/fizzbuzz_eval_*.yml        packs/fizzbuzz/test/cassettes/
+git mv test/cassettes/yoda_fizzbuzz_*.yml        packs/fizzbuzz/test/cassettes/
+git mv test/cassettes/execute_sample_job_*.yml   packs/fizzbuzz/test/cassettes/
+```
+
+Update cassette names in each moved eval test file — prefix with `"packs/fizzbuzz/test/cassettes/"`.
+The `with_eval_cassette` helper in `EvalTestSetup` handles cassette naming for eval tests; update
+its cassette name construction to prepend `"packs/fizzbuzz/test/cassettes/"`.
+
 #### C3 — Add package.yml
 
 ```yaml
@@ -199,7 +279,7 @@ Expected: all green, zero violations.
 #### C5 — Commit
 
 ```sh
-git add packs/fizzbuzz/ app/ test/
+git add packs/fizzbuzz/ app/ test/fixtures/ test/cassettes/
 git commit -m "refactor: create packs/fizzbuzz — move models, controllers, jobs, views, and tests"
 ```
 
@@ -228,8 +308,25 @@ git mv test/system/surveys_test.rb                  packs/surveys/test/system/
 
 Update `require "test_helper"` as in Step B2.
 
-VCR cassettes for surveys (`test/cassettes/*_negative.yml`, `*_positive.yml`) stay at
-root — `cassette_library_dir` in `test_helper.rb` is root-relative.
+#### D2a — Move fixtures
+
+```sh
+mkdir -p packs/surveys/test/fixtures
+# Move survey fixtures if they exist (e.g. survey_responses.yml):
+git mv test/fixtures/survey_responses.yml packs/surveys/test/fixtures/ 2>/dev/null || true
+```
+
+Note: If no survey-specific fixtures exist at `test/fixtures/`, skip this step.
+
+#### D2b — Move VCR cassettes
+
+```sh
+mkdir -p packs/surveys/test/cassettes
+git mv test/cassettes/*_negative.yml packs/surveys/test/cassettes/
+git mv test/cassettes/*_positive.yml packs/surveys/test/cassettes/
+```
+
+Update cassette names in `packs/surveys/test/` test files — prefix with `"packs/surveys/test/cassettes/"`.
 
 #### D3 — Add package.yml
 
@@ -261,7 +358,7 @@ app-wide regardless of pack boundaries.
 #### D5 — Commit
 
 ```sh
-git add packs/surveys/ app/ test/
+git add packs/surveys/ app/ test/fixtures/ test/cassettes/
 git commit -m "refactor: create packs/surveys — move SurveyResponse, SurveysController, and views"
 ```
 
@@ -336,8 +433,8 @@ git commit -m "refactor: create packs/surveys — move SurveyResponse, SurveysCo
 |------|--------|
 | `app/models/qr_code_generator.rb` | Shared utility (both domains use it) |
 | `test/evals/`, `test/support/`, `test/helpers/` | Complex path dependencies |
-| `test/cassettes/` | cassette_library_dir in test_helper.rb |
-| `test/fixtures/` | fixtures :all in test_helper.rb |
+| `test/cassettes/` | Per-pack cassettes moved to `packs/<name>/test/cassettes/`; directory empty after migration |
+| `test/fixtures/` | Per-pack fixtures moved to `packs/<name>/test/fixtures/`; `test/fixtures/files/.keep` stays |
 
 ---
 

@@ -170,6 +170,70 @@ git commit -m "refactor: extract packs/qr_code — QrCodeGenerator as shared uti
 
 ---
 
+## Part C: packs/eval_loader
+
+`EvalLoader` (currently `lib/eval_loader.rb`) is a utility class that seeds eval YAML data
+into the database. It has no domain knowledge about fizzbuzz prompts specifically — it is a
+generic YAML-to-ActiveRecord loader. Extract it to a `utility`-layer pack so it can be
+explicitly depended on by `packs/fizzbuzz` and called from `db/seeds.rb` at root.
+
+### C1 — Move EvalLoader
+
+```sh
+mkdir -p packs/eval_loader/app/services
+git mv lib/eval_loader.rb packs/eval_loader/app/services/eval_loader.rb
+```
+
+The constant `EvalLoader` is resolved from `packs/eval_loader/app/services/` via the pack
+autoload paths configured in Plan 01. No changes to the constant name or calling code.
+
+### C2 — Add packs/eval_loader/package.yml
+
+```yaml
+# packs/eval_loader/package.yml
+enforce_dependencies: true
+enforce_privacy: false   # EvalLoader is the entire public API of this pack
+enforce_layers: true
+layer: utility
+dependencies:
+  - "packs/rails_shims"  # EvalLoader uses ActiveRecord (via RubyLLM::Evals models)
+```
+
+### C3 — Update callers to declare dependency
+
+`packs/fizzbuzz` (which calls `EvalLoader` in eval tests and via `db/seeds.rb`) and root
+need to declare the dependency:
+
+```yaml
+# packs/fizzbuzz/package.yml — add to dependencies:
+  - "packs/eval_loader"
+```
+
+Root `package.yml` — add to dependencies:
+```yaml
+  - "packs/eval_loader"   # db/seeds.rb calls EvalLoader.seed_dir
+```
+
+### C4 — Verify
+
+```sh
+bin/rails zeitwerk:check
+bin/rails db:seed      # verify EvalLoader still resolves and seeds correctly
+bin/rails test
+bin/packwerk validate
+bin/packwerk check
+```
+
+### C5 — Commit
+
+```sh
+git add packs/eval_loader/ packs/fizzbuzz/package.yml package.yml
+git rm lib/eval_loader.rb
+git commit -m "refactor: extract packs/eval_loader — EvalLoader as utility pack, remove from lib/"
+```
+
+---
+
 ## Verification Checklist
 
 - [ ] `bin/packwerk validate` → "Validation successful."
@@ -183,3 +247,7 @@ git commit -m "refactor: extract packs/qr_code — QrCodeGenerator as shared uti
 - [ ] `packs/fizzbuzz/package.yml` dependencies list `packs/rails_shims` and `packs/qr_code`
 - [ ] `packs/surveys/package.yml` dependencies list `packs/rails_shims`
 - [ ] `packs/qr_code/test/models/qr_code_generator_test.rb` passes
+- [ ] `packs/eval_loader/package.yml` has `layer: utility`, `enforce_dependencies: true`
+- [ ] `lib/eval_loader.rb` no longer exists (`git ls-files lib/eval_loader.rb` → empty)
+- [ ] `bin/rails db:seed` succeeds (EvalLoader autoloads from pack)
+- [ ] `packs/fizzbuzz/package.yml` lists `packs/eval_loader` in dependencies

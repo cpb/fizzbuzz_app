@@ -117,19 +117,20 @@ Pack targets:
 | `test/lib/eval_loader_test.rb` | fizzbuzz/evals infrastructure | packs/fizzbuzz/test/lib/ |
 | `test/helpers/ruby_llm/evals/runs_helper_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/helpers/ |
 | `test/configuration/evaluation_configuration_test.rb` | fizzbuzz/evals | packs/fizzbuzz/test/configuration/ |
-| `test/fixtures/links.yml` | links | packs/links |
-| `test/fixtures/ruby_llm/evals/prompts.yml` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/fixtures/ruby_llm/evals/samples.yml` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/fixtures/ruby_llm/evals/runs.yml` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/fixtures/ruby_llm/evals/prompt_executions.yml` | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/fizzbuzz_basic_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/fizzbuzz_basic_v*_*.yml` (×80+) | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/fizzbuzz_clean_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/fizzbuzz_eval_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/yoda_fizzbuzz_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/gist_publisher_*.yml` (×2) | links | packs/links |
-| `test/cassettes/execute_sample_job_*.yml` (×3) | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/*_negative.yml` / `*_positive.yml` (×20) | surveys | root (cassette_library_dir is root-relative) |
+| `test/fixtures/links.yml` | links | packs/links/test/fixtures/ |
+| `test/fixtures/ruby_llm/evals/prompts.yml` | fizzbuzz/evals | packs/fizzbuzz/test/fixtures/ruby_llm/evals/ |
+| `test/fixtures/ruby_llm/evals/samples.yml` | fizzbuzz/evals | packs/fizzbuzz/test/fixtures/ruby_llm/evals/ |
+| `test/fixtures/ruby_llm/evals/runs.yml` | fizzbuzz/evals | packs/fizzbuzz/test/fixtures/ruby_llm/evals/ |
+| `test/fixtures/ruby_llm/evals/prompt_executions.yml` | fizzbuzz/evals | packs/fizzbuzz/test/fixtures/ruby_llm/evals/ |
+| `test/cassettes/fizzbuzz_basic_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz/test/cassettes/ |
+| `test/cassettes/fizzbuzz_basic_v*_*.yml` (×80+) | fizzbuzz/evals | packs/fizzbuzz/test/cassettes/ |
+| `test/cassettes/fizzbuzz_clean_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz/test/cassettes/ |
+| `test/cassettes/fizzbuzz_eval_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz/test/cassettes/ |
+| `test/cassettes/yoda_fizzbuzz_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz/test/cassettes/ |
+| `test/cassettes/gist_publisher_*.yml` (×2) | links | packs/links/test/cassettes/ |
+| `test/cassettes/execute_sample_job_*.yml` (×3) | fizzbuzz/evals | packs/fizzbuzz/test/cassettes/ |
+| `test/cassettes/*_negative.yml` / `*_positive.yml` (×20) | surveys | packs/surveys/test/cassettes/ |
+| `test/fixtures/survey_responses.yml` (if exists) | surveys | packs/surveys/test/fixtures/ |
 | `test/fixtures/files/.keep` | infrastructure | root |
 
 ---
@@ -149,13 +150,17 @@ These files must remain at the Rails app root regardless of domain:
 | `app/javascript/` (index, application, controllers/index) | Shared JS bundle |
 | `test/test_helper.rb` | Shared test infrastructure |
 | `test/application_system_test_case.rb` | Shared system test infrastructure |
-| `lib/eval_loader.rb` | Shared library used by seeds; path updated in Plan 05 but file stays in lib/ |
+| `lib/eval_loader.rb` | ~~Shared library used by seeds; path updated in Plan 05 but file stays in lib/~~ → Moved to `packs/eval_loader` (Plan 04, Part C) |
 
 Note: `app/controllers/application_controller.rb`, `app/models/application_record.rb`,
 `app/jobs/application_job.rb`, `app/mailers/application_mailer.rb`, and
 `app/helpers/application_helper.rb` were previously listed here as immovable.
 Plan 04 extracts these into `packs/rails_shims` — they CAN move once the autoload
 paths are configured in Plan 01.
+
+Note: `test/cassettes/` and `test/fixtures/` are empty after migration — all per-domain
+cassettes and fixtures move to `packs/<name>/test/cassettes/` and `packs/<name>/test/fixtures/`
+respectively (Plan 02). Only `test/fixtures/files/.keep` remains at root.
 
 ---
 

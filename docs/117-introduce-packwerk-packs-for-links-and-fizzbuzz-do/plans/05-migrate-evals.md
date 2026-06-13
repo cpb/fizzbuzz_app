@@ -39,6 +39,9 @@ def self.seed_dir
 end
 ```
 
+> Note: `EvalLoader` itself moves in Plan 04 (Part C). In this plan you are only moving the
+> data it loads (`packs/fizzbuzz/evals/`) and updating the path it references.
+
 Update `config/deploy.yml` Kamal seed-evals aliases if they reference `evals/` paths
 directly — update to `packs/fizzbuzz/evals/`.
 
@@ -49,6 +52,10 @@ mkdir -p packs/fizzbuzz/test/evals
 git mv test/evals/*.rb packs/fizzbuzz/test/evals/
 ```
 
+Update cassette names in all moved eval test files — the `with_eval_cassette` helper should
+already use `"packs/fizzbuzz/test/cassettes/"` prefix after the Plan 02 update to
+`EvalTestSetup`. Verify no test still references `"test/cassettes/"` directly.
+
 ### 3. Move eval support files
 
 ```sh
@@ -56,6 +63,13 @@ mkdir -p packs/fizzbuzz/test/support
 git mv test/support/eval_fixture_writer.rb   packs/fizzbuzz/test/support/
 git mv test/support/eval_test_setup.rb       packs/fizzbuzz/test/support/
 ```
+
+### 3a — Verify fixture paths
+
+`EvalTestSetup` configures `fixture_paths` for eval tests. After this plan, eval fixtures
+are at `packs/fizzbuzz/test/fixtures/ruby_llm/evals/` (moved in Plan 02). Confirm
+`EvalTestSetup` does not hardcode `test/fixtures/` — it should work via the global
+`fixture_paths` set in `test_helper.rb` in Plan 02 (B0).
 
 ### 4. Move related test infrastructure
 
@@ -85,8 +99,9 @@ reference `packs/fizzbuzz/test/fixtures/` or remain at `test/fixtures/` (since
 `fixtures :all` loads from `test/fixtures/` via Rails convention; if eval fixtures
 moved to pack, update accordingly).
 
-VCR cassettes stay at root (`test/cassettes/`) — `cassette_library_dir` in `test_helper.rb`
-is root-relative and resolves correctly from pack test files.
+VCR cassettes for fizzbuzz are at `packs/fizzbuzz/test/cassettes/` (moved in Plan 02).
+The `cassette_library_dir` in `test_helper.rb` is set to `Rails.root.to_s` (updated in
+Plan 02, Step B0) so pack-relative cassette names resolve correctly.
 
 ### 6. Verify
 
