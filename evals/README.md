@@ -25,7 +25,6 @@ production data where it belongs.
   - [Associations to domain models](#associations-to-domain-models-for-samples-todo-research-pr)
   - [Multi-turn evals](#multi-turn-evals-todo-research-pr)
   - [Automatic synthetic data creation](#automatic-creation-of-valid-synthetic-data-todo-research-pr)
-  - [Promoting synthetic data to production](#promoting-synthetic-data-to-production-todo-research-pr)
 
 ---
 
@@ -206,12 +205,15 @@ This provides a full-featured UI at `/evals` on whichever host the app is runnin
 
 To evaluate a prompt against production data:
 
-1. **Seed the prompt and samples** into the production database using `EvalLoader`:
+1. **Seed the prompt and samples** into the production database:
 
-   ```ruby
-   # In a Rails console on the production server
-   EvalLoader.seed_dir("fizzbuzz")  # loads evals/fizzbuzz/prompts.yml + samples.yml
+   ```sh
+   bin/kamal seed-evals
    ```
+
+   This runs `EvalLoader.seed_dir` for each eval topic. Samples are upserted in
+   place — if `expected_output` changes in the YAML, the existing production record
+   is updated; prior run results that referenced the old value remain in the database.
 
 2. **Navigate to `/evals`** on the production host and select the prompt you want to run.
 
@@ -272,18 +274,3 @@ Hand-authoring YAML samples is the current bottleneck for expanding eval coverag
 expected capability is tooling that generates well-formed sample fixtures from existing
 domain model instances — converting a domain record into a `samples.yml` entry automatically. This reduces the barrier to adding new evals and
 keeps synthetic data structurally consistent with production data shapes.
-
-### Promoting synthetic samples to production (upsert vs replace semantics) `[TODO: research-pr]`
-
-The synthetic data in this context is the **samples** — hand-authored test inputs and
-expected outputs. Prompts are the configurations under test; they are not synthetic and are
-expected to already exist in the production database independently of this workflow.
-
-`EvalLoader.seed_dir` currently loads prompts via `find_or_create_by!(slug: ...)` (returned
-unchanged if found) and samples via `find_or_initialize_by(variables: ...)` +
-`assign_attributes` + `save!` (upserted in place if found). The open question is whether
-upsert is always correct for samples: if a sample's `expected_output` changes in the YAML,
-the in-place update silently invalidates any production runs that referenced the old value.
-Whether to upsert (current behavior) or replace (delete and re-create, breaking FK
-references to prior runs) needs a deliberate decision.
-
