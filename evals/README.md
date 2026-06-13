@@ -37,7 +37,7 @@ Each eval ties a prompt template to a set of sample inputs and expected outputs.
 eval sends each sample through the model and checks whether the response matches — giving a
 pass rate that makes prompt quality concrete and comparable across iterations.
 
-The framework currently covers three eval suites:
+The framework currently covers two eval suites:
 
 | Suite | What it tests |
 |---|---|
@@ -76,7 +76,7 @@ Each topic directory is self-contained. Add a new topic by creating a new direct
 
 ### File reference
 
-**`prompts.yml`** — defines the prompt configurations under test.
+**`prompts.yml`** — defines the prompt configurations under test. *(excerpt — files contain more entries)*
 
 ```yaml
 _fixture:
@@ -101,15 +101,17 @@ fizzbuzz_eval:
 | Field | Required | Description |
 |---|---|---|
 | `name` | yes | Human-readable display name |
-| `slug` | yes | Unique identifier used to reference this prompt from samples |
+| `slug` | yes | Unique identifier for the prompt record; used by `EvalLoader` for idempotent upsert |
 | `provider` | yes | LLM provider (`ollama`, `anthropic`, etc.) |
 | `model` | yes | Model identifier |
-| `message` | yes | User message template; `{{variable}}` placeholders are filled from sample variables |
+| `message` | no | User message template; `{{variable}}` placeholders are filled from sample variables |
 | `instructions` | no | System prompt / instructions prepended to every message |
+
+Additional columns exist in the schema (`params`, `schema`, `schema_other`, `temperature`, `tools`) for advanced prompt configuration; see `db/schema.rb` for the full list.
 
 ---
 
-**`samples.yml`** — defines the test cases for each prompt.
+**`samples.yml`** — defines the test cases for each prompt. *(excerpt — files contain more entries)*
 
 ```yaml
 _fixture:
@@ -130,19 +132,22 @@ fizzbuzz_eval_15:
 
 | Field | Description |
 |---|---|
-| `prompt` | YAML key of the prompt this sample belongs to |
+| `prompt` | Fixture label of the associated prompt (Rails resolves this to `ruby_llm_evals_prompt_id`) |
 | `eval_type` | How the response is checked (see [Eval types](#eval-types)) |
 | `expected_output` | The value to check against (pattern, substring, or exact string) |
 | `variables` | Key-value pairs that fill `{{placeholder}}` slots in the prompt's `message` |
+| `judge_model` | Model to use for `llm_judge` evals (optional; falls back to a default if omitted) |
+| `judge_provider` | Provider for `llm_judge` evals (optional; paired with `judge_model`) |
 
 ---
 
 **`runs.yml`** and **`executions.yml`** — recorded results from past eval runs. Written by
 `EvalFixtureWriter` inside `with_eval_cassette` only when VCR records new HTTP interactions
 (always with `RECORD_EVALS=true`; never during normal playback runs with all cassettes
-present). Committed as a snapshot of model behavior. `seed_round_trip_test.rb` loads them
-as fixtures and asserts that all records parse correctly and counts match — verifying YAML
-structural integrity, not re-running the evals.
+present). Committed as a snapshot of model behavior. `EvalFixtureWriterTest` verifies the round-trip:
+it writes runs and executions to a temp directory via `EvalFixtureWriter`, deletes all
+records, then loads the written YAML back as fixtures and asserts the expected record counts
+are restored.
 
 ### Eval types
 
@@ -194,7 +199,7 @@ This provides a full-featured UI at `/evals` on whichever host the app is runnin
 
 - Prompt listing and management
 - Run history with pass/fail metrics
-- Per-run results with grid visualization (FizzBuzz) and detailed execution records
+- Per-run results with pass/fail table and detailed execution records
 - Human-judge interface for `human_judge` eval type
 
 ### Evaluating production data on the production server
@@ -225,8 +230,9 @@ Three properties of the system enforce the data privacy boundary:
 
 2. **`EvalFixtureWriter` is test-only.** The class that writes results back to YAML
    (`test/support/eval_fixture_writer.rb`) is only available in the test environment and is
-   only called from within `test/evals/` test files. There is no code path from a production
-   run to a committed YAML file.
+   only called from `test/` code (`test/support/eval_test_setup.rb` invokes it inside
+   `with_eval_cassette`). There is no code path from a production run to a committed YAML
+   file.
 
 3. **VCR cassettes are for synthetic tests, not production runs.** Cassettes capture HTTP
    interactions during test execution. The production path makes live LLM calls and never
@@ -246,8 +252,8 @@ detail. Each gap will become a `/research-pr` issue when this README is merged.
 ### Associations to domain models for samples `[TODO: research-pr]`
 
 Samples are currently self-contained YAML records with a `variables` hash. The expected
-next step is that samples can be associated to domain model instances — a `WorkbookSession`,
-a `ThinkingTrap`, or a `FizzBuzzer` run — so that production evals can be scoped to specific
+next step is that samples can be associated to domain model instances — a `FizzBuzzer` run
+or similar — so that production evals can be scoped to specific
 records rather than hand-authored variable sets. This will likely surface as a
 `sample_source` or `record_gid` field on `RubyLLM::Evals::Sample` that binds a sample to a
 specific ActiveRecord object via GlobalID.
@@ -267,14 +273,21 @@ expected capability is tooling that generates well-formed sample fixtures from e
 domain model instances — converting a domain record into a `samples.yml` entry automatically. This reduces the barrier to adding new evals and
 keeps synthetic data structurally consistent with production data shapes.
 
-### Promoting synthetic data to production (upsert vs replace semantics) `[TODO: research-pr]`
+### Promoting synthetic samples to production (upsert vs replace semantics) `[TODO: research-pr]`
 
-When a synthetic prompt and sample set is ready for production evaluation, it needs to be
-loaded into the live database. `EvalLoader.seed_dir` currently uses `find_or_create_by!`
-(create-if-not-found semantics: returns the existing record unchanged if found, creates a
-new one if not). The expected gap is a defined promotion workflow — including whether
-updates to a synthetic fixture that already exists in production should upsert (update in
-place) or replace (delete and re-create), and how to handle production runs that reference
-the old record. Note: `EvalLoader.seed_dir` also has a bug where it calls
-`attrs["model_class"].constantize` on every YAML entry rather than reading `model_class`
-once from the `_fixture` header (tracked in issue #122).
+The synthetic data in this context is the **samples** — hand-authored test inputs and
+expected outputs. Prompts are the configurations under test; they are not synthetic and are
+expected to already exist in the production database independently of this workflow.
+
+`EvalLoader.seed_dir` currently loads prompts via `find_or_create_by!(slug: ...)` (returned
+unchanged if found) and samples via `find_or_initialize_by(variables: ...)` +
+`assign_attributes` + `save!` (upserted in place if found). The open question is whether
+upsert is always correct for samples: if a sample's `expected_output` changes in the YAML,
+the in-place update silently invalidates any production runs that referenced the old value.
+Whether to upsert (current behavior) or replace (delete and re-create, breaking FK
+references to prior runs) needs a deliberate decision.
+
+Two bugs that previously prevented `EvalLoader.seed_dir` from working at all were fixed in
+PR #133: `model_class` is now read once from `_fixture` (was called per-entry, raising
+`NoMethodError`), and samples are now looked up by the `prompt:` fixture label (was using a
+non-existent `prompt_slug:` key). The semantics question above is now the live open issue.
