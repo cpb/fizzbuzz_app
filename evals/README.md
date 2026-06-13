@@ -287,7 +287,3 @@ the in-place update silently invalidates any production runs that referenced the
 Whether to upsert (current behavior) or replace (delete and re-create, breaking FK
 references to prior runs) needs a deliberate decision.
 
-Two bugs that previously prevented `EvalLoader.seed_dir` from working at all were fixed in
-PR #133: `model_class` is now read once from `_fixture` (was called per-entry, raising
-`NoMethodError`), and samples are now looked up by the `prompt:` fixture label (was using a
-non-existent `prompt_slug:` key). The semantics question above is now the live open issue.
