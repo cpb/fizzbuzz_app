@@ -46,9 +46,11 @@ requires no test runner configuration changes.
 
 Privacy enforcement (`enforce_privacy`) was extracted from core packwerk into
 the `packwerk-extensions` gem after packwerk 3.0. Both features remain widely
-used but are now opt-in. **Recommended starter config** when first introducing
-packs: `enforce_dependencies: false`, `enforce_privacy: false` to avoid a
-violation flood while packs are being established.
+used but are now opt-in. **Recommended starter config for brownfield packs** (migrating existing code into packs):
+`enforce_dependencies: false`, `enforce_privacy: false` to avoid a violation flood while
+packs are being established. For **new packs created from scratch** (like `packs/links`
+and `packs/fizzbuzz` in this issue), start with enforcement on from day 1 — there is no
+legacy code to grandfather in.
 
 → [package-yml-format.md](package-yml-format.md)
 
