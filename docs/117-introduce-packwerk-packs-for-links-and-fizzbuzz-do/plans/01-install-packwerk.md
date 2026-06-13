@@ -57,7 +57,7 @@ require:
 # A pack may depend on packs in the same or lower layers.
 # Enforced per-pack via enforce_layers: true in package.yml.
 # Root package declares no layer (mixed concerns; exempt from enforcement).
-architecture_layers:
+layers:
   - app       # global nav, layouts, application wiring (currently at root, unlabeled)
   - UI        # user-facing feature packs: packs/fizzbuzz, packs/links
   - data      # domain model packs (future)
