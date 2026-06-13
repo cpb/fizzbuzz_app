@@ -171,7 +171,7 @@ rather than re-discovering the project on each invocation:
 
 ## cpb plugin
 
-The workflow skills and the `bin/worktree` toolchain are packaged as a reusable
+The `/cpb:*` skills and the `bin/worktree` toolchain are packaged as a reusable
 Claude Code plugin at [cpb/claude-plugins](https://github.com/cpb/claude-plugins).
 This project uses the plugin exclusively — skills are provided by the installed
 `cpb@cpb` plugin and invoked as `/cpb:start-pr`, `/cpb:qa-pr`, etc.
