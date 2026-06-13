@@ -34,9 +34,10 @@ root as shared infrastructure.
 ### pack-conventions
 Files move verbatim (no constant renaming) because Zeitwerk is configured to
 add each `packs/*/app/<layer>/` directory as an autoload root. Public API lives
-in `app/public/`. Tests recommended to stay at root — Packwerk doesn't analyze
-test files. Views require separate ActionView path registration in
-`config/application.rb`.
+in `app/public/`. Tests co-locate with their domain inside the pack at
+`packs/<name>/test/` — the Rakefile is updated to include `packs/*/test/` in the default
+test run. Views require separate ActionView path registration in `config/application.rb`.
+See [test-path-changes.md](migration-path/test-path-changes.md).
 
 → [directory-layout.md](pack-conventions/directory-layout.md),
 [package-yml-format.md](pack-conventions/package-yml-format.md),
