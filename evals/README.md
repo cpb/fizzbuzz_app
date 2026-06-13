@@ -208,8 +208,8 @@ To evaluate a prompt against production data:
 1. **Seed the prompt and samples** into the production database:
 
    ```sh
-   TOPIC=fizzbuzz bin/kamal seed-evals   # seed one topic
-   bin/kamal seed-evals                  # seed all topics
+   bin/kamal seed-evals-fizzbuzz   # seed one topic
+   bin/kamal seed-evals            # seed all topics
    ```
 
    Samples are upserted in place — if `expected_output` changes in the YAML, the
