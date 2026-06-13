@@ -27,6 +27,8 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
       assert_response :forbidden
       post links_publish_url
       assert_response :forbidden
+      delete link_url(links(:one))
+      assert_response :forbidden
     ensure
       Rails.env = original_env
     end
