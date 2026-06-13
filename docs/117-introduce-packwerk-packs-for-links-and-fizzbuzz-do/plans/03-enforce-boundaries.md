@@ -83,14 +83,15 @@ Expected commits (in order):
 1. `feat: install packwerk with extensions and configure autoload paths`
 2. `refactor: create packs/links with models, controller, job, and views`
 3. `refactor: create packs/fizzbuzz with models, controllers, jobs, and views`
-4. `ci: add packwerk validate and check to CI`
+4. `refactor: create packs/surveys — move SurveyResponse, SurveysController, and views`
+5. `ci: add packwerk validate and check to CI`
 
 ### 5. Open the PR
 
 ```sh
 git push -u origin HEAD
 gh pr create \
-  --title "feat: introduce packwerk packs for links and fizzbuzz domains" \
+  --title "feat: introduce packwerk packs for links, fizzbuzz, and surveys domains" \
   --body "$(cat <<'EOF'
 Closes #117
 
@@ -99,6 +100,7 @@ Closes #117
 - Installs packwerk 3.x + packwerk-extensions
 - Creates `packs/links` (Link, Gist, GistPublisher, LinksController, PublishGistJob, views)
 - Creates `packs/fizzbuzz` (FizzBuzzer, LLMFizzBuzzer, FizzBuzzController, FizzBuzzJob, LLMFizzBuzzJob, views)
+- Creates `packs/surveys` (SurveyResponse, SurveysController, views)
 - Configures Zeitwerk autoload paths and ActionView view paths for packs/
 - `QrCodeGenerator` remains at app root as shared utility (used by both domains)
 - `bin/packwerk check` passes with zero violations
@@ -113,7 +115,7 @@ Closes #117
 - [ ] `bin/rails test` — all tests pass
 - [ ] Visit / (fizzbuzz form) — renders correctly
 - [ ] Visit /links — renders correctly
-- [ ] Visit /survey — renders correctly
+- [ ] Visit /survey — renders correctly (served by packs/surveys)
 - [ ] Visit /evals — renders correctly (engine views unaffected)
 EOF
 )"
@@ -138,3 +140,6 @@ None. All cross-domain dependencies identified in research have resolutions.
 - [ ] `packwerk.yml` declares `architecture_layers: [app, UI, data, utility]`
 - [ ] No `package_todo.yml` files exist anywhere
 - [ ] Tests in `packs/links/test/` and `packs/fizzbuzz/test/` pass when run with `bin/rails test packs/links/test/ packs/fizzbuzz/test/`
+- [ ] `packs/surveys/package.yml` has `enforce_dependencies: true`, `enforce_privacy: true`, `enforce_layers: true`
+- [ ] `packs/surveys/package.yml` declares `layer: UI` and `dependencies: ["."]`
+- [ ] Tests in `packs/surveys/test/` pass when run with `bin/rails test packs/surveys/test/`

@@ -21,11 +21,11 @@ Pack targets:
 | `app/models/qr_code_generator.rb` | links | packs/links |
 | `app/models/fizz_buzzer.rb` | fizzbuzz | packs/fizzbuzz |
 | `app/models/llm_fizz_buzzer.rb` | fizzbuzz | packs/fizzbuzz |
-| `app/models/survey_response.rb` | surveys | root (not packed this issue) |
+| `app/models/survey_response.rb` | surveys | packs/surveys |
 | `app/controllers/application_controller.rb` | infrastructure | root |
 | `app/controllers/fizz_buzz_controller.rb` | fizzbuzz | packs/fizzbuzz |
 | `app/controllers/links_controller.rb` | links | packs/links |
-| `app/controllers/surveys_controller.rb` | surveys | root (not packed this issue) |
+| `app/controllers/surveys_controller.rb` | surveys | packs/surveys |
 | `app/controllers/replays_controller.rb` | workbook | out-of-scope |
 | `app/controllers/workbook_session_replays_controller.rb` | workbook | out-of-scope |
 | `app/controllers/workbook_sessions/replays_controller.rb` | workbook | out-of-scope |
@@ -47,9 +47,9 @@ Pack targets:
 | `app/views/links/_qr_code.html.erb` | links | packs/links |
 | `app/views/links/index.html.erb` | links | packs/links |
 | `app/views/links/new.html.erb` | links | packs/links |
-| `app/views/surveys/_results_panel.html.erb` | surveys | root (not packed this issue) |
-| `app/views/surveys/results.html.erb` | surveys | root (not packed this issue) |
-| `app/views/surveys/show.html.erb` | surveys | root (not packed this issue) |
+| `app/views/surveys/_results_panel.html.erb` | surveys | packs/surveys |
+| `app/views/surveys/results.html.erb` | surveys | packs/surveys |
+| `app/views/surveys/show.html.erb` | surveys | packs/surveys |
 | `app/views/pwa/manifest.json.erb` | infrastructure | root |
 | `app/views/pwa/service-worker.js` | infrastructure | root |
 | `app/views/replays/show.html.erb` | workbook | out-of-scope |
@@ -87,13 +87,13 @@ Pack targets:
 | `test/models/qr_code_generator_test.rb` | links | packs/links |
 | `test/controllers/fizz_buzz_controller_test.rb` | fizzbuzz | packs/fizzbuzz |
 | `test/controllers/links_controller_test.rb` | links | packs/links |
-| `test/controllers/surveys_controller_test.rb` | surveys | root (not packed this issue) |
+| `test/controllers/surveys_controller_test.rb` | surveys | packs/surveys |
 | `test/jobs/fizz_buzz_job_test.rb` | fizzbuzz | packs/fizzbuzz |
 | `test/jobs/llm_fizz_buzz_job_test.rb` | fizzbuzz | packs/fizzbuzz |
 | `test/jobs/publish_gist_job_test.rb` | links | packs/links |
 | `test/system/fizz_buzz_test.rb` | fizzbuzz | packs/fizzbuzz |
 | `test/system/links_test.rb` | links | packs/links |
-| `test/system/surveys_test.rb` | surveys | root (not packed this issue) |
+| `test/system/surveys_test.rb` | surveys | packs/surveys |
 | `test/evals/fizzbuzz_basic_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
 | `test/evals/fizzbuzz_basic_v2_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
 | `test/evals/fizzbuzz_basic_v3_eval_test.rb` | fizzbuzz/evals | packs/fizzbuzz |
@@ -129,7 +129,7 @@ Pack targets:
 | `test/cassettes/yoda_fizzbuzz_*.yml` (×15) | fizzbuzz/evals | packs/fizzbuzz |
 | `test/cassettes/gist_publisher_*.yml` (×2) | links | packs/links |
 | `test/cassettes/execute_sample_job_*.yml` (×3) | fizzbuzz/evals | packs/fizzbuzz |
-| `test/cassettes/*_negative.yml` / `*_positive.yml` (×20) | surveys | root |
+| `test/cassettes/*_negative.yml` / `*_positive.yml` (×20) | surveys | root (cassette_library_dir is root-relative) |
 | `test/fixtures/files/.keep` | infrastructure | root |
 
 ---

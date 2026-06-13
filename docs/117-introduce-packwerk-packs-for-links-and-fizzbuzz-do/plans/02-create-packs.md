@@ -25,20 +25,23 @@ The intended dependency graph after this plan completes:
 ```mermaid
 graph TD
     subgraph root_layer["No layer (pre-modular root package)"]
-        Root["Rails Root\nApplicationController · ApplicationRecord · ApplicationJob\nQrCodeGenerator · SurveysController · SurveyResponse\nglobal layout · routes"]
+        Root["Rails Root\nApplicationController · ApplicationRecord · ApplicationJob\nQrCodeGenerator\nglobal layout · routes"]
     end
 
     subgraph ui_layer["Layer: UI (Hagemann)"]
         Links["packs/links\nLinksController\nLink · Gist · GistPublisher\nPublishGistJob\nviews/links/"]
         FizzBuzz["packs/fizzbuzz\nFizzBuzzController\nFizzBuzzer · LLMFizzBuzzer\nFizzBuzzJob · LLMFizzBuzzJob\nviews/fizz_buzz/"]
+        Surveys["packs/surveys\nSurveysController\nSurveyResponse\nviews/surveys/"]
     end
 
     Links -->|"depends on (.)"| Root
     FizzBuzz -->|"depends on (.)"| Root
+    Surveys -->|"depends on (.)"| Root
 
     style Root fill:#e8f4f8,stroke:#0077b6
     style Links fill:#e8f8e8,stroke:#2d6a2d
     style FizzBuzz fill:#fff3e0,stroke:#e65100
+    style Surveys fill:#f8e8f8,stroke:#6a2d6a
 ```
 
 **Key properties:**
@@ -202,6 +205,68 @@ git commit -m "refactor: create packs/fizzbuzz — move models, controllers, job
 
 ---
 
+### Step D: Create packs/surveys
+
+#### D1 — Move source files
+
+```sh
+mkdir -p packs/surveys/app/{controllers,models,views}
+
+git mv app/controllers/surveys_controller.rb  packs/surveys/app/controllers/
+git mv app/models/survey_response.rb          packs/surveys/app/models/
+git mv app/views/surveys                      packs/surveys/app/views/
+```
+
+#### D2 — Move tests
+
+```sh
+mkdir -p packs/surveys/test/{controllers,system}
+
+git mv test/controllers/surveys_controller_test.rb  packs/surveys/test/controllers/
+git mv test/system/surveys_test.rb                  packs/surveys/test/system/
+```
+
+Update `require "test_helper"` as in Step B2.
+
+VCR cassettes for surveys (`test/cassettes/*_negative.yml`, `*_positive.yml`) stay at
+root — `cassette_library_dir` in `test_helper.rb` is root-relative.
+
+#### D3 — Add package.yml
+
+```yaml
+# packs/surveys/package.yml
+enforce_dependencies: true
+enforce_privacy: true
+enforce_layers: true
+layer: UI
+dependencies:
+  - "."
+```
+
+#### D4 — Verify
+
+```sh
+bin/rails zeitwerk:check
+bin/rails test
+bin/packwerk validate
+bin/packwerk check
+```
+
+Expected: all green, zero violations.
+
+Note: Route helpers referenced in `packs/fizzbuzz` views (`survey_path`, `survey_url`,
+`results_survey_path`) are NOT Packwerk violations — route helpers are always shared
+app-wide regardless of pack boundaries.
+
+#### D5 — Commit
+
+```sh
+git add packs/surveys/ app/ test/
+git commit -m "refactor: create packs/surveys — move SurveyResponse, SurveysController, and views"
+```
+
+---
+
 ## Files That Move
 
 ### packs/links (source)
@@ -250,14 +315,26 @@ git commit -m "refactor: create packs/fizzbuzz — move models, controllers, job
 | `test/models/llm_fizz_buzzer_test.rb` | `packs/fizzbuzz/test/models/` |
 | `test/system/fizz_buzz_test.rb` | `packs/fizzbuzz/test/system/` |
 
+### packs/surveys (source)
+
+| From | To |
+|------|----|
+| `app/controllers/surveys_controller.rb` | `packs/surveys/app/controllers/` |
+| `app/models/survey_response.rb` | `packs/surveys/app/models/` |
+| `app/views/surveys/` | `packs/surveys/app/views/surveys/` |
+
+### packs/surveys (tests)
+
+| From | To |
+|------|----|
+| `test/controllers/surveys_controller_test.rb` | `packs/surveys/test/controllers/` |
+| `test/system/surveys_test.rb` | `packs/surveys/test/system/` |
+
 ### Stays at Root
 
 | File | Reason |
 |------|--------|
 | `app/models/qr_code_generator.rb` | Shared utility (both domains use it) |
-| `app/models/survey_response.rb` | Surveys domain (not packed this issue) |
-| `app/controllers/surveys_controller.rb` | Surveys domain |
-| `app/views/surveys/` | Surveys domain |
 | `test/evals/`, `test/support/`, `test/helpers/` | Complex path dependencies |
 | `test/cassettes/` | cassette_library_dir in test_helper.rb |
 | `test/fixtures/` | fixtures :all in test_helper.rb |
@@ -280,3 +357,5 @@ git commit -m "refactor: create packs/fizzbuzz — move models, controllers, job
 - `bin/rails test` passes after each step (all test types: unit, controller, system)
 - `bin/packwerk validate` exits 0 after each step
 - `bin/packwerk check` exits 0 with "No violations detected." after each step
+- `bin/rails test packs/surveys/test/` passes
+- `packs/surveys/package.yml` has `enforce_dependencies: true`, `enforce_privacy: true`, `enforce_layers: true`
