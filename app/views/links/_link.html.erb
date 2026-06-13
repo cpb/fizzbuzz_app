@@ -1,6 +1,8 @@
 <li id="<%= dom_id(link) %>">
-  <%= link_to link.title, link.url, target: "_blank", rel: "noopener noreferrer" %>
   <% unless Rails.env.production? %>
-    <%= button_to "×", link_path(link), method: :delete, data: { turbo_confirm: "Delete \"#{link.title}\"?" } %>
+    <%= button_to "×", link_path(link), method: :delete,
+          form_class: "btn-form",
+          data: { turbo_confirm: "Delete \"#{link.title}\"?" } %>
   <% end %>
+  <%= link_to link.title, link.url, target: "_blank", rel: "noopener noreferrer" %>
 </li>

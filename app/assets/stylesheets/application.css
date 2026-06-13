@@ -252,6 +252,9 @@ main.page-content {
 }
 
 #links li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   border-bottom: 1px solid var(--grid);
   padding: 0.6rem 0;
   font-size: 0.9rem;
