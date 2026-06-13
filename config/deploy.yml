@@ -105,6 +105,8 @@ accessories:
       - config/litestream.yml:/etc/litestream.yml
     cmd: replicate
     env:
+      clear:
+        CLOUDFLARE_ACCOUNT_ID: your-account-id-here
       secret:
         - LITESTREAM_REPLICA_BUCKET
         - LITESTREAM_ACCESS_KEY_ID
