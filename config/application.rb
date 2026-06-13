@@ -25,5 +25,11 @@ module FizzbuzzApp
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.active_job.queue_adapter = :async_job
+
+    # Autoload Ruby constants from pack app/ subdirectories
+    config.paths.add "packs", glob: "*/app/{*,*/concerns}", eager_load: true
+
+    # Register pack view directories with ActionView
+    Dir[root.join("packs/*/app/views")].each { |p| config.paths["app/views"] << p }
   end
 end
