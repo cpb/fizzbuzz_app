@@ -1,14 +1,50 @@
 # Issue #117: Introduce Packwerk Packs for Links and FizzBuzz
 
-Research and planning artifacts for introducing Packwerk domain boundary
-enforcement into fizzbuzz_app.
+## Bottom Line
 
-## What This PR Answers
+fizzbuzz_app can be modularized into two Packwerk packs (`packs/links`, `packs/fizzbuzz`)
+with zero violations and no breaking changes. The codebase has clean domain separation;
+one cross-domain Ruby dependency (`QrCodeGenerator`) is resolved by keeping it at the app
+root as shared infrastructure. Three sequential implementation plans are ready to execute.
 
-How to install Packwerk, restructure the links/bookmarks and fizzbuzz features
-into bounded packs, and reach `bin/packwerk check` passing with zero violations
-while keeping the full test suite green — without disrupting the surveys domain
-or evals infrastructure.
+## Why This Matters
+
+Packwerk enforces domain boundaries at the source-code level, preventing accidental coupling
+between the links and fizzbuzz features. Once these packs exist, `bin/packwerk check` in CI
+immediately catches any new code that reaches across domain boundaries. This makes each
+feature safer to change independently and makes ownership explicit.
+
+**No user-facing changes.** This is purely infrastructure reorganization.
+
+## Key Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| `QrCodeGenerator` stays at root | Only cross-domain Ruby class ref; it's a generic utility, not a links concept |
+| Tests move into packs | Co-location makes ownership explicit; Rakefile updated for test discovery |
+| `evals/` stays at root | EvalLoader and EvalTestSetup reference root-relative paths |
+| `enforce_privacy: true` from day 1 | New packs start clean; no legacy violations to record |
+| Hagemann's 4 layers (`app/UI/data/utility`) | Standard vocabulary from *Gradual Modularization for Ruby and Rails*; `UI` layer for feature packs, `data`/`utility` reserved for future splits |
+| Root package has no `layer:` field | Mixed-layer concerns (global nav + base classes); exempt from enforcement until they're separated into proper packs |
+| Manual path config, not `packs-rails` | Two packs don't justify an extra gem dependency |
+
+## What This PR Contains
+
+Research and planning artifacts for introducing Packwerk domain boundary enforcement into
+fizzbuzz_app — covering how to install Packwerk, restructure the links/bookmarks and
+fizzbuzz features into bounded packs, and reach `bin/packwerk check` passing with zero
+violations while keeping the full test suite green.
+
+**Research:**
+- `packwerk-setup` — gem v3.3.0, Rails 8.1 compat, packwerk.yml format, validate vs check
+- `domain-inventory` — complete file map by domain, one cross-domain dependency identified
+- `pack-conventions` — directory layout, package.yml format, Zeitwerk autoloading
+- `migration-path` — file movement mechanics, view paths, test/fixture/evals decisions
+
+**Plans:**
+1. Install packwerk + configure paths (baseline)
+2. Create packs/links and packs/fizzbuzz (file migration)
+3. Final sweep, CI integration, open implementation PR
 
 ## Reading Order
 
@@ -51,15 +87,3 @@ or evals infrastructure.
 - [plans/01-install-packwerk.md](plans/01-install-packwerk.md) — Gems, config, baseline verification
 - [plans/02-create-packs.md](plans/02-create-packs.md) — File migration, package.yml, step-by-step verification
 - [plans/03-enforce-boundaries.md](plans/03-enforce-boundaries.md) — Final sweep, CI, PR
-
-## Key Decisions
-
-| Decision | Rationale |
-|----------|-----------|
-| `QrCodeGenerator` stays at root | Only cross-domain Ruby class ref; it's a generic utility, not a links concept |
-| Tests move into packs | Co-location makes ownership explicit; Rakefile updated for test discovery |
-| `evals/` stays at root | EvalLoader and EvalTestSetup reference root-relative paths |
-| `enforce_privacy: true` from day 1 | New packs start clean; no legacy violations to record |
-| Hagemann's 4 layers (`app/UI/data/utility`) | Standard vocabulary from *Gradual Modularization for Ruby and Rails*; `UI` layer for feature packs, `data`/`utility` reserved for future splits |
-| Root package has no `layer:` field | Mixed-layer concerns (global nav + base classes); exempt from enforcement until they're separated into proper packs |
-| Manual path config, not `packs-rails` | Two packs don't justify an extra gem dependency |
