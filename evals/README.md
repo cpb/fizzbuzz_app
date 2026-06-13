@@ -208,12 +208,13 @@ To evaluate a prompt against production data:
 1. **Seed the prompt and samples** into the production database:
 
    ```sh
-   bin/kamal seed-evals
+   TOPIC=fizzbuzz bin/kamal seed-evals   # seed one topic
+   bin/kamal seed-evals                  # seed all topics
    ```
 
-   This runs `EvalLoader.seed_dir` for each eval topic. Samples are upserted in
-   place — if `expected_output` changes in the YAML, the existing production record
-   is updated; prior run results that referenced the old value remain in the database.
+   Samples are upserted in place — if `expected_output` changes in the YAML, the
+   existing production record is updated; prior run results that referenced the old
+   value remain in the database.
 
 2. **Navigate to `/evals`** on the production host and select the prompt you want to run.
 
