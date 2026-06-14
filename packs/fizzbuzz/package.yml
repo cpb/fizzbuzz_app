@@ -5,4 +5,4 @@ layer: UI
 dependencies:
   - "packs/rails_shims"
   - "packs/qr_code"
-  - "packs/eval_loader"
+  - "packs/evals"
