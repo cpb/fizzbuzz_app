@@ -3,6 +3,7 @@ require "support/eval_test_setup"
 
 class FizzbuzzBasicV12FullEvalTest < ApplicationTestCase
   include EvalTestSetup
+  eval_fixtures Rails.root.join("packs/fizzbuzz/evals")
   fixtures :"prompts", :"samples"
 
   setup do

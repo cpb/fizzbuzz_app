@@ -4,12 +4,17 @@ module EvalTestSetup
   extend ActiveSupport::Concern
 
   included do
-    self.fixture_paths = [ Rails.root.join("packs/fizzbuzz/evals") ]
     self.fixture_table_names = []
 
     fixtures :"runs", :"executions"
 
     parallelize(workers: 1)
+  end
+
+  class_methods do
+    def eval_fixtures(path)
+      self.fixture_paths = [ path ]
+    end
   end
 
   def load_fixtures(config)

@@ -75,7 +75,7 @@ class EvalLoaderTest < ApplicationTestCase
         slug: hard-prompt
         provider: ollama
         model: llama3.2
-        message: "FizzBuzz {{number}}"
+        message: "Is {{number}} prime?"
     YAML
 
     File.write(File.join(dir, "samples.yml"), <<~YAML)
@@ -94,12 +94,12 @@ class EvalLoaderTest < ApplicationTestCase
         expected_output: "no"
         variables:
           number: "5"
-      hard_15:
+      hard_7:
         prompt: hard_prompt
         eval_type: contains
-        expected_output: FizzBuzz
+        expected_output: prime
         variables:
-          number: "15"
+          number: "7"
     YAML
   end
 end
