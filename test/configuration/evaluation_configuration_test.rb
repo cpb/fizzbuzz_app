@@ -5,7 +5,7 @@ class EvaluationConfigurationTest < ActiveSupport::TestCase
   fixtures :"ruby_llm/evals/prompts", :"ruby_llm/evals/samples", :"ruby_llm/evals/runs", :"ruby_llm/evals/prompt_executions"
 
   test "job creates prompt execution when executed" do
-    VCR.use_cassette("execute_sample_job_creates_prompt_execution") do
+    use_cassette("execute_sample_job_creates_prompt_execution") do
       prompt = ruby_llm_evals_prompts(:one)
       run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-create", started_at: Time.current)
       sample = ruby_llm_evals_samples(:one)
@@ -21,7 +21,7 @@ class EvaluationConfigurationTest < ActiveSupport::TestCase
   end
 
   test "job executes prompt and stores result" do
-    VCR.use_cassette("execute_sample_job_executes_prompt") do
+    use_cassette("execute_sample_job_executes_prompt") do
       prompt = ruby_llm_evals_prompts(:two)
       run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-execute", started_at: Time.current)
       sample = ruby_llm_evals_samples(:two)
@@ -37,7 +37,7 @@ class EvaluationConfigurationTest < ActiveSupport::TestCase
   end
 
   test "job copies sample configuration to prompt execution" do
-    VCR.use_cassette("execute_sample_job_copies_sample_attributes") do
+    use_cassette("execute_sample_job_copies_sample_attributes") do
       prompt = ruby_llm_evals_prompts(:two)
       run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-copy", started_at: Time.current)
       sample = ruby_llm_evals_samples(:two)
