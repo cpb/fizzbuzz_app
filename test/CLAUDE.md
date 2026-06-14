@@ -1,25 +1,31 @@
 # test/
 
-## Automated coverage
+Domain test coverage lives alongside the code — see each pack's `CLAUDE.md`:
 
-| Test file | What it covers |
+| Pack | Tests |
 |---|---|
-| `test/models/fizz_buzzer_test.rb` | `FizzBuzzer.call` returns correct string for multiples of 3, 5, 15, and plain numbers |
-| `test/models/llm_fizz_buzzer_test.rb` | `LlmFizzBuzzer.call` correctness — all tests skipped pending real inference (see #51) |
-| `test/controllers/fizz_buzz_controller_test.rb` | `GET /` returns 200; `POST` enqueues `FizzBuzzJob` or `LlmFizzBuzzJob` based on `use_llm` param; `POST` with 1 does not enqueue; redirect URL includes a UUID `tab_token` |
-| `test/jobs/fizz_buzz_job_test.rb` | Job counts down, stops at 1, broadcasts to `fizz_buzz_channel:#{tab_token}` (not global channel), carries token through each iteration |
-| `test/jobs/llm_fizz_buzz_job_test.rb` | Same structural guarantees as `fizz_buzz_job_test.rb` for the LLM variant |
-| `test/system/fizz_buzz_test.rb` | Fill form → click Start → results appear via Turbo Stream; default starting number is 10; tab A stream is unaffected when tab B submits afterward; "Use LLM" checkbox asserts stub produces `3, 2, 1` (TODO: update to `Fizz, 2, 1` when #51 lands) |
+| `packs/fizzbuzz/CLAUDE.md` | FizzBuzzer, LLMFizzBuzzer, controller, jobs, system test |
+| `packs/links/CLAUDE.md` | LinksController, Link, Gist, GistPublisher, PublishGistJob, system test |
+| `packs/surveys/CLAUDE.md` | SurveysController, system test |
 
-## What needs manual confirmation
+## Root test files
 
-- **Job timing**: The 1-second sleep between broadcasts is not exercised — jobs run with `:async_job` adapter in system tests, not in real time.
-- **WebSocket error paths**: No test covers Turbo Stream connectivity failures or reconnection.
-- **Multi-worktree isolation**: That separate worktrees do not share ports, storage, or PIDs is not covered by automated tests.
+- `test/configuration/` — `EvaluationConfigurationTest`: RubyLLM eval job lifecycle (VCR cassettes in `test/cassettes/`)
+- `test/evals/` — LLM eval suites; cassettes in `test/cassettes/`
+- `test/helpers/` — view helper tests
+- `test/lib/` — eval loader tests
 
 ## Test setup
 
-- **System tests**: Falcon web server via Rackup, Capybara + headless Chrome (1400×1400), queue adapter switched to `:async_job` per test so jobs run asynchronously.
+- **System tests**: Falcon web server via Rackup, Capybara + headless Chrome (1400×1400), queue adapter switched to `:async_job` per test.
 - **Unit / controller tests**: Standard Rails test queue (`:test` adapter, synchronous).
+- **VCR**: `cassette_library_dir = Rails.root` — cassette names are full relative paths. Use `use_cassette("short_name")` (not `VCR.use_cassette`) — the helper auto-derives the directory from the calling test file's location.
+- **Fixtures**: `fixture_paths` includes `test/fixtures/` and all `packs/*/test/fixtures/` directories.
+
+## Manual confirmation needed
+
+- **Job timing**: The 1-second sleep between broadcasts is not exercised in automated tests.
+- **WebSocket error paths**: No test covers Turbo Stream connectivity failures or reconnection.
+- **Multi-worktree isolation**: Separate worktrees not sharing ports, storage, or PIDs is not covered by automated tests.
 
 Run all tests with `bin/rails test`.
