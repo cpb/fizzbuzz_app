@@ -1,5 +1,10 @@
 {
-  "ignored_warnings": [],
+  "ignored_warnings": [
+    {
+      "fingerprint": "f04272450a59879f0cbd3c72626f8a35fa6bca9bdc4b7f2f6287ad13cdc7698e",
+      "note": "PermitAttributes: :location is a free-text city/region column (not a redirect target) and :role is a respondent-type enum (not a privilege field); ai_tools is a JSON array of tool names. All intentionally permitted."
+    }
+  ],
   "updated": "2026-06-14 00:00:00 +0000",
   "brakeman_version": "8.0.5"
 }

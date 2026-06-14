@@ -26,19 +26,12 @@ class SurveysController < ApplicationController
   private
 
   def survey_params
-    permitted = params.require(:survey_response).permit(
-      :writes_ruby, :paid_to_write_ruby,
+    params.require(:survey_response).permit(
+      :location, :role, :writes_ruby, :paid_to_write_ruby,
       :years_of_experience, :prior_experience, :team_ai_adoption,
       :likert_overhyped, :likert_frustrated, :likert_limit_to_boilerplate,
-      :likert_anxious, :likert_made_peace, :likert_more_capable
+      :likert_anxious, :likert_made_peace, :likert_more_capable,
+      ai_tools: []
     )
-    # Brakeman PermitAttributes: :role looks like privilege escalation; here it is a survey respondent type enum.
-    permitted[:role]     = params.dig(:survey_response, :role).to_s
-    # Brakeman PermitAttributes: :location looks like a redirect target; here it is a free-text city/region field.
-    permitted[:location] = params.dig(:survey_response, :location).to_s.strip
-    # Brakeman PermitAttributes: array params flagged as mass-assignment risk; filtered against AI_TOOL_OPTIONS allowlist.
-    permitted[:ai_tools] = Array(params.dig(:survey_response, :ai_tools))
-                             .select { |t| SurveyResponse::AI_TOOL_OPTIONS.include?(t) }
-    permitted
   end
 end
