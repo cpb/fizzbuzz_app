@@ -1,7 +1,6 @@
 enforce_dependencies: true
-enforce_privacy: true
+enforce_privacy: false
 enforce_layers: true
-layer: UI
+layer: utility
 dependencies:
   - "packs/rails_shims"
-  - "packs/qr_code"

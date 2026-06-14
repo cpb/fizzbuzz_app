@@ -1,6 +1,5 @@
 enforce_dependencies: true
 enforce_privacy: false
 enforce_layers: true
-layer: app
-dependencies:
-  - "packs/rails_shims"
+layer: utility
+dependencies: []

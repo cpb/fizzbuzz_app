@@ -1,6 +1,9 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+
+Dir[File.expand_path("../packs/*/test", __dir__)].each { |d| $LOAD_PATH.unshift(d) unless $LOAD_PATH.include?(d) }
+
 require "vcr"
 require "webmock/minitest"
 require "support/cassette_prefix"
