@@ -1,0 +1,2 @@
+class RubyProvider
+end
