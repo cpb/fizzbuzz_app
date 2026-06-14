@@ -1,5 +1,6 @@
-enforce_dependencies: false
+enforce_dependencies: true
 enforce_privacy: false
-# No layer declared — root is pre-modular (mixed app/utility concerns).
-# packwerk-extensions exempts unlabeled packages from layer enforcement,
-# allowing feature packs to depend on root without a layer violation.
+enforce_layers: true
+layer: app
+dependencies:
+  - "packs/rails_shims"

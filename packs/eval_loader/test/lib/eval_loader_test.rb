@@ -1,5 +1,4 @@
 require "test_helper"
-require "eval_loader"
 
 class EvalLoaderTest < ApplicationTestCase
   self.fixture_table_names = []

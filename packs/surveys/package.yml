@@ -3,4 +3,4 @@ enforce_privacy: true
 enforce_layers: true
 layer: UI
 dependencies:
-  - "."
+  - "packs/rails_shims"
