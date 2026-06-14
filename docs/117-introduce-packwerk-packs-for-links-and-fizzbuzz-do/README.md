@@ -1,18 +1,19 @@
-# Issue #117: Introduce Packwerk Packs for Links and FizzBuzz
+# Issue #117: Introduce Packwerk Packs for Links, FizzBuzz, and Surveys
 
 ## Bottom Line
 
-fizzbuzz_app can be modularized into two Packwerk packs (`packs/links`, `packs/fizzbuzz`)
-with zero violations and no breaking changes. The codebase has clean domain separation;
-one cross-domain Ruby dependency (`QrCodeGenerator`) is resolved by keeping it at the app
-root as shared infrastructure. Three sequential implementation plans are ready to execute.
+fizzbuzz_app has been modularized into three domain packs (`packs/links`,
+`packs/fizzbuzz`, `packs/surveys`) and four utility packs (`packs/rails_shims`,
+`packs/qr_code`, `packs/evals`, `packs/test_shims`) with zero violations and no
+breaking changes. Six of seven plans are complete; Plan 07 (enforce boundaries + CI)
+remains.
 
 ## Why This Matters
 
-Packwerk enforces domain boundaries at the source-code level, preventing accidental coupling
-between the links and fizzbuzz features. Once these packs exist, `bin/packwerk check` in CI
-immediately catches any new code that reaches across domain boundaries. This makes each
-feature safer to change independently and makes ownership explicit.
+Packwerk enforces domain boundaries at the source-code level, preventing accidental
+coupling between features. Once `bin/packwerk check` runs in CI, any new code that
+reaches across domain boundaries is caught immediately. Each feature is now safer to
+change independently and ownership is explicit.
 
 **No user-facing changes.** This is purely infrastructure reorganization.
 
@@ -20,37 +21,43 @@ feature safer to change independently and makes ownership explicit.
 
 | Decision | Rationale |
 |----------|-----------|
-| `QrCodeGenerator` stays at root | Only cross-domain Ruby class ref; it's a generic utility, not a links concept |
+| `packs/surveys` added to scope | Surveys feature existed and had clean domain separation; included alongside links and fizzbuzz |
+| `QrCodeGenerator` moves to `packs/qr_code` | Initially planned to stay at root; extracted as a first-class utility pack since it's shared infrastructure, not a links concept |
+| `evals/` migrates to `packs/fizzbuzz` (Plan 05) | Initially planned to stay at root due to path complexity; migrated after domain packs stabilized |
+| `packs/rails_shims` extracts base classes | `ApplicationController`, `ApplicationJob`, `ApplicationRecord` moved out of root so root can be labeled `app` layer |
+| `packs/test_shims` extracts test support | Mirrors rails_shims for the test layer; keeps pack tests self-contained |
 | Tests move into packs | Co-location makes ownership explicit; Rakefile updated for test discovery |
-| `evals/` stays at root | EvalLoader and EvalTestSetup reference root-relative paths |
 | `enforce_privacy: true` from day 1 | New packs start clean; no legacy violations to record |
-| Hagemann's 4 layers (`app/UI/data/utility`) | Standard vocabulary from *Gradual Modularization for Ruby and Rails*; `UI` layer for feature packs, `data`/`utility` reserved for future splits |
-| Root package has no `layer:` field | Mixed-layer concerns (global nav + base classes); exempt from enforcement until they're separated into proper packs |
-| Manual path config, not `packs-rails` | Two packs don't justify an extra gem dependency |
+| Hagemann's 4 layers (`app/UI/data/utility`) | Standard vocabulary from *Gradual Modularization for Ruby and Rails*; feature packs at `UI`, utilities at `utility` |
+| Root package gets `layer: app` after Plan 04 | Once base classes move to `packs/rails_shims`, root only contains app-layer concerns |
+| Manual path config, not `packs-rails` | Explicit and transparent; avoids an extra dependency |
 
 ## What This PR Contains
 
 Research and planning artifacts for introducing Packwerk domain boundary enforcement into
-fizzbuzz_app — covering how to install Packwerk, restructure the links/bookmarks and
-fizzbuzz features into bounded packs, and reach `bin/packwerk check` passing with zero
-violations while keeping the full test suite green.
+fizzbuzz_app — covering installation, restructuring three feature domains and four utility
+packs into bounded packs, and reaching `bin/packwerk check` passing with zero violations
+while keeping the full test suite green.
 
 **Research:**
 - `packwerk-setup` — gem v3.3.0, Rails 8.1 compat, packwerk.yml format, validate vs check
-- `domain-inventory` — complete file map by domain, one cross-domain dependency identified
+- `domain-inventory` — complete file map by domain, cross-domain dependencies identified
 - `pack-conventions` — directory layout, package.yml format, Zeitwerk autoloading
 - `migration-path` — file movement mechanics, view paths, test/fixture/evals decisions
 
-**Plans:**
-1. Install packwerk + configure paths (baseline)
-2. Create packs/links and packs/fizzbuzz (file migration)
-3. Final sweep, CI integration, open implementation PR
+**Plans (6 of 7 complete):**
+1. ~~Install packwerk + configure paths (baseline)~~ ✓
+2. ~~Create packs/links, packs/fizzbuzz, packs/surveys (file migration)~~ ✓
+3. ~~Delete workbook stub controllers, views, and JS~~ ✓
+4. ~~Extract packs/rails_shims, packs/qr_code, packs/evals, packs/test_shims~~ ✓
+5. ~~Migrate evals/ data dir and test infrastructure into packs/fizzbuzz~~ ✓
+6. Enforce boundaries across all packs + CI integration (pending)
 
 ## Reading Order
 
 1. **[research/domain-inventory/](research/domain-inventory/README.md)**
    — Start here. Understand what files exist, which domain they belong to, and
-   the one cross-domain dependency that must be resolved.
+   the cross-domain dependencies that must be resolved.
 
 2. **[research/packwerk-setup/](research/packwerk-setup/README.md)**
    — Gem version, Rails 8.1 compatibility, and config file reference.
@@ -62,7 +69,7 @@ violations while keeping the full test suite green.
    — File movement mechanics, view paths, and test/fixture decisions.
 
 5. **[plans/](plans/README.md)**
-   — Three sequential implementation plans: install → create packs → verify + CI.
+   — Seven sequential implementation plans: install → create packs → cleanup → utilities → evals → enforce + CI.
 
 ## Table of Contents
 
@@ -84,6 +91,9 @@ violations while keeping the full test suite green.
 
 ### Plans
 - [plans/README.md](plans/README.md) — Summary and execution order
-- [plans/01-install-packwerk.md](plans/01-install-packwerk.md) — Gems, config, baseline verification
-- [plans/02-create-packs.md](plans/02-create-packs.md) — File migration, package.yml, step-by-step verification
-- [plans/03-enforce-boundaries.md](plans/03-enforce-boundaries.md) — Final sweep, CI, PR
+- [plans/01-install-packwerk.md](plans/01-install-packwerk.md) — Gems, config, baseline verification ✓
+- [plans/02-create-packs.md](plans/02-create-packs.md) — File migration, package.yml, step-by-step verification ✓
+- [plans/03-cleanup-workbook.md](plans/03-cleanup-workbook.md) — Delete workbook stubs from #118 extraction ✓
+- [plans/04-extract-utility-packs.md](plans/04-extract-utility-packs.md) — Extract rails_shims, qr_code, evals, test_shims ✓
+- [plans/05-migrate-evals.md](plans/05-migrate-evals.md) — Move evals data dir and tests into packs/fizzbuzz ✓
+- [plans/07-enforce-boundaries.md](plans/07-enforce-boundaries.md) — Final violation sweep, CI integration
