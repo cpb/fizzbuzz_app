@@ -1,2 +1,0 @@
-class WorkbookSessionReplaysController < ApplicationController
-end
