@@ -1,18 +1,10 @@
 {
   "ignored_warnings": [
     {
-      "fingerprint": "a44846379e7d0903b05f08460ef8bed8b99d7191f61d43ca01e67e59fe1ed25a",
-      "note": "QrCodeGenerator.call returns a safe SVG string built entirely by the rqrcode gem from a URL value; the .html_safe call is intentional. Gist#url is sourced from the GitHub API html_url field."
-    },
-    {
-      "fingerprint": "4e2db95998ad5fbf9f6dc20284011f27a17be485e37b0b7a52c4772326b625f0",
-      "note": "QrCodeGenerator.call returns a safe SVG string built entirely by the rqrcode gem from a server-controlled URL; the .html_safe call is intentional."
-    },
-    {
-      "fingerprint": "62fa2a766780ea93480c634cc629d4b87671be5977642c1c102a5c917250c79a",
+      "fingerprint": "aa696af013f6edc25a6e8c580a8ca28dec39f646a0b5d0b1dedf5d2db8c13d63",
       "note": ":location is a legitimate survey_responses column for optional respondent location; it is intentionally permitted."
     }
   ],
-  "updated": "2026-06-09 00:00:00 +0000",
-  "brakeman_version": "8.0.4"
+  "updated": "2026-06-14 00:00:00 +0000",
+  "brakeman_version": "8.0.5"
 }
