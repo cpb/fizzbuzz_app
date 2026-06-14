@@ -1,0 +1,20 @@
+package_paths:
+  - "./"
+  - "packs/*/"
+
+require:
+  - packwerk-extensions
+
+# Architecture layers (Hagemann's four canonical layers, highest → lowest).
+# A pack may depend on packs in the same or lower layers.
+# Enforced per-pack via enforce_layers: true in package.yml.
+# Root package declares no layer (mixed concerns; exempt from enforcement).
+layers:
+  - app
+  - UI
+  - data
+  - utility
+
+parallel: true
+cache: true
+cache_directory: tmp/cache/packwerk
