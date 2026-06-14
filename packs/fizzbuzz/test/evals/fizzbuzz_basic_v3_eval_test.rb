@@ -1,43 +1,43 @@
 require "test_helper"
 require "support/eval_test_setup"
 
-class FizzbuzzBasicV5EvalTest < ApplicationTestCase
+class FizzbuzzBasicV3EvalTest < ApplicationTestCase
   include EvalTestSetup
-  fixtures :"fizzbuzz/prompts", :"fizzbuzz/samples"
+  fixtures :"prompts", :"samples"
 
   setup do
     @runs = []
     @sample_labels = {}
-    @eval_dir = "fizzbuzz"
-    @prompt_label = "fizzbuzz_basic_v5"
+    @eval_dir = Rails.root.join("packs/fizzbuzz/evals")
+    @prompt_label = "fizzbuzz_basic_v3"
   end
 
   test "1 is 1" do
-    run_eval(:fizzbuzz_basic_v5_1)
+    run_eval(:fizzbuzz_basic_v3_1)
   end
 
   test "3 is Fizz" do
-    run_eval(:fizzbuzz_basic_v5_3)
+    run_eval(:fizzbuzz_basic_v3_3)
   end
 
   test "5 is Buzz" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_basic_v5_5)
+    run_eval(:fizzbuzz_basic_v3_5)
   end
 
   test "15 is FizzBuzz" do
-    run_eval(:fizzbuzz_basic_v5_15)
+    run_eval(:fizzbuzz_basic_v3_15)
   end
 
   test "invalid input echoes back" do
-    run_eval(:fizzbuzz_basic_v5_invalid)
+    skip "VCR records known model failure"
+    run_eval(:fizzbuzz_basic_v3_invalid)
   end
 
   private
 
   def run_eval(sample_key)
-    prompt = fizzbuzz_prompts(:fizzbuzz_basic_v5)
-    sample = fizzbuzz_samples(sample_key)
+    prompt = prompts(:fizzbuzz_basic_v3)
+    sample = samples(sample_key)
     @sample_labels[sample.id] = sample_key
     run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-#{SecureRandom.hex(4)}", started_at: Time.current)
     @runs << run

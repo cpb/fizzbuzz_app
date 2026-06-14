@@ -1,91 +1,86 @@
 require "test_helper"
 require "support/eval_test_setup"
 
-class FizzbuzzCleanEvalTest < ApplicationTestCase
+class YodaFizzbuzzEvalTest < ApplicationTestCase
   include EvalTestSetup
-  fixtures :"fizzbuzz/prompts", :"fizzbuzz/samples"
+  fixtures :"prompts", :"samples"
 
   setup do
     @runs = []
     @sample_labels = {}
-    @eval_dir = "fizzbuzz"
-    @prompt_label = "fizzbuzz_clean"
+    @eval_dir = Rails.root.join("packs/fizzbuzz/evals")
+    @prompt_label = "yoda_fizzbuzz"
   end
 
   test "15 is FizzBuzz" do
-    run_eval(:fizzbuzz_clean_15)
+    run_eval(:yoda_fizzbuzz_15)
   end
 
   test "3 is Fizz" do
-    run_eval(:fizzbuzz_clean_3)
-  end
-
-  test "5 is Buzz" do
-    run_eval(:fizzbuzz_clean_5)
+    run_eval(:yoda_fizzbuzz_3)
   end
 
   test "1 is 1" do
-    run_eval(:fizzbuzz_clean_1)
+    run_eval(:yoda_fizzbuzz_1)
   end
 
   test "2 is 2" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_2)
+    run_eval(:yoda_fizzbuzz_2)
   end
 
   test "4 is 4" do
+    run_eval(:yoda_fizzbuzz_4)
+  end
+
+  test "5 is Buzz" do
     skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_4)
+    run_eval(:yoda_fizzbuzz_5)
   end
 
   test "6 is Fizz" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_6)
+    run_eval(:yoda_fizzbuzz_6)
   end
 
   test "7 is 7" do
-    run_eval(:fizzbuzz_clean_7)
+    run_eval(:yoda_fizzbuzz_7)
   end
 
   test "8 is 8" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_8)
+    run_eval(:yoda_fizzbuzz_8)
   end
 
   test "9 is Fizz" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_9)
+    run_eval(:yoda_fizzbuzz_9)
   end
 
   test "10 is Buzz" do
-    run_eval(:fizzbuzz_clean_10)
+    skip "VCR records known model failure"
+    run_eval(:yoda_fizzbuzz_10)
   end
 
   test "11 is 11" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_11)
+    run_eval(:yoda_fizzbuzz_11)
   end
 
   test "12 is Fizz" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_12)
+    run_eval(:yoda_fizzbuzz_12)
   end
 
   test "13 is 13" do
     skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_13)
+    run_eval(:yoda_fizzbuzz_13)
   end
 
   test "14 is 14" do
     skip "VCR records known model failure"
-    run_eval(:fizzbuzz_clean_14)
+    run_eval(:yoda_fizzbuzz_14)
   end
 
   private
 
   def run_eval(sample_key)
-    prompt = fizzbuzz_prompts(:fizzbuzz_clean)
-    sample = fizzbuzz_samples(sample_key)
+    prompt = prompts(:yoda_fizzbuzz)
+    sample = samples(sample_key)
     @sample_labels[sample.id] = sample_key
     run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-#{SecureRandom.hex(4)}", started_at: Time.current)
     @runs << run
