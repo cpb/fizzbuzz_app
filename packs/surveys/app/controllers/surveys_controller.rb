@@ -27,11 +27,13 @@ class SurveysController < ApplicationController
 
   def survey_params
     permitted = params.require(:survey_response).permit(
-      :location, :role, :writes_ruby, :paid_to_write_ruby,
+      :writes_ruby, :paid_to_write_ruby,
       :years_of_experience, :prior_experience, :team_ai_adoption,
       :likert_overhyped, :likert_frustrated, :likert_limit_to_boilerplate,
       :likert_anxious, :likert_made_peace, :likert_more_capable
     )
+    permitted[:role]     = params.dig(:survey_response, :role).to_s
+    permitted[:location] = params.dig(:survey_response, :location).to_s.strip
     permitted[:ai_tools] = Array(params.dig(:survey_response, :ai_tools))
                              .select { |t| SurveyResponse::AI_TOOL_OPTIONS.include?(t) }
     permitted
