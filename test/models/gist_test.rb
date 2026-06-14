@@ -8,7 +8,7 @@ ActiveRecord::Schema.define do
   end
 end
 
-class GistTest < ActiveSupport::TestCase
+class GistTest < ApplicationTestCase
   test "gists table has url and published_at columns" do
     assert_includes Gist.column_names, "url",
       "expected gists table to have a 'url' column"

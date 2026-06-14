@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FizzBuzzerTest < ActiveSupport::TestCase
+class FizzBuzzerTest < ApplicationTestCase
   test "returns number as string for normal numbers" do
     assert_equal "1", FizzBuzzer.call(1)
     assert_equal "2", FizzBuzzer.call(2)

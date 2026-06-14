@@ -11,6 +11,7 @@ end
 Capybara.server = :falcon
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  include CassettePrefix
   driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]
 
   setup do

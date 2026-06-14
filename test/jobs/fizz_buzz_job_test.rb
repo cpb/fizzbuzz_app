@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FizzBuzzJobTest < ActiveJob::TestCase
+class FizzBuzzJobTest < ApplicationJobTestCase
   include ActionCable::TestHelper
 
   test "performs the job and enqueues the next one (counting down)" do

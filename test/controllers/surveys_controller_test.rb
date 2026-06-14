@@ -1,6 +1,6 @@
 require "test_helper"
 
-class SurveysControllerTest < ActionDispatch::IntegrationTest
+class SurveysControllerTest < ApplicationControllerTestCase
   test "GET /survey returns success" do
     get survey_url
     assert_response :success

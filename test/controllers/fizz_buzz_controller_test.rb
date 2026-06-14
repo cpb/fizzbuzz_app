@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FizzBuzzControllerTest < ActionDispatch::IntegrationTest
+class FizzBuzzControllerTest < ApplicationControllerTestCase
   test "should get start" do
     get root_url
     assert_response :success

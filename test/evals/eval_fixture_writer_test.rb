@@ -1,7 +1,7 @@
 require "test_helper"
 require "support/eval_fixture_writer"
 
-class EvalFixtureWriterTest < ActiveSupport::TestCase
+class EvalFixtureWriterTest < ApplicationTestCase
   self.fixture_table_names = []
 
   setup do

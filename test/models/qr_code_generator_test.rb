@@ -1,6 +1,6 @@
 require "test_helper"
 
-class QrCodeGeneratorTest < ActiveSupport::TestCase
+class QrCodeGeneratorTest < ApplicationTestCase
   test "returns a non-empty SVG string for a URL" do
     result = QrCodeGenerator.call("https://gist.github.com/abc")
     assert_not_nil result

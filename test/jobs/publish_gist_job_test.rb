@@ -8,7 +8,7 @@ ActiveRecord::Schema.define do
   end
 end
 
-class PublishGistJobTest < ActiveJob::TestCase
+class PublishGistJobTest < ApplicationJobTestCase
   test "calls create_gist then update_gist on publisher" do
     link = links(:one)
     calls = []

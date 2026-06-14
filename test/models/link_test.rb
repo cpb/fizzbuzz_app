@@ -1,6 +1,6 @@
 require "test_helper"
 
-class LinkTest < ActiveSupport::TestCase
+class LinkTest < ApplicationTestCase
   test "valid with title and url" do
     assert Link.new(title: "GitHub", url: "https://github.com").valid?
   end
