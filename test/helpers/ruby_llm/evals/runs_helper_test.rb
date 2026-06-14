@@ -2,7 +2,7 @@ require "test_helper"
 
 module RubyLLM
   module Evals
-    class RunsHelperTest < ActionView::TestCase
+    class RunsHelperTest < ApplicationViewTestCase
       include RunsHelper
 
       test "fizzbuzz_expected_category for multiples of 15" do

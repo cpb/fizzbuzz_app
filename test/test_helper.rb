@@ -3,7 +3,11 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "vcr"
 require "webmock/minitest"
+require "support/cassette_prefix"
 require "support/application_test_case"
+require "support/application_controller_test_case"
+require "support/application_job_test_case"
+require "support/application_view_test_case"
 
 WebMock.disable_net_connect!(allow_localhost: [ "127.0.0.1", "localhost" ])
 
