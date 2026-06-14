@@ -3,7 +3,8 @@ require "support/eval_test_setup"
 
 class EvalTestSetupTest < ApplicationTestCase
   include EvalTestSetup
-  fixtures :"fizzbuzz/prompts", :"fizzbuzz/samples"
+  eval_fixtures Rails.root.join("packs/fizzbuzz/evals")
+  fixtures :"prompts", :"samples"
 
   setup do
     @runs = []
@@ -23,7 +24,7 @@ class EvalTestSetupTest < ApplicationTestCase
   end
 
   test "with_eval_cassette writes fixture YAML when cassette records new interactions" do
-    cassette_path = Rails.root.join("test/cassettes/eval_setup_recording.yml")
+    cassette_path = Rails.root.join(self.class.cassette_prefix, "eval_setup_recording.yml")
     FileUtils.rm_f(cassette_path)
 
     prompt = RubyLLM::Evals::Prompt.create!(

@@ -37,7 +37,7 @@ module EvalFixtureWriter
   end
 
   def self.append_record(dir, filename, model_class, key, record_data)
-    path = Rails.root.join("evals", dir, filename)
+    path = Pathname(dir).join(filename)
     data = path.exist? ? YAML.safe_load(File.read(path), permitted_classes: PERMITTED_CLASSES, aliases: true) || {} : {}
     data["_fixture"] ||= { "model_class" => model_class }
     data[key] = record_data

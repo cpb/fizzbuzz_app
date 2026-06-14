@@ -4,18 +4,23 @@ module EvalTestSetup
   extend ActiveSupport::Concern
 
   included do
-    self.fixture_paths = [ Rails.root.join("evals") ]
     self.fixture_table_names = []
 
-    fixtures :"runs", :"prompt_executions"
+    fixtures :"runs", :"executions"
 
     parallelize(workers: 1)
+  end
+
+  class_methods do
+    def eval_fixtures(path)
+      self.fixture_paths = [ path ]
+    end
   end
 
   def load_fixtures(config)
     # Both eval and standard fixture classes populate @@all_cached_fixtures
     # with entries for the same physical tables but under DIFFERENT set names
-    # ("fizzbuzz/prompts" vs "ruby_llm/evals/prompts"). Neither side clears the
+    # ("prompts" vs "ruby_llm/evals/prompts"). Neither side clears the
     # other's cache entries on a class transition, so the opposing set can
     # remain cached pointing at the wrong DB state. Clearing the whole cache
     # here (only called on a real class transition, not on same-class cache

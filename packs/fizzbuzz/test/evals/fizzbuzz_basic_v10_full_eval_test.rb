@@ -1,89 +1,88 @@
 require "test_helper"
 require "support/eval_test_setup"
 
-class FizzbuzzBasicV8FullEvalTest < ApplicationTestCase
+class FizzbuzzBasicV10FullEvalTest < ApplicationTestCase
   include EvalTestSetup
-  fixtures :"fizzbuzz/prompts", :"fizzbuzz/samples"
+  eval_fixtures Rails.root.join("packs/fizzbuzz/evals")
+  fixtures :"prompts", :"samples"
 
   setup do
     @runs = []
     @sample_labels = {}
-    @eval_dir = "fizzbuzz"
-    @prompt_label = "fizzbuzz_basic_v8"
+    @eval_dir = Rails.root.join("packs/fizzbuzz/evals")
+    @prompt_label = "fizzbuzz_basic_v10"
   end
 
   test "1 is 1" do
-    run_eval(:fizzbuzz_basic_v8_full_1)
+    run_eval(:fizzbuzz_basic_v10_full_1)
   end
 
   test "2 is 2" do
-    run_eval(:fizzbuzz_basic_v8_full_2)
+    skip "VCR records known model failure"
+    run_eval(:fizzbuzz_basic_v10_full_2)
   end
 
   test "3 is Fizz" do
-    run_eval(:fizzbuzz_basic_v8_full_3)
+    run_eval(:fizzbuzz_basic_v10_full_3)
   end
 
   test "4 is 4" do
-    run_eval(:fizzbuzz_basic_v8_full_4)
+    run_eval(:fizzbuzz_basic_v10_full_4)
   end
 
   test "5 is Buzz" do
-    run_eval(:fizzbuzz_basic_v8_full_5)
+    run_eval(:fizzbuzz_basic_v10_full_5)
   end
 
   test "6 is Fizz" do
-    run_eval(:fizzbuzz_basic_v8_full_6)
+    run_eval(:fizzbuzz_basic_v10_full_6)
   end
 
   test "7 is 7" do
-    run_eval(:fizzbuzz_basic_v8_full_7)
+    run_eval(:fizzbuzz_basic_v10_full_7)
   end
 
   test "8 is 8" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_basic_v8_full_8)
+    run_eval(:fizzbuzz_basic_v10_full_8)
   end
 
   test "9 is Fizz" do
-    run_eval(:fizzbuzz_basic_v8_full_9)
+    run_eval(:fizzbuzz_basic_v10_full_9)
   end
 
   test "10 is Buzz" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_basic_v8_full_10)
+    run_eval(:fizzbuzz_basic_v10_full_10)
   end
 
   test "11 is 11" do
-    run_eval(:fizzbuzz_basic_v8_full_11)
+    run_eval(:fizzbuzz_basic_v10_full_11)
   end
 
   test "12 is Fizz" do
-    run_eval(:fizzbuzz_basic_v8_full_12)
+    run_eval(:fizzbuzz_basic_v10_full_12)
   end
 
   test "13 is 13" do
-    run_eval(:fizzbuzz_basic_v8_full_13)
+    run_eval(:fizzbuzz_basic_v10_full_13)
   end
 
   test "14 is 14" do
-    skip "VCR records known model failure"
-    run_eval(:fizzbuzz_basic_v8_full_14)
+    run_eval(:fizzbuzz_basic_v10_full_14)
   end
 
   test "15 is FizzBuzz" do
-    run_eval(:fizzbuzz_basic_v8_full_15)
+    run_eval(:fizzbuzz_basic_v10_full_15)
   end
 
   test "invalid input echoes back" do
-    run_eval(:fizzbuzz_basic_v8_full_invalid)
+    run_eval(:fizzbuzz_basic_v10_full_invalid)
   end
 
   private
 
   def run_eval(sample_key)
-    prompt = fizzbuzz_prompts(:fizzbuzz_basic_v8)
-    sample = fizzbuzz_samples(sample_key)
+    prompt = prompts(:fizzbuzz_basic_v10)
+    sample = samples(sample_key)
     @sample_labels[sample.id] = sample_key
     run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-#{SecureRandom.hex(4)}", started_at: Time.current)
     @runs << run

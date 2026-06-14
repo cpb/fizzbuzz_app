@@ -3,12 +3,13 @@ require "support/eval_test_setup"
 
 class YodaFizzbuzzEvalTest < ApplicationTestCase
   include EvalTestSetup
-  fixtures :"fizzbuzz/prompts", :"fizzbuzz/samples"
+  eval_fixtures Rails.root.join("packs/fizzbuzz/evals")
+  fixtures :"prompts", :"samples"
 
   setup do
     @runs = []
     @sample_labels = {}
-    @eval_dir = "fizzbuzz"
+    @eval_dir = Rails.root.join("packs/fizzbuzz/evals")
     @prompt_label = "yoda_fizzbuzz"
   end
 
@@ -79,8 +80,8 @@ class YodaFizzbuzzEvalTest < ApplicationTestCase
   private
 
   def run_eval(sample_key)
-    prompt = fizzbuzz_prompts(:yoda_fizzbuzz)
-    sample = fizzbuzz_samples(sample_key)
+    prompt = prompts(:yoda_fizzbuzz)
+    sample = samples(sample_key)
     @sample_labels[sample.id] = sample_key
     run = RubyLLM::Evals::Run.create!(prompt: prompt, active_job_id: "test-#{SecureRandom.hex(4)}", started_at: Time.current)
     @runs << run
