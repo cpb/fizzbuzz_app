@@ -158,14 +158,17 @@ If CI fails the command stops — it will not merge or clean up.
 
 ## Codebase orientation
 
-Subdirectory CLAUDE.md files carry specialized context. Read them progressively
-rather than re-discovering the project on each invocation:
+Domain logic lives in packs. Read CLAUDE.md files progressively rather than
+re-discovering the project on each invocation:
 
 | File | Contents |
 |---|---|
 | `bin/CLAUDE.md` | `bin/worktree` commands, port lookup, dev server |
-| `app/CLAUDE.md` | Routes, controllers, UI surface |
-| `test/CLAUDE.md` | Test coverage and what needs manual confirmation |
+| `app/CLAUDE.md` | Pack index — redirects to each pack's CLAUDE.md |
+| `test/CLAUDE.md` | Test index — redirects to each pack's CLAUDE.md; VCR/fixture setup |
+| `packs/fizzbuzz/CLAUDE.md` | FizzBuzz form, jobs, Turbo Stream broadcasting, routes, tests |
+| `packs/links/CLAUDE.md` | Link management, Gist publishing, QR codes, routes, tests |
+| `packs/surveys/CLAUDE.md` | Audience survey form and live results, routes, tests |
 
 ---
 
