@@ -2,7 +2,7 @@ require "yaml"
 
 module EvalLoader
   def self.seed_dir(dir)
-    base = Rails.root.join("evals", dir)
+    base = Pathname(dir)
     prompts_file = base.join("prompts.yml")
     samples_file = base.join("samples.yml")
 

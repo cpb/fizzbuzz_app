@@ -1,3 +1,0 @@
----
-_fixture:
-  model_class: RubyLLM::Evals::Run
