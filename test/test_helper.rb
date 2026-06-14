@@ -23,6 +23,8 @@ module ActiveSupport
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
+    self.fixture_paths += Dir[Rails.root.join("packs/*/test/fixtures")]
+
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
 
@@ -30,3 +32,7 @@ module ActiveSupport
     ActiveJob::Base.queue_adapter = :test
   end
 end
+
+# rails/test_help copies fixture_paths to IntegrationTest via an on_load hook,
+# creating a separate copy that doesn't inherit further changes to TestCase.
+ActionDispatch::IntegrationTest.fixture_paths += Dir[Rails.root.join("packs/*/test/fixtures")]

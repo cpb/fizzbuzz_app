@@ -9,6 +9,6 @@ class QrCodeGenerator
       module_size: 11,
       standalone: true,
       use_path: true
-    )
+    ).html_safe
   end
 end
