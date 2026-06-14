@@ -1,6 +1,6 @@
 require "test_helper"
 
-class EvaluationConfigurationTest < ActiveSupport::TestCase
+class EvaluationConfigurationTest < ApplicationTestCase
   # This test uses the fixtures copied from ruby_llm-evals
   fixtures :"ruby_llm/evals/prompts", :"ruby_llm/evals/samples", :"ruby_llm/evals/runs", :"ruby_llm/evals/prompt_executions"
 

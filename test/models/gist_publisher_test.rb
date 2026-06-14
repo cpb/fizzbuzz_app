@@ -1,6 +1,6 @@
 require "test_helper"
 
-class GistPublisherTest < ActiveSupport::TestCase
+class GistPublisherTest < ApplicationTestCase
   setup do
     token = Rails.application.credentials.dig(:github, :token) || "test-token"
     @publisher = GistPublisher.new(token: token)

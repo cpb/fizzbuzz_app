@@ -1,6 +1,6 @@
 require "test_helper"
 
-class LLMFizzBuzzerTest < ActiveSupport::TestCase
+class LLMFizzBuzzerTest < ApplicationTestCase
   test "returns Fizz for multiples of 3" do
     skip "pending inference — see #51"
     assert_equal "Fizz", LLMFizzBuzzer.call(3)

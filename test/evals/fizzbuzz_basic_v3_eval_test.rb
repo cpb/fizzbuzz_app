@@ -1,7 +1,7 @@
 require "test_helper"
 require "support/eval_test_setup"
 
-class FizzbuzzBasicV3EvalTest < ActiveSupport::TestCase
+class FizzbuzzBasicV3EvalTest < ApplicationTestCase
   include EvalTestSetup
   fixtures :"fizzbuzz/prompts", :"fizzbuzz/samples"
 

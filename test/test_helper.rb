@@ -3,6 +3,7 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "vcr"
 require "webmock/minitest"
+require "support/application_test_case"
 
 WebMock.disable_net_connect!(allow_localhost: [ "127.0.0.1", "localhost" ])
 
@@ -23,17 +24,5 @@ module ActiveSupport
 
     # Add more helper methods to be used by all tests here...
     ActiveJob::Base.queue_adapter = :test
-
-    # Resolves the cassette path relative to the calling test file's pack
-    # (or root test/) directory: packs/*/test/cassettes/<name> or test/cassettes/<name>.
-    # Pass caller_depth: 2 when calling through an intermediate helper method.
-    def use_cassette(name, caller_depth: 1, **options, &block)
-      location = caller_locations(caller_depth, 1).first
-      relative = Pathname.new(location.absolute_path).relative_path_from(Rails.root).to_s
-      parts = relative.split("/")
-      test_idx = parts.rindex("test")
-      prefix = parts[0..test_idx].join("/")
-      VCR.use_cassette("#{prefix}/cassettes/#{name}", **options, &block)
-    end
   end
 end

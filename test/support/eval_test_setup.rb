@@ -27,7 +27,7 @@ module EvalTestSetup
   end
 
   def with_eval_cassette(name)
-    use_cassette(name, caller_depth: 2, record: ENV["RECORD_EVALS"] ? :all : :new_episodes) do |cassette|
+    use_cassette(name, record: ENV["RECORD_EVALS"] ? :all : :new_episodes) do |cassette|
       yield
       if cassette.new_recorded_interactions.any?
         EvalFixtureWriter.append(@eval_dir, @runs, sample_labels: @sample_labels, prompt_label: @prompt_label)
