@@ -57,6 +57,17 @@ class EvalLoaderTest < ApplicationTestCase
     end
   end
 
+  test "seed_dir loads a ruby-provider prompt without error" do
+    Dir.mktmpdir do |tmpdir|
+      write_ruby_fixtures(tmpdir)
+
+      assert_nothing_raised { EvalLoader.seed_dir(tmpdir) }
+
+      prompt = RubyLLM::Evals::Prompt.find_by!(provider: "ruby")
+      assert_equal RubyProvider, EvalLoader.provider_for(prompt), "Expected EvalLoader.provider_for to return RubyProvider for a ruby-provider prompt"
+    end
+  end
+
   private
 
   def write_fixtures(dir)
@@ -100,6 +111,32 @@ class EvalLoaderTest < ApplicationTestCase
         expected_output: prime
         variables:
           number: "7"
+    YAML
+  end
+
+  def write_ruby_fixtures(dir)
+    File.write(File.join(dir, "prompts.yml"), <<~YAML)
+      ---
+      _fixture:
+        model_class: RubyLLM::Evals::Prompt
+      ruby_double:
+        name: Ruby Double
+        slug: ruby-double
+        provider: ruby
+        model: ruby
+        message: "variables[:number].to_i * 2"
+    YAML
+
+    File.write(File.join(dir, "samples.yml"), <<~YAML)
+      ---
+      _fixture:
+        model_class: RubyLLM::Evals::Sample
+      ruby_double_3:
+        prompt: ruby_double
+        eval_type: exact
+        expected_output: "6"
+        variables:
+          number: "3"
     YAML
   end
 end
