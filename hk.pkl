@@ -12,7 +12,7 @@ local linters = new Mapping<String, Step> {
 
 local brakem = new Mapping<String, Step> {
     ["brakeman"] {
-        check = "bin/brakeman --no-pager"
+        check = "PATH=$HOME/.rbenv/shims:$PATH bin/brakeman --no-pager"
     }
 }
 
