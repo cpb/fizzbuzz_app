@@ -1,12 +1,8 @@
-ActiveRecord::FixtureSet.create_fixtures(
-  Rails.root.join("packs/fizzbuzz/evals"),
-  %w[prompts samples runs executions]
-)
+Dir[Rails.root.join("packs/*/evals/register.rb")].sort.each { |f| require f }
 
-ActiveRecord::FixtureSet.create_fixtures(
-  Rails.root.join("packs/fizzbuzz_tdd/evals"),
-  %w[prompts samples runs executions]
-)
+EvalRegistry.fixture_dirs.each do |dir|
+  ActiveRecord::FixtureSet.create_fixtures(dir, %w[prompts samples runs executions])
+end
 
 ActiveRecord::FixtureSet.create_fixtures(
   Rails.root.join("db/seeds/fixtures"),
