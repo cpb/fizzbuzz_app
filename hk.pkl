@@ -5,8 +5,8 @@ local linters = new Mapping<String, Step> {
     ["rubocop"] {
         glob = "**/*.rb"
         exclude = List("vendor/**")
-        check = "bundle exec rubocop -f github {{ files }}"
-        fix = "bundle exec rubocop -A {{ files }}"
+        check = "PATH=$HOME/.rbenv/shims:$PATH bundle exec rubocop -f github {{ files }}"
+        fix = "PATH=$HOME/.rbenv/shims:$PATH bundle exec rubocop -A {{ files }}"
     }
 }
 
