@@ -4,8 +4,8 @@ ActiveRecord::FixtureSet.create_fixtures(
 )
 
 ActiveRecord::FixtureSet.create_fixtures(
-  Rails.root.join("evals"),
-  %w[tdd/prompts tdd/samples tdd/runs tdd/executions]
+  Rails.root.join("packs/fizzbuzz_tdd/evals"),
+  %w[prompts samples runs executions]
 )
 
 ActiveRecord::FixtureSet.create_fixtures(

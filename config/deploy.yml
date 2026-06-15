@@ -66,9 +66,9 @@ aliases:
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
   seed: app exec --once "bin/rails db:seed"
-  seed-evals-fizzbuzz: app exec --reuse "bin/rails runner 'EvalLoader.seed_dir(\"fizzbuzz\")'"
-  seed-evals-tdd: app exec --reuse "bin/rails runner 'EvalLoader.seed_dir(\"tdd\")'"
-  seed-evals: app exec --reuse "bin/rails runner '%w[fizzbuzz tdd].each { |t| EvalLoader.seed_dir(t) }'"
+  seed-evals-fizzbuzz: app exec --reuse "bin/rails runner 'EvalLoader.seed_dir(Rails.root.join(\"packs/fizzbuzz/evals\"))'"
+  seed-evals-tdd: app exec --reuse "bin/rails runner 'EvalLoader.seed_dir(Rails.root.join(\"packs/fizzbuzz_tdd/evals\"))'"
+  seed-evals: app exec --reuse "bin/rails runner '%w[packs/fizzbuzz/evals packs/fizzbuzz_tdd/evals].each { |t| EvalLoader.seed_dir(Rails.root.join(t)) }'"
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
