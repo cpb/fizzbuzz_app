@@ -1,9 +1,6 @@
 require "yaml"
 
 module EvalLoader
-  def self.provider_for(prompt)
-  end
-
   def self.seed_dir(dir)
     base = Pathname(dir)
     prompts_file = base.join("prompts.yml")

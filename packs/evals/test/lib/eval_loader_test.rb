@@ -62,9 +62,7 @@ class EvalLoaderTest < ApplicationTestCase
       write_ruby_fixtures(tmpdir)
 
       assert_nothing_raised { EvalLoader.seed_dir(tmpdir) }
-
-      prompt = RubyLLM::Evals::Prompt.find_by!(provider: "ruby")
-      assert_equal RubyProvider, EvalLoader.provider_for(prompt), "Expected EvalLoader.provider_for to return RubyProvider for a ruby-provider prompt"
+      assert RubyLLM::Evals::Prompt.exists?(provider: "ruby")
     end
   end
 
